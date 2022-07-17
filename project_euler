@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+
+
+problem_01() {
+	result=0
+
+	for i in {3..999}; do
+		if [[ $(($i % 3)) == 0 ]]; then
+			result=$(($result+$i))
+		elif [[ $(($i % 5)) == 0 ]]; then
+			result=$(($result+$i))
+		fi
+	done
+	
+	echo $result
+}
+
+problem_02() {
+	result=0
+	fib_a=0
+	fib_b=1
+
+	while [[ $fib_a -lt 4000000 ]]; do
+		fib_c=$((fib_a + fib_b))
+		fib_a=$fib_b
+		fib_b=$fib_c
+
+		if [[ $(($fib_a % 2)) == 0 ]]; then
+			result=$(($result+$fib_a))
+		fi
+	done
+
+	echo $result
+}
+
+problem_03() {
+	num_1=600851475143
+
+	gcd() {
+    if [[ $(($1 % $2)) == 0 ]]; then
+        return $2
+    else
+        return $(gcd $2 $(( $1 % $2 )))
+    fi
+	}
+
+	g() {
+		return $((($1*$1 + 1) % $num_1))
+	}
+	
+	if command -v factor &>/dev/null; then
+		factor $num_1 | awk '{print $NF}'
+	elif ! command -v format &>/dev/null; then ## This don't work tho :| so I hope you actually have the factor command
+		x=2
+	    y=2
+	    d=1
+
+	    while [[ $d -eq 1 ]]; do
+	        x=$(g $x)
+	        y=$(g $(g $y))
+	        d=$(gcd $((${x#-} - ${y#-})) $num_1)
+	    done
+
+	    if [[ $d -eq $num_1 ]]; then
+	        exit 1
+	    else
+	        echo $d
+	    fi
+	fi
+}
