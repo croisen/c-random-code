@@ -1,0 +1,8 @@
+#!/usr/bin/env python3
+
+
+from PIL import Image
+
+image_file = Image.open('/home/andrew/Pictures/spam.png')
+
+image_file.show()
