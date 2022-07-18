@@ -8,7 +8,7 @@ gcd() {
 	fi
 }
 
-if command -v factor &>/dev/null; then
+if ! command -v factor &>/dev/null; then
 	croi_factor() {
 		input=$1
 		x=2
