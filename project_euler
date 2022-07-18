@@ -1,34 +1,5 @@
 #!/usr/bin/env bash
 
-gcd() {
-	if (($1 % $2 == 0)); then
-		echo $2
-	else
-		echo $(gcd $2 $(( $1 % $2 )))
-	fi
-}
-
-if ! command -v factor &>/dev/null; then
-	croi_factor() {
-		input=$1
-		x=2
-		y=2
-		d=1
-
-		while [[ $d == 1 ]]; do
-			x=$(((($x*$x) + 1) % $input))
-			y=$((((((($y * $y) + 1) % $input) * ((($y * $y) + 1) % $input)) + 1) % $input))
-			abs_x_y=$((${x#-} - ${y#-}))
-			d=$(gcd $abs_x_y $input)
-		done
-
-		if [[ $d == $input ]]; then
-			return 1
-		else
-			echo $d
-		fi
-	}
-fi
 
 problem_01() {
 	result=0
@@ -50,7 +21,7 @@ problem_02() {
 	fib_b=1
 
 	while [[ $fib_a -lt 4000000 ]]; do
-		fib_c=$((fib_a + fib_b))
+		fib_c=$(($fib_a + $fib_b))
 		fib_a=$fib_b
 		fib_b=$fib_c
 
@@ -64,13 +35,114 @@ problem_02() {
 
 problem_03() {
 	num_1=600851475143
-	result=0
 
 	if command -v factor &>/dev/null; then
 		result=$(factor $num_1 | awk '{print $NF}')
-	elif ! command -v format &>/dev/null; then
-		result=$(croi_factor $num_1)
+	elif ! command -v factor &>/dev/null; then
+		echo "factor command cannot be found"
+		return 1
+	# 	gcd() { 
+	# 		if [[ $(($1 % $2)) -eq 0 ]]; then
+	# 			echo $2
+	# 		else
+	# 			echo $(gcd $2 $(($1 % $2)))
+	# 		fi
+	# 	}
+
+	# 	g_function() {
+	# 		echo $(((($1*$1) + 1) % $2)) 
+	# 	}
+
+	# 	croi_factor() {
+	# 		x=2
+	# 		y=2
+	# 		d=1
+
+	# 		while [[ $d -eq 1 ]]; do
+	# 			x=$(g_function $x $1)
+	# 			y=$(g_function $(g_function $y $1) $1)
+	# 			x_y=$(($x - $y))
+	# 			d=$(gcd ${x_y#-} $1)
+
+	# 			if [[ $d -gt 1 ]]; then
+	# 				echo $d
+	# 			fi
+	# 		done
+	# 	}
+
+	# 	result="$(croi_factor $num_1), though it's the lowest prime factor"
 	fi
 
 	echo $result
+}
+
+problem_04() {
+	current_highest=0
+
+	for x in {900..999}; do
+		for y in {900..999}; do
+			product=$(($x*$y))
+
+			if [[ $product == $(echo $product | rev) ]]; then
+				printf '\rCurrent palindrome: %s' $product
+				
+				if [[ $product > $current_highest ]]; then
+					current_highest=$product
+				fi
+			fi
+		done
+	done
+
+	result=$current_highest
+	printf '\nHighest product is: %s\n' $result
+}
+
+problem_05() {
+	high_search=1000000
+	low_search=1
+	current_lowest=$high_search
+	divisors=20
+
+	for x in $(seq $high_search -1 $low_search); do	
+		pass_rate=0
+		for i in $(seq $divisors); do
+			printf '\rCurrently trying %-10s' $x
+			if [[ $(($x % $i)) -eq 0 ]]; then
+				pass_rate=$(($pass_rate + 1))	
+			elif [[ $(($x % $i)) -ne 0 ]]; then
+				break
+			fi
+
+			if [[ $pass_rate -eq $divisors ]] && [[ $x -lt $current_lowest ]]; then
+				current_lowest=$x
+				printf '\n%s is a new low\n' $x
+			fi
+		done
+	done
+
+	if [[ $current_lowest -eq $high_search ]]; then
+		printf '%s is the lowest\n' $current_lowest
+	fi
+
+}
+
+problem_06() {
+	sums_of_squared=0
+	reg_sum=0
+
+	for i in $(seq 100); do
+		sums_of_squared=$(($sums_of_squared+$(($i*$i))))
+		reg_sum=$(($reg_sum+$i))
+	done
+	
+	squared_sum=$(($reg_sum*$reg_sum))
+	result=$(($squared_sum-$sums_of_squared))
+
+	echo $result
+}
+
+problem_07() {
+	for i in $(seq 10001); do
+		echo $i
+	done
 }
