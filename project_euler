@@ -9,6 +9,8 @@ gcd() {
 }
 
 if ! command -v factor &>/dev/null; then
+	## This dun work ples help ##
+
 	croi_factor() {
 		input=$1
 		x=2
