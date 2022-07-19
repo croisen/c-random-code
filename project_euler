@@ -99,8 +99,8 @@ problem_04() {
 }
 
 problem_05() {
-	high_search=3000000
-	low_search=2500000
+	high_search=3500000
+	low_search=3000000
 	current_lowest=$high_search
 	divisors=20
 
@@ -145,68 +145,30 @@ problem_06() {
 }
 
 problem_07() {
-	## The heck am I even doing ##
-
-	## Here I am trying to make The Sieve of Eratosthenes but the semiprimes are screwing me over ##
-
-	x=74
-	count=22
+	x=3
+	count=0
 	final_count=10001
-	printf '%s\n' '2' '3' '5' '7' '11' '13' '17' '19' '23' '29' '31'
-	printf '%s\n' '37' '41' '43' '47' '53' '59' '61' '67' '71' '73'
+	primes_array=(2)
+
 	while [[ $count -lt $(($final_count + 1)) ]]; do
-		if (($x % 2 == 0)); then
-			x=$(($x + 1))
-		elif (($x % 3 == 0)); then
-			x=$(($x + 1))
-		elif (($x % 5 == 0)); then
-			x=$(($x + 1))
-		elif (($x % 7 == 0)); then
-			x=$(($x + 1))
-		elif (($x % 11 == 0)); then
-			x=$(($x + 1))
-		elif (($x % 13 == 0)); then
-			x=$(($x + 1))
-		elif (($x % 17 == 0)); then
-			x=$(($x + 1))
-		elif (($x % 19 == 0)); then
-			x=$(($x + 1))
-		elif (($x % 23 == 0)); then
-			x=$(($x + 1))
-		elif (($x % 29 == 0)); then
-			x=$(($x + 1))
-		elif (($x % 31 == 0)); then
-			x=$(($x + 1))
-		elif (($x % 37 == 0)); then
-			x=$(($x + 1))
-		elif (($x % 41 == 0)); then
-			x=$(($x + 1))
-		elif (($x % 43 == 0)); then
-			x=$(($x + 1))
-		elif (($x % 47 == 0)); then
-			x=$(($x + 1))
-		elif (($x % 53 == 0)); then
-			x=$(($x + 1))
-		elif (($x % 59 == 0)); then
-			x=$(($x + 1))
-		elif (($x % 61 == 0)); then
-			x=$(($x + 1))
-		elif (($x % 67 == 0)); then
-			x=$(($x + 1))
-		elif (($x % 71 == 0)); then
-			x=$(($x + 1))
-		elif (($x % 73 == 0)); then
-			x=$(($x + 1))
-		elif [[ $(echo 'scale=5;' sqrt\($x\) | bc) =~ \.0+$  ]]; then
-			x=$(($x + 1))
-		else
+		pass=0
+
+		for prime in ${primes_array[@]}; do
+			if (($x == $prime)); then
+				pass=$(($pass + 1))
+			elif (($x % $prime == 0)); then
+				pass=$(($pass + 1))
+			fi
+		done
+
+		if [[ $pass -eq $(echo ${#primes_array[@]}) ]]; then
 			echo $x
-			x=$(($x + 1))
+			primes_array+=($x)
 			count=$(($count + 1))
 		fi
 	done
 
-	echo The $final_count prime number is $(($x - 1))
+	echo The $final_count prime number is ${primes_array[-1]}
 }
 
 problem_08() {
