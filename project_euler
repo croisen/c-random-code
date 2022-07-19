@@ -147,6 +147,8 @@ problem_06() {
 problem_07() {
 	## The heck am I even doing ##
 
+	## Here I am trying to make The Sieve of Eratosthenes but the semiprimes are screwing me over ##
+
 	x=74
 	count=22
 	final_count=10001
