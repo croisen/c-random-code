@@ -145,27 +145,28 @@ problem_06() {
 }
 
 problem_07() {
-	x=3
-	count=0
+	x=12
+	count=4
 	final_count=10001
-	primes_array=(2)
+	primes_array=(2 5 7 9 11)
 
 	while [[ $count -lt $(($final_count + 1)) ]]; do
-		pass=0
-
-		for prime in ${primes_array[@]}; do
-			if (($x == $prime)); then
-				pass=$(($pass + 1))
-			elif (($x % $prime == 0)); then
-				pass=$(($pass + 1))
+		for prime in $(printf '%s\n' ${primes_array[@]} | sort -u); do
+			if [[ $(($x % $prime)) -eq 0 ]]; then
+				x=$(($x + 1))
+				break
+			elif [[ $x -eq $prime ]]; then
+				x=$(($x + 1))
+				break
+			elif [[ $(echo 'scale=5;' sqrt\($x\) | bc) =~ \.0+$ ]]; then
+				x=$(($x + 1))
+				break
+			else
+				echo $x
+				primes_array+=($x)
+				count=$(($count + 1))
 			fi
 		done
-
-		if [[ $pass -eq $(echo ${#primes_array[@]}) ]]; then
-			echo $x
-			primes_array+=($x)
-			count=$(($count + 1))
-		fi
 	done
 
 	echo The $final_count prime number is ${primes_array[-1]}
