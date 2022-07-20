@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-
 import pygame
 import random
 import sys
@@ -30,8 +29,8 @@ def main():
 
 	current_direction = 0
 	score = str(snake_lenght - 1).rjust(4, '0')
-	score_font = pygame.font.SysFont('times new roman', 50)
-	final_score_font = pygame.font.SysFont('times new roman', 35)
+	score_font = pygame.font.SysFont('MesloLGS NF Bold', 80)
+	final_score_font = pygame.font.SysFont('MesloLGS NF Bold', 55)
 	score_display = score_font.render(score, False, 'White')
 
 	snake_head_x_pos = 190
