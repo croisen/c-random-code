@@ -175,7 +175,6 @@ int problem_007() {
 }
 
 long problem_010() {
-	// Took 13 minutes to finish :')
 	int i;
 	long result = 0;
 
@@ -240,7 +239,6 @@ int main( int argc, char *argv[] ) {
 		}
 
 		if ( 0 == strcmp(argv[1], "problem_010")) {
-			printf("This is gonna take a long time ei, Ctrl + C as soon as you get bored\n");
 			long result = problem_010();
 			printf("\nThe sum of all prime numbers below 2 million is: %ld\n", result);
 			return 0;
