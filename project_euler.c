@@ -114,7 +114,7 @@ int problem_004() {
 }
 
 int problem_005() {
-	// Takes a long time
+	// Takes a long time, like 43 mins on my laptop
 
 	int i, search;
 	int divisors = 20;
@@ -125,7 +125,7 @@ int problem_005() {
 		pass_rate = 0;
 
 		for (i = 1; i <= divisors; i++) {
-			printf("\rCurrently trying: %09d, Pass rate: %02d", search, pass_rate);
+			printf("\rCurrently trying: %9d, Pass rate: %2d", search, pass_rate);
 
 			if (search % i == 0) {
 				pass_rate++;
@@ -165,6 +165,7 @@ int problem_007() {
 
 	while (prime_count < target_prime_count + 1) {
 		if (art_thou_prime(x) == 0) {
+			printf("\rCurrent prime: %7d", x);
 			prime_count++;
 			x++;
 		} else {
@@ -173,6 +174,21 @@ int problem_007() {
 	}
 
 	return x - 1;
+}
+
+long problem_010() {
+	// Took 13 minutes to finish :')
+	int i;
+	long result = 0;
+
+	for (i = 2; i < 2000000; i++) {
+		if (art_thou_prime(i) == 0 && i < 2000000) {
+			printf("\rCurrent prime: %7d", i);
+			result += i;
+		}
+	}
+
+	return result;
 }
 
 int main( int argc, char *argv[] ) {
@@ -222,6 +238,13 @@ int main( int argc, char *argv[] ) {
 		if ( 0 == strcmp(argv[1], "problem_007")) {
 			int result = problem_007();
 			printf("The problem I gave up on solving with bash, the 10001st prime number. Well it's: %d\n", result);
+			return 0;
+		}
+
+		if ( 0 == strcmp(argv[1], "problem_010")) {
+			printf("This is gonna take a long time ei, Ctrl + C as soon as you get bored\n");
+			long result = problem_010();
+			printf("\nThe sum of all prime numbers below 2 million is: %ld\n", result);
 			return 0;
 		}
 
