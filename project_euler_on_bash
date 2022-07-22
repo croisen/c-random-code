@@ -1,36 +1,23 @@
 #!/usr/bin/env bash
 
 
-if ! command -v factor &>/dev/null; then
-	gcd() { 
-		if [[ $(($1 % $2)) -eq 0 ]]; then
-			echo $2
-		else
-			echo $(gcd $2 $(($1 % $2)))
+art_thou_prime() {
+	test_pass=0
+
+	for i in $(seq 2 $1); do
+		if [[ $(($1 % $i)) -eq 0 && $1 -ne $i ]]; then
+			test_pass=$(($test_pass + 1))
 		fi
-	}
+	done
 
-	g_function() {
-		echo $(((($1*$1) + 1) % $2)) 
-	}
-
-	croi_factor() {
-		x=2
-		y=2
-		d=1
-
-		while [[ $d -eq 1 ]]; do
-			x=$(g_function $x $1)
-			y=$(g_function $(g_function $y $1) $1)
-			x_y=$(($x - $y))
-			d=$(gcd ${x_y#-} $1)
-
-			if [[ $d -gt 1 ]]; then
-				echo $d
-			fi
-		done
-	}
-fi
+	if [[ $test_pass -ne 0 ]]; then
+		# echo "No"
+		return 1
+	else
+		# echo "Yes"
+		return 0
+	fi
+}
 
 problem_01() {
 	result=0
@@ -99,8 +86,8 @@ problem_04() {
 }
 
 problem_05() {
-	high_search=3500000
-	low_search=3000000
+	high_search=250000000
+	low_search=200000000
 	current_lowest=$high_search
 	divisors=20
 
