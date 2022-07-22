@@ -135,6 +135,24 @@ int problem_005() {
 	}
 }
 
+int problem_006() {
+	int i;
+	int number_of_natural_numbers = 100;
+	int squared_sum = 0;
+	int sum_of_squared = 0;
+	int result;
+
+	for (i = 1; i <= number_of_natural_numbers; i++) {
+		squared_sum += i;
+		sum_of_squared += i * i;
+	}
+
+	squared_sum = squared_sum * squared_sum;
+	result = squared_sum - sum_of_squared;
+
+	return result;
+}
+
 int main( int argc, char *argv[] ) {
 	if (argc == 2) {
 		if ( 0 == strcmp(argv[1], "problem_001")) {
@@ -167,7 +185,7 @@ int main( int argc, char *argv[] ) {
 			return 0;
 		}
 
-		if ( 0 == strcmp(argv[1], "problem_002")) {
+		if ( 0 == strcmp(argv[1], "problem_006")) {
 			int result = problem_006();
 			printf("Difference of the sum of the squares of the first 100 natural numbers and the squared sum of the first 100 natural numbers: %d\n", result);
 			return 0;
