@@ -37,11 +37,11 @@ int problem_002() {
 }
 
 int art_thou_prime(int num_1) {
-	double square_root = sqrt(num_1);
+	int square_root = sqrt(num_1);
 	int i;
 	int test_pass = 0;
 
-	for (i = 2; i <= num_1; i++) {
+	for (i = 2; i <= square_root; i++) {
 		if (num_1 % i == 0 && num_1 != i) {
 			test_pass = 1;
 			break;
@@ -56,8 +56,6 @@ int art_thou_prime(int num_1) {
 }
 
 int problem_003() {
-	// It can solve the highest prime of the smol number but it takes too long for the big number
-
 	long big_number = 600851475143;
 	int smol_number = 13195, highest_prime = 0, i;
 
@@ -237,7 +235,7 @@ int main( int argc, char *argv[] ) {
 
 		if ( 0 == strcmp(argv[1], "problem_007")) {
 			int result = problem_007();
-			printf("The problem I gave up on solving with bash, the 10001st prime number. Well it's: %d\n", result);
+			printf("\nThe problem I gave up on solving with bash, the 10001st prime number. Well it's: %d\n", result);
 			return 0;
 		}
 
