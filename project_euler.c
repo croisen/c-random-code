@@ -35,6 +35,10 @@ int problem_002() {
 	return result;
 }
 
+int art_thou_prime(int num_1) {
+	double square_root = sqrt(num_1);
+}
+
 int reverse_an_integer(int num_1) {
 	int remainder, reverse = 0;
 
@@ -87,6 +91,11 @@ int main( int argc, char *argv[] ) {
 			return 0;
 		}
 
+		if ( 0 == strcmp(argv[1], "problem_003")) {
+			printf("Highest prime factor of 600851475143: %d\n(I used GNU Utils' Factor)\n", 6857);
+			return 0;
+		}
+
 		if ( 0 == strcmp(argv[1], "problem_004")) {
 			int result = problem_004();
 			printf("\nHighest Palindrome: %d\n", result);
@@ -98,6 +107,7 @@ int main( int argc, char *argv[] ) {
 	}
 
 	if (argc < 2) {
+		art_thou_prime(4);
 		printf("%s\n", "Expected at one argument");
 		return 1;
 	}
