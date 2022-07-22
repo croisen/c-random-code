@@ -202,12 +202,12 @@ int main( int argc, char *argv[] ) {
 			return 0;
 		}
 
-		if ( 0 == strcmp(argv[1], "problem_003")) {
-			printf("Highest prime factor of 600851475143: %d\n(I used GNU Utils' Factor)\n", 6857);
-			return 0;
-		}
+		// if ( 0 == strcmp(argv[1], "problem_003")) {
+		// 	printf("Highest prime factor of 600851475143: %d\n(I used GNU Utils' Factor)\n", 6857);
+		// 	return 0;
+		// }
 
-		if ( 0 == strcmp(argv[1], "problem_003-b")) {
+		if ( 0 == strcmp(argv[1], "problem_003")) {
 			int result = problem_003();
 			printf("Highest prime factor of 600851475143: %d\n", result);
 			return 0;
