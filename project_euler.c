@@ -61,8 +61,13 @@ int problem_003() {
 	long big_number = 600851475143;
 	int smol_number = 13195, highest_prime = 0, i;
 
-	for (i = 2; i <= smol_number; i++){
-		if (art_thou_prime(i) == 0 && smol_number % i == 0) {
+	for (i = 2; i <= big_number; i++){
+		if(i > highest_prime + 100000) {
+			break;
+		}
+
+		if (art_thou_prime(i) == 0 && big_number % i == 0) {
+			printf("Current Highest Prime: %d\n", i);
 			highest_prime = i;
 		}
 	}
@@ -186,6 +191,12 @@ int main( int argc, char *argv[] ) {
 
 		if ( 0 == strcmp(argv[1], "problem_003")) {
 			printf("Highest prime factor of 600851475143: %d\n(I used GNU Utils' Factor)\n", 6857);
+			return 0;
+		}
+
+		if ( 0 == strcmp(argv[1], "problem_003-b")) {
+			int result = problem_003();
+			printf("Highest prime factor of 600851475143: %d\n", result);
 			return 0;
 		}
 
