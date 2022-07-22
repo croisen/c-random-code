@@ -37,6 +37,28 @@ int problem_002() {
 
 int art_thou_prime(int num_1) {
 	double square_root = sqrt(num_1);
+	int i;
+	int test = 0;
+
+	for (i = 2; i <= 1000; i++) {
+		if (num_1 == i){
+			test = 0;
+			break;
+		} else if (num_1 % i == 0) {
+			test = 1;
+			break;
+		}
+	}
+
+	if (test == 1) {
+		return 1;
+	}
+
+	if (remainder(square_root, 1.0000) == 0) {
+		return 0;
+	} else {
+		return 1;
+	}
 }
 
 int reverse_an_integer(int num_1) {
@@ -107,7 +129,6 @@ int main( int argc, char *argv[] ) {
 	}
 
 	if (argc < 2) {
-		art_thou_prime(4);
 		printf("%s\n", "Expected at one argument");
 		return 1;
 	}
