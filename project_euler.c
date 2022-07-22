@@ -153,6 +153,23 @@ int problem_006() {
 	return result;
 }
 
+int problem_007() {
+	int target_prime_count = 10001;
+	int prime_count = 1;
+	int x = 2;
+
+	while (prime_count < target_prime_count + 1) {
+		if (art_thou_prime(x) == 0) {
+			prime_count++;
+			x++;
+		} else {
+			x++;
+		}
+	}
+
+	return x - 1;
+}
+
 int main( int argc, char *argv[] ) {
 	if (argc == 2) {
 		if ( 0 == strcmp(argv[1], "problem_001")) {
@@ -188,6 +205,12 @@ int main( int argc, char *argv[] ) {
 		if ( 0 == strcmp(argv[1], "problem_006")) {
 			int result = problem_006();
 			printf("Difference of the sum of the squares of the first 100 natural numbers and the squared sum of the first 100 natural numbers: %d\n", result);
+			return 0;
+		}
+
+		if ( 0 == strcmp(argv[1], "problem_007")) {
+			int result = problem_007();
+			printf("The problem I gave up on solving with bash, the 10001st prime number. Well it's: %d\n", result);
 			return 0;
 		}
 
