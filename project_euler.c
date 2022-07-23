@@ -123,17 +123,21 @@ int is_divisible_by_one_through_n(int number, int divisors) {
 int problem_005() {
 	// Takes a long time, like 43 mins on my laptop
 	// Made a function to check if the number is evenly divisible by 
-	// 1 through n to check if it's faster
+	// 1 through n to check if it's faster, and it took around 12 mins
+	// Converted it to a while loop, it took around 11 mins
 
-	int search;
+	int continue_loop = 0;
 	int divisors = 20;
-	int x = 1;
+	int x = divisors + 1;
 
-	for (search = divisors + 1; search <= 250000000; search++) {
-		printf("\rCurrently testing: %9d", search);
-		if (is_divisible_by_one_through_n(search, divisors) == 0) {
-			return search;
+	while (continue_loop == 0) {
+		printf("\rCurrently testing: %9d", x);
+		if (is_divisible_by_one_through_n(x, divisors) == 0) {
+			continue_loop = 1;
+			return x;
 		}
+
+		x++;
 	}
 }
 
