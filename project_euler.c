@@ -89,16 +89,14 @@ int problem_004() {
 	int reversed_product;
 	int highest_palindrome = 0;
 
-	for (x = 850; x <= 999; x++) {
-		for (y = 850; y <= 999; y++) {
+	for (x = 100; x <= 999; x++) {
+		for (y = 100; y <= 999; y++) {
 			x_times_y = x * y;
 			reversed_product = reverse_an_integer(x_times_y);
 
 			if (x_times_y == reversed_product) {
-				printf("\rCurrent palindrome: %d", x_times_y);
-
 				if (x_times_y > highest_palindrome) {
-					printf("\n%d is a new high\n", x_times_y);
+					printf("\rCurrent palindrome: %d", x_times_y);
 					highest_palindrome = x_times_y;
 				}
 			}
@@ -177,6 +175,29 @@ int problem_007() {
 	return x - 1;
 }
 
+int problem_008() {
+	int a, b, c;
+	int a_sqared, b_squared, c_squared;
+
+	for (c = 2; c <=999; c++) {
+		for (b = 2; b <= 999; b++) {
+			for (a = 2; a <= 999; a++) {
+				if (a + b + c == 1000){
+					printf("\rCurrently trying: a = %3d, b = %3d, c = %3d", a, b, c);
+
+					a_sqared = a * a;
+					b_squared = b * b;
+					c_squared = c * c;
+				}
+
+				if (a + b + c == 1000 && a_sqared + b_squared == c_squared) {
+					return a * b * c;
+				}
+			}
+		}
+	}
+}
+
 long problem_010() {
 	int i;
 	long result = 0;
@@ -218,7 +239,7 @@ int main( int argc, char *argv[] ) {
 
 		if ( 0 == strcmp(argv[1], "problem_004")) {
 			int result = problem_004();
-			printf("\nHighest Palindrome: %d\n", result);
+			printf("\nHighest Palindrome made by multiplying 3 digit numbers: %d\n", result);
 			return 0;
 		}
 
@@ -238,6 +259,12 @@ int main( int argc, char *argv[] ) {
 		if ( 0 == strcmp(argv[1], "problem_007")) {
 			int result = problem_007();
 			printf("\nThe problem I gave up on solving with bash, the 10001st prime number. Well it's: %d\n", result);
+			return 0;
+		}
+
+		if ( 0 == strcmp(argv[1], "problem_008")) {
+			int result = problem_008();
+			printf("\nThe product of pythagorean triplet where a + b + c is equal 1000: %d\n", result);
 			return 0;
 		}
 
