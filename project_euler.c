@@ -58,12 +58,9 @@ int art_thou_prime(int num_1) {
 int problem_003() {
 	long big_number = 600851475143;
 	int smol_number = 13195, highest_prime = 0, i;
+	int square_root = sqrt(big_number);
 
-	for (i = 2; i <= big_number; i++){
-		if(i > highest_prime + 100000) {
-			break;
-		}
-
+	for (i = 2; i <= square_root; i++){
 		if (art_thou_prime(i) == 0 && big_number % i == 0) {
 			printf("Current Highest Prime: %d\n", i);
 			highest_prime = i;
@@ -111,28 +108,30 @@ int problem_004() {
 	return highest_palindrome;
 }
 
+int is_divisible_by_one_through_n(int number, int divisors) {
+	int i;
+
+	for (i = 1; i <= divisors; i++) {
+		if (number % i != 0) {
+			return 1;
+		}
+	}
+
+	return 0;
+}
+
 int problem_005() {
 	// Takes a long time, like 43 mins on my laptop
+	// Made a function to check if the number is evenly divisible by 
+	// 1 through n to check if it's faster
 
-	int i, search;
+	int search;
 	int divisors = 20;
-	int pass_rate = 0;
 	int x = 1;
 
-	for (search = 200000000; search <= 250000000; search++) {
-		pass_rate = 0;
-
-		for (i = 1; i <= divisors; i++) {
-			printf("\rCurrently trying: %9d, Pass rate: %2d", search, pass_rate);
-
-			if (search % i == 0) {
-				pass_rate++;
-			} else {
-				break;
-			}
-		}
-
-		if (pass_rate == divisors) {
+	for (search = divisors + 1; search <= 250000000; search++) {
+		printf("\rCurrently testing: %9d", search);
+		if (is_divisible_by_one_through_n(search, divisors) == 0) {
 			return search;
 		}
 	}
@@ -245,16 +244,19 @@ int main( int argc, char *argv[] ) {
 		}
 
 		printf("%s\n", "The argument you gave, sadly I don't know what to do with it");
+		printf("%s%s%s\n", "Usage: ", argv[0], " <<problem_XXX>>");
 		return 1;
 	}
 
 	if (argc < 2) {
 		printf("%s\n", "Expected one argument");
+		printf("%s%s%s\n", "Usage: ", argv[0], " <<problem_XXX>>");
 		return 1;
 	}
 
 	if (argc > 2) {
 		printf("%s\n", "Too many arguments, I only need 1");
+		printf("%s%s%s\n", "Usage: ", argv[0], " <<problem_XXX>>");
 		return 1;
 	}
 }
