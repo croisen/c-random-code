@@ -43,16 +43,11 @@ int art_thou_prime(int num_1) {
 
 	for (i = 2; i <= square_root; i++) {
 		if (num_1 % i == 0 && num_1 != i) {
-			test_pass = 1;
-			break;
+			return 1;
 		}
 	}
 
-	if (test_pass == 1) {
-		return 1;
-	} else {
-		return 0;
-	}
+	return 0;
 }
 
 int problem_003() {
