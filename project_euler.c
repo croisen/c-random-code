@@ -246,11 +246,6 @@ int main( int argc, char *argv[] ) {
 			return 0;
 		}
 
-		// if ( 0 == strcmp(argv[1], "problem_003")) {
-		// 	printf("Highest prime factor of 600851475143: %d\n(I used GNU Utils' Factor)\n", 6857);
-		// 	return 0;
-		// }
-
 		if ( 0 == strcmp(argv[1], "problem_003")) {
 			int result = problem_003();
 			printf("Highest prime factor of 600851475143: %d\n", result);
@@ -301,19 +296,19 @@ int main( int argc, char *argv[] ) {
 		}
 
 		printf("%s\n", "The argument you gave, sadly I don't know what to do with it");
-		printf("%s%s%s\n", "Usage: ", argv[0], " <<problem_XXX>>");
+		printf("%s%s%s\n%s\n", "Usage: ", argv[0], " <<problem_XXX>>", "Though the problems I've solved are only problems 1 to 10");
 		return 1;
 	}
 
 	if (argc < 2) {
 		printf("%s\n", "Expected one argument");
-		printf("%s%s%s\n", "Usage: ", argv[0], " <<problem_XXX>>");
+		printf("%s%s%s\n%s\n", "Usage: ", argv[0], " <<problem_XXX>>", "Though the problems I've solved are only problems 1 to 10");
 		return 1;
 	}
 
 	if (argc > 2) {
 		printf("%s\n", "Too many arguments, I only need 1");
-		printf("%s%s%s\n", "Usage: ", argv[0], " <<problem_XXX>>");
+		printf("%s%s%s\n%s\n", "Usage: ", argv[0], " <<problem_XXX>>", "Though the problems I've solved are only problems 1 to 10");
 		return 1;
 	}
 }
