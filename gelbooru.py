@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 
+import os
 import random
 import re
 import requests
@@ -12,6 +13,22 @@ def main():
 	tags = ""
 
 	if len(sys.argv) > 1:
+		if sys.argv[1] == "--help" or sys.argv[1] == "-h":
+			print("My image scraper for gelbooru.")
+			print("Usage: " + sys.argv[0] + " <<tags>>" )
+			print("-------------------------------------------------")
+			print("-h\t\tDisplays this message and exits")
+			print("--help\t\tDisplays this message and exits")
+			print("-------------------------------------------------")
+			print("The tags are to be seperated by spaces")
+			print("Ex: " + sys.argv[0] + " closers mirae")
+			print("-------------------------------------------------")
+			print("But tags that are supposed to have a space will have their spaces replaced with underscores. Does my wording make sense?")
+			print("Ex: " + sys.argv[0] + " fire_emblem byleth")
+
+			sys.exit(0)
+
+
 		for i in range(1, (len(sys.argv))):
 			tags += "+" + sys.argv[i]
 
@@ -44,9 +61,13 @@ def main():
 
 	if download_the_pic.status_code == 200:
 		filename = re.sub("https://\w+\.gelbooru\.com/images/\w+/\w+/", "", pic.group())
-		print("Now downloading " + filename)
+
+		if os.path.exists(filename):
+			print("Nevermind dis pic is already downloaded.")
+			sys.exit()
 		
 		with open(filename, "wb") as file:
+			print("Now downloading " + filename)
 			file.write(download_the_pic.content)
 	else:
 		print("Couldn't download the file")
