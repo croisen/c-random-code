@@ -12,41 +12,41 @@ dito = [ "0895", "0896", "0897", "0898" "0991", "0992", "0993", "0994" ]
 sun = [ "0922", "0923", "0924", "0925", "0931", "0932", "0933", "0934", "0940", "0941", "0942", "0943", "0944", "0973", "0974"]
 
 def main():
-	if len(sys.argv) == 1:
-		input_num = input("Input the first four numbers in your cp number (09XX): ")
-	elif len(sys.argv) > 2:
-		print("That is more arguments than I can handle")
-		sys.exit(1)
-	elif sys.argv[1] == "-h" or sys.argv[1] == "--help":
-		print(f'Usage:\n{sys.argv[0]} <<Your cell num (09XX)>>\nOr just use the script without any arguments, you\'ll get prompted to input one anyway')
-		sys.exit()
-	elif sys.argv[1].isdigit() == False:
-		print("Argument is not a valid number, if you put no arguments well, you'll get prompted to input one")
-		sys.exit(1)
-	elif sys.argv[1] != "":
-		if len(sys.argv[1]) > 4:
-			print("Argument is too long man, what are you trying to pull?")
-			sys.exit(1)
-		else:
-			input_num = sys.argv[1]
-	else:
-		print("Well I've tried using if, elif, and else statements for all of the scenarios I can think of, if this appears, you or I probably screwed up")
+    if len(sys.argv) == 1:
+        input_num = input("Input the first four numbers in your cp number (09XX): ")
+    elif len(sys.argv) > 2:
+        print("That is more arguments than I can handle")
+        sys.exit(1)
+    elif sys.argv[1] == "-h" or sys.argv[1] == "--help":
+        print(f'Usage:\n{sys.argv[0]} <<Your cell num (09XX)>>\nOr just use the script without any arguments, you\'ll get prompted to input one anyway')
+        sys.exit()
+    elif sys.argv[1].isdigit() == False:
+        print("Argument is not a valid number, if you put no arguments well, you'll get prompted to input one")
+        sys.exit(1)
+    elif sys.argv[1] != "":
+        if len(sys.argv[1]) > 4:
+            print("Argument is too long man, what are you trying to pull?")
+            sys.exit(1)
+        else:
+            input_num = sys.argv[1]
+    else:
+        print("Well I've tried using if, elif, and else statements for all of the scenarios I can think of, if this appears, you or I probably screwed up")
 
-	if input_num in smart:
-		print("This is a number from Smart")
-		sys.exit()
-	elif input_num in globe:
-		print("This is a number from Globe")
-		sys.exit()
-	elif input_num in dito:
-		print("This is a number from Dito")
-		sys.exit()
-	elif input_num in sun:
-		print("This is a number from Sun")
-		sys.exit()
-	else:
-		print("This ain't a number in my database sadly...")
-		sys.exit()
+    if input_num in smart:
+        print("This is a number from Smart")
+        sys.exit()
+    elif input_num in globe:
+        print("This is a number from Globe")
+        sys.exit()
+    elif input_num in dito:
+        print("This is a number from Dito")
+        sys.exit()
+    elif input_num in sun:
+        print("This is a number from Sun")
+        sys.exit()
+    else:
+        print("This ain't a number in my database sadly...")
+        sys.exit()
 
 if __name__ == '__main__':
-	main()
+    main()
