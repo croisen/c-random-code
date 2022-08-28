@@ -1,30 +1,18 @@
 #!/usr/bin/env bash
 
 
-dependency_check=0
 if ! command -v convert &> /dev/null; then
     echo "Convert not found, please install ImageMagick"
-    dependency_check=1
-fi
-
-if ! command -v prename &> /dev/null; then
-    echo "Perl rename cannot be found, please install perl rename"
-    dependency_check=1
-fi
-
-if [[ $dependency_check -ne 0 ]]; then
     exit 1
 fi
 
-prename 's/ /_/g' *.jpg *.jpeg *.webp
-
-for file in $(ls *.jpg *.jpeg *.webp 2>/dev/null); do
-    echo "Converting $file"
-    filename=$(echo $file | sed -sE 's/\.\w+$//')
-    convert $file $filename.png
-    rm $file
+for file in *.jpg *.jpeg *.webp; do
+    if ! [[ $file == "*.jpg" || $file == "*.jpeg" || $file == "*.webp" ]]; then
+        filename=$(echo $file | sed -sE 's/\.\w+$//')
+        echo "Converting $file to output-$filename.png"
+        convert $file "output-$filename.png"
+    fi
 done
 
-prename 's/_/ /g' *.jpg *.jpeg *.webp
 echo "Done!"
 exit 0

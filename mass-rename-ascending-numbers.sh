@@ -1,13 +1,6 @@
 #!/usr/bin/env bash
 
 
-if ! command -v prename; then
-    echo "Perl rename cannot be found, please install perl rename"
-    exit 1
-fi
-
-prename 's/ /-/g' *
-
 last_file=$(ls *.*| tail -n1)
 last_numbered_file=$(ls *.*| grep -sP '^\d{7}\.\w+' | tail -n1)
 
@@ -21,11 +14,13 @@ if ! [ $count -eq $count 2>/dev/null ]; then
     exit 1
 fi
 
-for file in $(ls *.* 2>/dev/null | grep -svP '^\d{7}\.\w+'); do
-    count_padding=$(printf '%07d' "${count}")
-    file_extension=$(echo $file | grep -soP '\.\w+$' )
-    mv -v --backup=numbered --suffix=.bak $file $count_padding$file_extension
-    ((count++))
+for file in *; do
+    if [[ -f $file ]] && ! echo $file | grep -soP "^\d{7}\.\w+"; then
+        count_padding=$(printf '%07d' "${count}")
+        file_extension=$(echo $file | grep -soP '\.\w+$' )
+        mv -v --backup=numbered --suffix=.bak $file $count_padding$file_extension
+        ((count++))
+    fi
 done
 
 echo "Done!"

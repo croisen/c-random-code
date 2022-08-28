@@ -15,43 +15,37 @@ if ! command -v file &> /dev/null; then
     dependency_check=1
 fi
 
-if ! command -v prename &>/dev/null; then
-    echo "Perl rename cannot be found, please install perl rename"
-    dependency_check=1
-fi
-
 if [[ $dependency_check -ne 0 ]]; then
     exit 1
 fi
 
-prename 's/ /_/g' *.jpg *.png
+for file in *.jpg *.png *.webp *.jpeg; do
+    if ! [[ $file == "*.jpg" || $file == "*.jpeg" || $file == "*.png" || $file == "*.webp" ]]; then
+        width=$(file $file | grep -soP '\, \d+ ' | grep -soP '\d+')
+        height=$(file $file | grep -soP 'x \d+' | grep -soP '\d+')
+        filename=$(echo $file | sed -sE 's/\.\w+$//')
+        file_ext=$(echo $file | grep -soP '\w+$')
 
-for file in $(ls *.jpg *.png *.webp *.jpeg 2>/dev/null); do
-    width=$(file $file | grep -soP '\, \d+ ' | grep -soP '\d+')
-    height=$(file $file | grep -soP 'x \d+' | grep -soP '\d+')
-    filename=$(echo $file | sed -sE 's/\.\w+$//')
-    file_ext=$(echo $file | grep -soP '\w+$')
+        if [[ $file_ext != "png" ]]; then
+            intermediate_file="intermediate-$filename.png"
+            convert $file $intermediate_file
+            width=$(file $intermediate_file | grep -soP '\, \d+ ' | grep -soP '\d+')
+            height=$(file $intermediate_file | grep -soP 'x \d+' | grep -soP '\d+')
 
-    if [[ $file_ext != "png" ]]; then
-        intermediate_file="intermediate_$filename.png"
-        convert $file $intermediate_file
-        width=$(file $intermediate_file | grep -soP '\, \d+ ' | grep -soP '\d+')
-        height=$(file $intermediate_file | grep -soP 'x \d+' | grep -soP '\d+')
+            if [[ $height -gt $width ]]; then
+                echo "Converting $file into portrait-$filename.png"
+                convert $file -resize $phone_res\! "portrait-$filename.png"
+            fi
 
-        if [[ $height -gt $width ]]; then
-            echo "Converting $file into portrait_$filename.png"
-            convert $file -resize $phone_res\! portrait_$filename.png
-        fi
-
-        rm $intermediate_file
-    else
-        if [[ $height -gt $width ]]; then
-            echo "Converting $file into portrait_$filename.png"
-            convert $file -resize $phone_res\! portrait_$filename.png
+            rm $intermediate_file
+        else
+            if [[ $height -gt $width ]]; then
+                echo "Converting $file into portrait-$filename.png"
+                convert $file -resize $phone_res\! "portrait-$filename.png"
+            fi
         fi
     fi
 done
 
-prename 's/ /_/g' *.jpg *.png
 echo "Done!"
 exit 0

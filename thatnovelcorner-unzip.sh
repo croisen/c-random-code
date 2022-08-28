@@ -1,19 +1,14 @@
 #!/bin/bash
 
 
-if ! command -v prename &>/dev/null; then
-    echo "Perl rename cannot be found, please install perl rename"
-    exit 1
-fi
-
-prename 's/ //g' *.zip
-
-for file in $(ls *.zip)
-do
-    unzip -P thatnovelcorner.com $file
-    rm $file
+for file in *.zip; do
+    if ! [[ $file == "*.zip" ]]; then
+        filename=$(echo $file | sed -sE "s/\..{3}$//")
+        unzip -P thatnovelcorner.com $file
+        rm $file
+        mv -v "$filename.zip" "$(echo $filename | sed -sE "s/ Premium//gi").zip"
+    fi
 done
 
-prename 's/ Premium//g' *.epub
 echo "Done!"
 exit 0
