@@ -4,7 +4,9 @@
 for arg_or_tags in "$@"; do
     if [[ $arg_or_tags == "--help" || $arg_or_tags == "-h" ]]; then
         echo "Croisen's image scraper for gelbooru."
-        echo "Usage: $0 <<tags>>" 
+        echo "Usage: $0 <<tags>>"
+        echo "Or you can just pass no arguments and it will pick any image"
+        echo "from gelbooru"
         echo "-------------------------------------------------"
         echo "-h        Displays this message and exits"
         echo "--help        Displays this message and exits"
