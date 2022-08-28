@@ -7,8 +7,9 @@ if ! command -v convert &> /dev/null; then
 fi
 
 for file in *.jpg *.jpeg *.webp; do
-    if ! [[ $file == "*.jpg" || $file == "*.jpeg" || $file == "*.webp" ]]; then
-        filename=$(echo $file | sed -sE 's/\.\w+$//')
+    filename=$(echo $file | sed -sE 's/\.\w+$//')
+
+    if [[ $filename != "*" ]]; then
         echo "Converting $file to output-$filename.png"
         convert $file "output-$filename.png"
     fi
