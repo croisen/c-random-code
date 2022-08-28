@@ -5,6 +5,10 @@ if [[ ! -d "album_art" ]]; then
     mkdir album_art
 fi
 
+if [[ ! -d "output" ]]; then
+    mkdir output
+fi
+
 for file in *.mp3; do
     filename=$(echo "$file" | sed -sE "s/\..{2,5}$//")
 
@@ -19,7 +23,7 @@ for file in *.mp3; do
         rm -v "album_art/$filename"
     fi
 
-    if [[ ! -f "output-$file" ]]; then
-        ffmpeg -i "$file" -i "album_art/$filename.png" -map_metadata 0 -map 0 -map 1 "output-$file"
+    if [[ ! -f "output/$file" ]]; then
+        ffmpeg -i "$file" -i "album_art/$filename.png" -map_metadata 0 -map 0 -map 1 "output/$file"
     fi
 done

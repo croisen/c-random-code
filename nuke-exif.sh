@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 
+dependency_check=0
 if ! command -v exiftool &>/dev/null; then
     echo "Exiftool cannot be found, please install exiftool"
     dependency_check=1

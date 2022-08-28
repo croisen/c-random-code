@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 
+dependency_check=0
 if ! command -v convert &> /dev/null; then
     echo "Convert not found, please install ImageMagick"
     dependency_check=1
@@ -17,8 +18,7 @@ fi
 
 prename 's/ /_/g' *.jpg *.jpeg *.webp
 
-for file in $(ls *.jpg *.jpeg *.webp 2>/dev/null)
-do
+for file in $(ls *.jpg *.jpeg *.webp 2>/dev/null); do
     echo "Converting $file"
     filename=$(echo $file | sed -sE 's/\.\w+$//')
     convert $file $filename.png
