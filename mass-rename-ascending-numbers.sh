@@ -17,7 +17,7 @@ fi
 for file in *; do
     if [[ -f $file ]] && ! echo $file | grep -soP "^\d{7}\.\w+"; then
         count_padding=$(printf '%07d' "${count}")
-        file_ext=$(echo "$file" | grep -soP '\.\w{2, 5}$' )
+        file_ext=$(echo "$file" | grep -soP '\..{2,5}$' )
         mv -v --backup=numbered --suffix=.bak "$file" "$count_padding$file_ext"
         ((count++))
     fi
