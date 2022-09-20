@@ -225,6 +225,30 @@ long problem_010() {
     return result;
 }
 
+int problem_012() {
+    int divisors = 0;
+    int i = 1;
+
+    while (divisors < 500) {
+        int triangular_number = (i * (i + 1))/2;
+        int divisors = 0;
+        int t_num_root = sqrt(triangular_number);
+        
+        for (int divisor = 1; divisor <= t_num_root; divisor++) {
+            if (triangular_number % divisor == 0) {
+                divisors = divisors + 2;
+            }
+        }
+
+        if (divisors >= 500) {
+            return triangular_number;
+        }
+
+        printf("Triangular number: %7d, No. of divisors: %d\n", triangular_number, divisors);
+        i++;
+    }
+}
+
 int main( int argc, char *argv[] ) {
     if (argc == 2) {
         if ( 0 == strcmp(argv[1], "problem_001")) {
@@ -285,6 +309,12 @@ int main( int argc, char *argv[] ) {
         if ( 0 == strcmp(argv[1], "problem_010")) {
             long result = problem_010();
             printf("\nThe sum of all prime numbers below 2 million is: %ld\n", result);
+            return 0;
+        }
+
+        if ( 0 == strcmp(argv[1], "problem_012")) {
+            int result = problem_012();
+            printf("The first triangular number to have an amount of divisors over 500 is: %d\n", result);
             return 0;
         }
 

@@ -4,9 +4,8 @@
 for file in *.zip; do
     if ! [[ $file == "*.zip" ]]; then
         filename=$(echo $file | sed -sE "s/\..{3}$//")
-        unzip -P thatnovelcorner.com $file
-        rm $file
-        mv -v "$filename.zip" "$(echo $filename | sed -sE "s/ Premium//gi").zip"
+        unzip -P thatnovelcorner.com "$file"
+        rm "$file"
     fi
 done
 
