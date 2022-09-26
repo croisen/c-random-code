@@ -118,19 +118,21 @@ int problem_005() {
     // Made a function to check if the number is evenly divisible by 
     // 1 through n to check if it's faster, and it took around 12 mins
     // Converted it to a while loop, it took around 11 mins
+    // Now takes around 30 sec because it adds 20 to x instead of just 1
 
     int continue_loop = 0;
     int divisors = 20;
-    int x = divisors + 1;
+    int x = divisors;
 
     while (continue_loop == 0) {
         printf("\rCurrently testing: %9d", x);
+
         if (is_divisible_by_one_through_n(x, divisors) == 0) {
             continue_loop = 1;
             return x;
         }
 
-        x++;
+        x = x + divisors;
     }
 }
 
