@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 
+
 import pygame
 import random
 import sys
 import time
-
 
 def main():
     pygame.init()
@@ -129,7 +129,7 @@ def main():
             apple_x_pos = round(random.randint(110, 490), -1)
             apple_y_pos = round(random.randint(60, 290), -1)
 
-            if [apple_x_pos, apple_y_pos] in snake_head_log:
+            while (apple_x_pos, apple_y_pos) in snake_head_log:
                 apple_x_pos = round(random.randint(110, 490), -1)
                 apple_y_pos = round(random.randint(60, 290), -1)
 
