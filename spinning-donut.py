@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 
-## Made by RandomThings23 
+## Made by RandomThings23
 ## His github - https://github.com/RandomThings23
 
 import os
@@ -15,7 +15,7 @@ def main():
     width=80
     #height=int(input("Enter Screen Height : "))
     #width=int(input("Enter Screen Width : "))
-    
+
     # for clearing console (windows and unix systems)
     clear = "cls"
     if os.name == "posix":
@@ -56,9 +56,9 @@ def main():
                 # multiplying by 8 to bring in range 0-11 as 8*(sqrt(2))=11
                 # because we have 11 luminance characters
                 N = int(8*((sinj*sinA-sini*cosj*cosA)*cosB-sini*cosj*sinA-sinj*cosA-cosi *cosj*sinB))
-                # if x,y inside screen and previous z-buffer is < mess 
+                # if x,y inside screen and previous z-buffer is < mess
                 # i.e. when z[o] is 0 or the prev point is behind the new point
-                # so we change it to the point nearer to the eye/ above prev point 
+                # so we change it to the point nearer to the eye/ above prev point
                 if 0<y<height and 0<x<width and z[o] < mess:
                     z[o]=mess
                     screen[o]=".,-~:;=!*#$@"[N if N>0 else 0]
