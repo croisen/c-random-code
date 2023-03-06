@@ -12,7 +12,7 @@ fi
 for file in *.mp3; do
     filename=$(echo "$file" | sed -sE "s/\..{2,5}$//")
 
-    if [[ ! -f "album_art/$filename.png" ]] || [[ $filename != "*" ]]; then
+    if [[ ! -f "album_art/$filename.png" ]] || [[ $filename -ne "*" ]]; then
         search_query=$(echo "$filename" | sed -sE "s/ /+/g")
         yt_search="https://www.youtube.com/results?search_query=$search_query"
         yt_vid=$(curl -s $yt_search | grep -soP "\/watch\?v=.{11}" | head -n1)
@@ -21,6 +21,9 @@ for file in *.mp3; do
         echo "Downloaded thumbnail for $filename"
         convert "album_art/$filename" "album_art/$filename.png"
         rm -v "album_art/$filename"
+    elif [[ "$filename" -eq "*" ]]; then
+        rm -r album_art output
+        return 1
     fi
 
     if [[ ! -f "output/$file" ]]; then
