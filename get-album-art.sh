@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 
 
+source "$(dirname $(readlink -f  ${BASH_SOURCE[0]}))/file-dependency/check_dependency.sh"
+check_dependency ffmpeg
+
+if [[ $? -ne 0 ]]; then
+    exit 1
+fi
+
 if [[ ! -d "album_art" ]]; then
     mkdir album_art
 fi
@@ -10,24 +17,25 @@ if [[ ! -d "output" ]]; then
 fi
 
 for file in *.mp3; do
+    if [[ "$file" == "*.mp3" ]]; then
+        echo "No mp3 file found"
+        rmdir album_art/ output/
+        exit 1
+    fi
+
     filename=$(echo "$file" | sed -sE "s/\..{2,5}$//")
 
-    if [[ ! -f "album_art/$filename.png" ]] || [[ $filename -ne "*" ]]; then
+    if [[ ! -f "album_art/$filename" ]]; then
         search_query=$(echo "$filename" | sed -sE "s/ /+/g")
         yt_search="https://www.youtube.com/results?search_query=$search_query"
         yt_vid=$(curl -s $yt_search | grep -soP "\/watch\?v=.{11}" | head -n1)
         thumbnail="https://i.ytimg.com/vi/$(echo $yt_vid | sed -sE 's/\/watch\?v=//')/hqdefault.jpg"
         curl -s $thumbnail -o "album_art/$filename"
         echo "Downloaded thumbnail for $filename"
-        convert "album_art/$filename" "album_art/$filename.png"
-        rm -v "album_art/$filename"
-    elif [[ "$filename" -eq "*" ]]; then
-        rm -r album_art output
-        return 1
     fi
 
     if [[ ! -f "output/$file" ]]; then
-        ffmpeg -i "$file" -i "album_art/$filename.png" -map_metadata 0 -map 0 -map 1 "output/$file"
+        ffmpeg -i "$file" -i "album_art/$filename" -map_metadata 0 -map 0 -map 1 "output/$file"
     fi
 done
 

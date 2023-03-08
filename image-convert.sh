@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 
 
-if ! command -v convert &> /dev/null; then
-    echo "Convert not found, please install ImageMagick"
+source "$(dirname $(readlink -f  ${BASH_SOURCE[0]}))/file-dependency/check_dependency.sh"
+check_dependency convert
+
+if [[ $? -ne 0 ]]; then
+    echo "The convert command is from ImageMagick"
     exit 1
 fi
 
