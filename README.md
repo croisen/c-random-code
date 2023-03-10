@@ -58,13 +58,6 @@ it will download doujins from nhentai.net when you give it a doujin number
 -> Uses exiftool to nuke the exif data contained inside pictures
 ```
 
-## Pillow Test
-```
--> Surprisingly this is still here, well this was supposed to replace portrait 
-and landscape wallpaper but, I don't know how to use the PIL module for 
-python to resize images. My attempts resulted in nothing.
-```
-
 ## Project Euler
 ```
 -> My attempt to solve the problems at project euler, I solved the first 10 
