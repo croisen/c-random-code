@@ -1,5 +1,4 @@
 #include <iostream>
-//#include <string>
 
 
 void print_board(char (*board)[3]) {
@@ -16,31 +15,31 @@ bool win_check(char (*board)[3]) {
     // Row and column check
     for (int i = 0; i < 3; i++) {
         if (board[i][0] == 'X' && board[i][1] == 'X' && board[i][2] == 'X') {
-            printf("Player 1 wins!\n");
+            printf("Player 1 wins!           \n");
             return true;
         } else if (board[i][0] == 'O' && board[i][1] == 'O' && board[i][2] == 'O') {
-            printf("Player 2 wins!\n");
+            printf("Player 2 wins!           \n");
             return true;
         } else if (board[0][i] == 'X' && board[1][i] == 'X' && board[2][i] == 'X') {
-            printf("Player 1 wins!\n");
+            printf("Player 1 wins!           \n");
             return true;
         } else if (board[0][i] == 'O' && board[1][i] == 'O' && board[2][i] == 'O') {
-            printf("Player 2 wins!\n");
+            printf("Player 2 wins!           \n");
             return true;
         }
     }
     // Checks if a diagonal has 3 straight Xs or Os
     if (board[0][0] == 'X' && board[1][1] == 'X' && board[2][2] == 'X') {
-        printf("Player 1 wins!\n");
+        printf("Player 1 wins!           \n");
         return true;
     } else if (board[0][0] == 'O' && board[1][1] == 'O' && board[2][2] == 'O') {
-        printf("Player 2 wins!\n");
+        printf("Player 2 wins!           \n");
         return true;
     } else if (board[0][2] == 'X' && board[1][1] == 'X' && board[2][0] == 'X') {
-        printf("Player 1 wins!\n");
+        printf("Player 1 wins!           \n");
         return true;
     } else if (board[0][2] == 'O' && board[1][1] == 'O' && board[2][0] == 'O') {
-        printf("Player 2 wins!\n");
+        printf("Player 2 wins!           \n");
         return true;
     }
     return false;
@@ -64,14 +63,19 @@ int main() {
         try {
             input = std::stoi(std::string(y));
         } catch (const std::out_of_range &e) {
-            fprintf(stderr, "Boss you trying to buffer overflow this tic tac toe program?\n");
-            exit(1);
+            fprintf(stderr, "\033[8A\rBoss, are you trying to buffer overflow this tic tac toe program?\n");
+            continue;
         }
 
-        row = (input - 1) / 3;
-        col = (input - 1) % 3;
+        if (input <= 9 && input >= 1) {
+            row = (input - 1) / 3;
+            col = (input - 1) % 3;
+        } else {
+            printf("\033[8A\rYour number is out of range bud!\n");
+            continue;
+        }
 
-        if (row <= 2 && col <= 2 && board[row][col] != 'X' && board[row][col] != 'O') {
+        if (board[row][col] != 'X' && board[row][col] != 'O') {
             if (player_turn % 2 == 0) {
                 board[row][col] = 'X';
             } else {
@@ -79,10 +83,14 @@ int main() {
             }
 
             player_turn++;
+            printf("\033[8A\r");
             did_someone_win = win_check(board);
-            std::cout << "\033[8A\r";
+        } else if (board[row][col] == 'X' or board[row][col] == 'O') {
+            printf("\033[8A\rThat space is already occupied.\n");
+            continue;
         } else {
             printf("\033[8A\rYour number is out of range bud!\n");
+            continue;
         }
 
         if (did_someone_win) {
