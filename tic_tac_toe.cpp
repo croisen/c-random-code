@@ -1,6 +1,5 @@
-#include <cstdlib>
-#include <cstring>
 #include <iostream>
+//#include <string>
 
 
 void print_board(char (*board)[3]) {
@@ -11,7 +10,6 @@ void print_board(char (*board)[3]) {
         }
         printf("|\n-------------------------\n");
     }
-    printf("\n");
 }
 
 bool win_check(char (*board)[3]) {
@@ -49,36 +47,51 @@ bool win_check(char (*board)[3]) {
 }
 
 int main() {
-    int player_turn = 0, input = 0, col = 0, row = 0, z = 0;
+    int player_turn = 0, input = 0, col = 3, row = 3;
+    char y[64];
     bool did_someone_win = false;
     char board[3][3] = {
         {'1', '2', '3'},
         {'4', '5', '6'},
         {'7', '8', '9'}
     };
+
     while (player_turn < 9) {
         print_board(board);
-        printf("Player %d's turn: ", (player_turn % 2) + 1);
-        z = scanf("%d", &input);
+        printf("%s %d%-30s%s", "Player", (player_turn % 2) + 1, "'s turn:  ", "\033[20D");
+        std::fgets(y, 64, stdin);
+
+        try {
+            input = std::stoi(std::string(y));
+        } catch (const std::out_of_range &e) {
+            fprintf(stderr, "Boss you trying to buffer overflow this tic tac toe program?\n");
+            exit(1);
+        }
+
         row = (input - 1) / 3;
         col = (input - 1) % 3;
-        if (row <= 2 && col <= 2 && z == 1 && board[row][col] != 'X' && board[row][col] != 'O') {
+
+        if (row <= 2 && col <= 2 && board[row][col] != 'X' && board[row][col] != 'O') {
             if (player_turn % 2 == 0) {
                 board[row][col] = 'X';
             } else {
                 board[row][col] = 'O';
             }
+
             player_turn++;
+            did_someone_win = win_check(board);
+            std::cout << "\033[8A\r";
         } else {
-            printf("Invalid input!\n");
+            printf("\033[8A\rYour number is out of range bud!\n");
         }
-        did_someone_win = win_check(board);
+
         if (did_someone_win) {
             print_board(board);
             exit(0);
         }
     }
+
     print_board(board);
-    printf("It's a tie!\n");
+    printf("%-38s\n", "It's a tie!");
     return 0;
 }
