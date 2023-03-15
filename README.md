@@ -1,2 +1,2 @@
 # Random Scripts
-Random scripts for my own fun, grouped to each of their own langs(?), types(?)
+Random scripts for my own fun. Some are collected, but most of it has been made by myself.
