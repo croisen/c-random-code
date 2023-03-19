@@ -1,7 +1,7 @@
 #include <cmath>
+#include <gmpxx.h>
 #include <iomanip>
 #include <iostream>
-#include <numbers>
 
 using namespace std; // :)
 
@@ -18,11 +18,11 @@ long double integral_to_x(long double x, long double pi, long double euler_num) 
 }
 
 int main() {
-    long double pi = static_cast<long double>(numbers::pi);
-    long double e = pow((1.00 + (1.00 / 10000000.00)), 10000000.00);
+    long double pi = 3.1415926535897932384626433832795028841;
+    long double e = 2.71828182845904523536028747135266249775;
     cout << fixed << setprecision(7) << "|       ";
 
-    for (long double a = 0.00; a < 0.1; a += 0.01) {
+    for (long double a = 0.00; a < 0.09; a += 0.01) {
         cout << "|" << a;
     }
 
@@ -31,7 +31,7 @@ int main() {
     for (long double x = -4.00; x < 4.10; x += 0.1) {
         cout << setprecision(4) << "|" << x;
         cout << setprecision(7) << "|" << integral_to_x(x, pi, e) / 1000.00;
-        for (long double y = 0.01; y < 0.1; y += 0.01) {
+        for (long double y = 0.01; y < 0.09; y += 0.01) {
             long double z = integral_to_x(x + y, pi, e) / 1000.00;
             cout << "|" << z;
         }
