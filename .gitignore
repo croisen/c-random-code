@@ -1,1 +1,5 @@
 *.out
+python_scripts/env/include/*
+python_scripts/env/lib/*
+python_scripts/env/lib64
+python_scripts/env/pyvenv.cfg
