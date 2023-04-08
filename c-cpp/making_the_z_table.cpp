@@ -12,9 +12,13 @@ long double pdf_of_x(long double x, long double pi, long double euler_num) {
 long double integral_to_x(long double x, long double pi, long double euler_num) {
     long double result = 0.00;
     for (long double num = -10.00; num <= x; num += 0.001) {
-        result += pdf_of_x(num, pi, euler_num);
+        result += pdf_of_x(num, pi, euler_num) * 0.001;
     }
     return result;
+}
+
+int le_signum(auto number) {
+    if (number > )
 }
 
 int main() {
@@ -30,9 +34,10 @@ int main() {
 
     for (long double x = -4.00; x < 4.10; x += 0.1) {
         cout << setprecision(4) << "|" << x;
-        cout << setprecision(7) << "|" << integral_to_x(x, pi, e) / 1000.00;
+        cout << setprecision(7) << "|" << integral_to_x(x, pi, e);
         for (long double y = 0.01; y < 0.09; y += 0.01) {
-            long double z = integral_to_x(x + y, pi, e) / 1000.00;
+            if 
+            long double z = integral_to_x(x + y, pi, e);
             cout << "|" << z;
         }
         cout << "|" << endl;
