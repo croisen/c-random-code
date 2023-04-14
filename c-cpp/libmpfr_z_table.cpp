@@ -1,4 +1,3 @@
-#include <cassert>
 #include <iomanip>
 #include <iostream>
 #include <mpfr.h> // Must be compiled with the -lgmp -lmpfr flags
@@ -15,9 +14,9 @@ void natural_probability_of_x(mpfr_t result, mpfr_t pi, mpfr_t e, mpfr_t x, mpfr
 }
 
 void integral_of_probability_of_x(mpfr_t result, mpfr_t pi, mpfr_t e, mpfr_t x, mpfr_t a, mpfr_t b) {
-    mpfr_set_str(a, "-10.00", 10, MPFR_RNDD);
+    mpfr_set_str(a, "-100.00", 10, MPFR_RNDD);
     for (a; mpfr_cmp(a, x) < 1; mpfr_add_d(a, a, 0.0001, MPFR_RNDD)) {
-        natural_probability_of_x(result, pi, e, x, b);
+        natural_probability_of_x(result, pi, e, a, b);
         mpfr_mul_d(result, result, 0.0001, MPFR_RNDD);
         mpfr_add(b, b, result, MPFR_RNDD);
     }

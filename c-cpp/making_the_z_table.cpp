@@ -1,5 +1,4 @@
 #include <cmath>
-#include <gmpxx.h>
 #include <iomanip>
 #include <iostream>
 
@@ -18,7 +17,12 @@ long double integral_to_x(long double x, long double pi, long double euler_num) 
 }
 
 int le_signum(auto number) {
-    if (number > )
+    if (number > 0.000) {
+        return 1;
+    } else if (number < 0.000) {
+        return -1;
+    }
+    return 0;
 }
 
 int main() {
@@ -36,7 +40,6 @@ int main() {
         cout << setprecision(4) << "|" << x;
         cout << setprecision(7) << "|" << integral_to_x(x, pi, e);
         for (long double y = 0.01; y < 0.09; y += 0.01) {
-            if 
             long double z = integral_to_x(x + y, pi, e);
             cout << "|" << z;
         }
