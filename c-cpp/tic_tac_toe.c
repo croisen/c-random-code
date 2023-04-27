@@ -1,55 +1,56 @@
-#include <iostream>
+#include <stdio.h>
 
 
-void print_board(char (*board)[3]) {
+#define cols 3
+#define rows 3
+
+void print_board(char (*board)[cols]) {
     printf("-------------------------\n");
-    for (int row = 0; row < 3; row++) {
-        for (int col = 0; col < 3; col++) {
+    for (int row = 0; row < rows; row++) {
+        for (int col = 0; col < cols; col++) {
             printf("|%4c   ", board[row][col]);
         }
         printf("|\n-------------------------\n");
     }
 }
 
-bool win_check(char (*board)[3]) {
-    // Row and column check
-    for (int i = 0; i < 3; i++) {
+int win_check(char (*board)[cols]) {
+    for (int i = 0; i < rows; i++) {
         if (board[i][0] == 'X' && board[i][1] == 'X' && board[i][2] == 'X') {
             printf("Player 1 wins!           \n");
-            return true;
+            return 1;
         } else if (board[i][0] == 'O' && board[i][1] == 'O' && board[i][2] == 'O') {
             printf("Player 2 wins!           \n");
-            return true;
+            return 1;
         } else if (board[0][i] == 'X' && board[1][i] == 'X' && board[2][i] == 'X') {
             printf("Player 1 wins!           \n");
-            return true;
+            return 1;
         } else if (board[0][i] == 'O' && board[1][i] == 'O' && board[2][i] == 'O') {
             printf("Player 2 wins!           \n");
-            return true;
+            return 1;
         }
     }
-    // Checks if a diagonal has 3 straight Xs or Os
+
     if (board[0][0] == 'X' && board[1][1] == 'X' && board[2][2] == 'X') {
         printf("Player 1 wins!           \n");
-        return true;
+        return 1;
     } else if (board[0][0] == 'O' && board[1][1] == 'O' && board[2][2] == 'O') {
         printf("Player 2 wins!           \n");
-        return true;
+        return 1;
     } else if (board[0][2] == 'X' && board[1][1] == 'X' && board[2][0] == 'X') {
         printf("Player 1 wins!           \n");
-        return true;
+        return 1;
     } else if (board[0][2] == 'O' && board[1][1] == 'O' && board[2][0] == 'O') {
         printf("Player 2 wins!           \n");
-        return true;
+        return 1;
     }
-    return false;
+    return 0;
 }
 
 int main() {
-    int player_turn = 0, input = 0, col = 3, row = 3;
-    char y[64];
-    bool did_someone_win = false;
-    char board[3][3] = {
+    int player_turn = 0, input_int = 0, row = 0, col = 0;
+    char input_char[16];
+    char board[rows][cols] = {
         {'1', '2', '3'},
         {'4', '5', '6'},
         {'7', '8', '9'}
@@ -58,18 +59,16 @@ int main() {
     while (player_turn < 9) {
         print_board(board);
         printf("%s %d%-30s%s", "Player", (player_turn % 2) + 1, "'s turn:  ", "\033[20D");
-        std::fgets(y, 64, stdin);
 
-        try {
-            input = std::stoi(std::string(y));
-        } catch (const std::out_of_range &e) {
-            fprintf(stderr, "\033[8A\rBoss, are you trying to buffer overflow this tic tac toe program?\n");
-            continue;
+        if (fgets(input_char, 64, stdin) != NULL) {
+            input_int = atoi(input_char);
+        } else {
+            input_int = 10;
         }
 
-        if (input <= 9 && input >= 1) {
-            row = (input - 1) / 3;
-            col = (input - 1) % 3;
+        if (input_int <= 9 && input_int >= 1) {
+            row = (input_int - 1) / 3;
+            col = (input_int - 1) % 3;
         } else {
             printf("\033[8A\rYour number is out of range bud!\n");
             continue;
@@ -84,8 +83,7 @@ int main() {
 
             player_turn++;
             printf("\033[8A\r");
-            did_someone_win = win_check(board);
-        } else if (board[row][col] == 'X' or board[row][col] == 'O') {
+        } else if (board[row][col] == 'X' || board[row][col] == 'O') {
             printf("\033[8A\rThat space is already occupied.\n");
             continue;
         } else {
@@ -93,9 +91,9 @@ int main() {
             continue;
         }
 
-        if (did_someone_win) {
+        if (win_check(board) == 1) {
             print_board(board);
-            exit(0);
+            return 0;
         }
     }
 
