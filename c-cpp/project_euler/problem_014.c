@@ -1,4 +1,4 @@
-#include <iostream>
+#include <stdio.h>
 
 int collatz_chain(long int num) {
     int chain_count = 1;

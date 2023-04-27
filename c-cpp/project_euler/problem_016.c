@@ -1,5 +1,5 @@
-#include <gmpxx.h> // Needs to be compiled with -lgmp -lgmpxx flags
-#include <iostream>
+#include <stdio.h>
+#include <gmp.h> // Needs to be compiled with -lgmp flags
 
 
 int main() {
@@ -15,8 +15,7 @@ int main() {
             mpz_add(result, result, remainder);
             mpz_set(num, quotient);
         }
-
-        std::cout << "Current power of 2: " << i << ", Current sum of the digits: " << result << std::endl;
+        gmp_printf("Current power of 2: %04d, Current sum of each digit in the big exponent of two: %5Zd\n", i, result);
         mpz_set_ui(result, 0);
     }
 
