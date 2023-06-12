@@ -9,6 +9,8 @@ void natural_pdf_of_x(mpfr_t rop, mpfr_t x, mpfr_t euler_num, mpfr_t a, mpfr_t b
     mpfr_set_str(a, "-10.000", 10, rnd);
     mpfr_set_ui(rop, 0, rnd);
 
+    // Rectangles estimation of the integral of the natural probability distribution function (1 / sqrt(2pi)*e^(-x^2/2))
+
     for (a; mpfr_cmp(a, x) < 0; mpfr_add(a, a, e, rnd)) {
         mpfr_pow_ui(c, a, 2, rnd);
         mpfr_div_ui(c, c, 2, rnd);
