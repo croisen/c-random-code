@@ -9,6 +9,9 @@ void problem_6(void) {
     int sum_of_squared = 0;
     int result = 0;
 
+    printf("Currently getting the sum of every natural number below 100...\n");
+    printf("Currently getting the sum of all natural numbers squared, below 100...\n");
+    printf("Now subtracting them together...\n");
     for (int i = 1; i <= number_of_natural_numbers; i++) {
         squared_sum += i;
         sum_of_squared += i * i;
@@ -16,7 +19,7 @@ void problem_6(void) {
 
     squared_sum = squared_sum * squared_sum;
     result = squared_sum - sum_of_squared;
-    printf("The difference between the sum of every squared natural number below 100, and the sum of every natural number below 100 is %d\n", result);
+    printf("Answer: %d\n", result);
 }
 
 
@@ -25,9 +28,9 @@ void problem_7(void) {
     int prime_count = 0;
     int x = 2;
 
+    printf("Currently counting for the 10001st prime number...\n");
     while (prime_count <= target_prime_count) {
         if (art_thou_prime(x)) {
-            printf("Current prime: %7d\n", x);
             prime_count++;
         }
 
@@ -47,6 +50,8 @@ void problem_8(void) {
     int digit_length = 13;
     long result = 0, highest_result = 0;
 
+    printf("Currently trying to find 13 adjacent digits whose product is the highest,\n");
+    printf("from this number %s\n", scary_long_num);
     for (int i = 0; i <= (strlen(scary_long_num) - digit_length); i++) {
         result = 1;
 
@@ -58,10 +63,9 @@ void problem_8(void) {
 
         if (result > highest_result) {
             highest_result = result;
-            printf("Current highest: %ld, i=%d\n", highest_result, i);
         }
     }
-    printf("Big num: %s\nBiggest product in 13 adjacent numbers in the bignum is: %ld\n", scary_long_num, highest_result);
+    printf("Biggest product in 13 adjacent numbers in the bignum is: %ld\n", highest_result);
 }
 
 void problem_9(void) {
@@ -72,8 +76,6 @@ void problem_9(void) {
         for (int b = 2; b <= 999; b++) {
             for (int a = 2; a <= 999; a++) {
                 if (a + b + c == 1000){
-                    printf("Currently trying: a = %3d, b = %3d, c = %3d\n", a, b, c);
-
                     a_sqared = a * a;
                     b_squared = b * b;
                     c_squared = c * c;
@@ -81,7 +83,7 @@ void problem_9(void) {
 
                 if (a + b + c == 1000 && a_sqared + b_squared == c_squared) {
                     printf("The Pythagorean triplet where a + b + c is equal to 1000, the product of a, b, and c is: %d\n", a*b*c);
-                    break;
+                    return;
                 }
             }
         }
@@ -98,5 +100,5 @@ void problem_10(void) {
         }
     }
 
-    printf("\nThe sum of all prime numbers below 2 million is %ld\n", result);
+    printf("The sum of all prime numbers below 2 million is %ld\n", result);
 }

@@ -1,63 +1,61 @@
 #include <argp.h>
 #include <stdbool.h>
 #include <stdio.h>
-#include <unistd.h>
+#include <stdlib.h>
 
 #include "helper/math_funcs.h"
 #include "helper/problem_001-005.h"
 #include "helper/problem_006-010.h"
 
-// Argp stuff for program name email and version
-const char *argp_program_version = "croi_proj_euler_solutions 6.9";
-const char *argp_program_bug_address = "absolutenico32@gmail.com";
-error_t argp_err_exit_status = 127;
+#include "helper/func_exec.h"
 
-// I dunno what this is but it's in the sample
-/*static char doc[] = "Using argparse, I dunno how";*/
-/*static char args_doc[] = "arg1 arg2";*/
 
-// Options for argparse
-static struct argp_option options[] = {
-    {"problem_number",  'p',    "number",   0,  "Specify problem number"},
-    {"help",            'h',    0,          0,  "Print help message"},
+// Argp stuff for program name, version, email, and documentation
+const char *argp_program_version = "croi_proj_euler_solutions 0.9";
+const char *argp_program_bug_address = "<absolutenico32@gmail.com>";
+static char doc[] =
+    "Echoes solutions for projecteuler.net (only from 1 to 10 right now though)";
+static char args_doc[] =
+    "<Problem number (default 1)>";
+
+// Error code when parsing fails
+error_t argp_err_exit_status = 69;
+
+// Argument options well there's only one custom option 
+static struct argp_option option[] = {
+    { "problem-number", 'p', "<problem number>", 0, "Specifies which problem to solve (not exactly needed option since you can just add a problem number without this)" },
     { 0 }
 };
 
-// Used by argp_parse to set variables used by main
 struct arguments {
-    char *problem_number;
+    int problem_num;
 };
 
-// Parsing a single option
-static error_t parse_opts(int key, char *arg, struct argp_state *state) {
-    struct arguments *arguments = state->input;
+
+static error_t parse_opt (int key, char *arg, struct argp_state *state) {
+    struct arguments *args = state->input;
 
     switch(key) {
-        case 'p':
-            arguments->problem_number = arg;
+        case 0:
+            args->problem_num = atoi(arg);
             break;
-        case 'h':
-            argp_state_help(state, stdout, ARGP_HELP_LONG | ARGP_HELP_DOC);
-            exit(0);
-        case ARGP_KEY_END:
-            if(state->arg_num < 1) {
-                argp_usage(state);
-            }
+        case 'p':
+            args->problem_num = atoi(arg);
             break;
         default:
-            return argp_err_exit_status;
+            return ARGP_ERR_UNKNOWN;
     }
-
     return 0;
 }
 
-static struct argp argp = { options, parse_opts, 0, 0 };
+static struct argp argp = { option, parse_opt, args_doc, doc };
 
-int main(int argc, char *argv[]) {
-    struct arguments arguments;
-    arguments.problem_number = "1";
+int main(int argc, char **argv) {
+    // Default arguments
+    struct arguments args;
+    args.problem_num = 1;
 
-    argp_parse(&argp, argc, argv, 0, 0, &arguments);
-    printf("Problem num = %s\n", arguments.problem_number);
+    argp_parse(&argp, argc, argv, 0, 0, &args);
+    get_function(args.problem_num);
     return 0;
 }
