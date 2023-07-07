@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "math_funcs.h"
+#include "problem_006_010.h"
+
 
 void problem_6(void) {
     int number_of_natural_numbers = 100;

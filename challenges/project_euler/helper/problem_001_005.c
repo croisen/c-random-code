@@ -1,4 +1,8 @@
+#include <math.h>
 #include <stdio.h>
+
+#include "math_funcs.h"
+#include "problem_001_005.h"
 
 
 void problem_1(void) {

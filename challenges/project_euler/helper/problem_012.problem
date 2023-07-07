@@ -2,7 +2,7 @@
 #include <math.h>
 
 
-int main() {
+int x() {
     int divisors = 0;
     int i = 1;
 

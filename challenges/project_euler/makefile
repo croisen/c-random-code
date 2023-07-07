@@ -1,18 +1,22 @@
 EXE = project_euler.out
-SOURCE = main_file.c
+
+MAIN = $(wildcard *.c)
+HEADERS = $(wildcard helper/*.h)
+SOURCES = $(wildcard helper/*.c)
 
 CC = gcc
 CFLAGS = -Wall -Wpedantic -Werror -march=native -Ofast --static
-LIBS = -lm
+LIBS = -lm -lgmp
 
-LOCAL_HEADERS = $(wildcard helper/*.h)
+all: clean $(EXE)
 
-all: $(LOCAL_HEADERS)
-	@echo "Cleaning the build directory"
+$(EXE): $(MAIN) $(HEADERS) $(SOURCES)
 	@echo "Now compiling the main program"
-	@echo "Depending on the following headers: $(LOCAL_HEADERS)"
-	$(CC) $(CFLAGS) -o build/$(EXE) $(SOURCE) $(LIBS)
+	@echo "Depending on the following headers: $(HEADERS)"
+	@echo "Depending on the following sources: $(SOURCES)"
+	$(CC) $(CFLAGS) -o build/$(EXE) $(MAIN) $(SOURCES) $(LIBS)
 	@echo "Done! Program is now in build/$(EXE)"
 
 clean:
+	@echo "Cleaning the build directory"
 	-rm -f build/$(EXE)
