@@ -8,6 +8,7 @@
 #include "helper/problem_006-010.h"
 
 #include "helper/func_exec.h"
+#define USAGE 0x123
 
 
 // Argp stuff for program name, version, email, and documentation
@@ -21,9 +22,12 @@ static char args_doc[] =
 // Error code when parsing fails
 error_t argp_err_exit_status = 69;
 
-// Argument options well there's only one custom option 
+// Options for argp.h
 static struct argp_option option[] = {
     { "problem-number", 'p', "<problem number>", 0, "Specifies which problem to solve (not exactly needed option since you can just add a problem number without this)" },
+    { "help", 'h', 0, 0, "Prints this help list" },
+    { "version", 'V', 0, 0, "Prints the program name and version number" },
+    { "usage", USAGE, 0, 0, "Shows the usage of this program" },
     { 0 }
 };
 
@@ -42,6 +46,15 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state) {
         case 'p':
             args->problem_num = atoi(arg);
             break;
+        case 'h':
+            argp_state_help(state, state->out_stream, ARGP_HELP_STD_HELP);
+            exit(0);
+        case 'V':
+            fprintf(state->out_stream, "%s\n", argp_program_version);
+            exit(0);
+        case USAGE:
+            argp_state_help(state, state->out_stream, ARGP_HELP_USAGE | ARGP_HELP_EXIT_OK);
+            exit(0);
         default:
             return ARGP_ERR_UNKNOWN;
     }
@@ -55,7 +68,7 @@ int main(int argc, char **argv) {
     struct arguments args;
     args.problem_num = 1;
 
-    argp_parse(&argp, argc, argv, 0, 0, &args);
+    argp_parse(&argp, argc, argv, ARGP_NO_HELP, 0, &args);
     get_function(args.problem_num);
     return 0;
 }
