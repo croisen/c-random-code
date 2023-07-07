@@ -1,3 +1,2 @@
 *.out
-python_scripts/env
-python_scripts/web_scraping/drivers/*
+on-my-own/python_scripts/web_scraping/drivers/*
