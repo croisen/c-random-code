@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 
 
-if ! command -v exiftool &>/dev/null; then
-    echo "Exiftool cannot be found, please install exiftool"
-    exit 1
-fi
+source "$(dirname $(readlink -f  ${BASH_SOURCE[0]}))/file-dependency/check_dependency.sh"
+check_dependency exiftool
 
 for file in *.jpg *.png *.jpeg; do
     if ! [[ $file == "*.png" || $file == "*.jpeg" || $file == "*.jpg" ]]; then

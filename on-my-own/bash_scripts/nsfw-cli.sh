@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
 
-Agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/114.0"
+source "$(dirname $(readlink -f  ${BASH_SOURCE[0]}))/file-dependency/check_dependency.sh"
+
+Agent=$USER_AGENT
 printf "Input an nhentai doujin number: "
 read doujin_number
 doujin_dir="$HOME/.cache/$doujin_number"

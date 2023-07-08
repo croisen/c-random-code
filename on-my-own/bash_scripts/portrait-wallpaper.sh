@@ -3,10 +3,9 @@
 
 phone_res="720x1520"
 
-if ! command -v convert &> /dev/null; then
-    echo "Convert not found, please install ImageMagick"
-    exit 1
-fi
+source "$(dirname $(readlink -f  ${BASH_SOURCE[0]}))/file-dependency/check_dependency.sh"
+echo "Checking for ImageMagick convert util..."
+check_dependency convert
 
 for file in *.jpg *.png *.webp *.jpeg; do
     filename=$(echo $file | sed -sE 's/\.\w+$//')
