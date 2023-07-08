@@ -19,26 +19,35 @@ error_t argp_err_exit_status = 69;
 
 // Options for argp.h
 static struct argp_option option[] = {
-    {   "problem-number",
+    {
+        "problem-number",
         'p',
         "<problem number>",
         0,
-        "Specifies which problem to solve (not exactly needed \
-        option since you can just add a problem number without this)"
+        "Specifies which problem to solve"
     },
-    {   "help",
+    {
+        "verbose",
+        'v',
+        0, 0,
+        "Will output more text related to the function solving the projecteuler problem"
+    },
+    {
+        "help",
         'h',
         0, 0,
         "Prints this help list",
         -1
     },
-    {   "usage",
+    {
+        "usage",
         USAGE,
         0, 0, 
         "Shows the usage of this program",
         -1
     },
-    {   "version",
+    {
+        "version",
         'V',
         0, 0,
         "Prints the program name and version number",
@@ -49,6 +58,7 @@ static struct argp_option option[] = {
 
 struct arguments {
     int problem_num;
+    bool verbose;
 };
 
 
@@ -59,15 +69,24 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state) {
         case 'p':
             args->problem_num = atoi(arg);
             break;
+        case 'v':
+            args->verbose = true;
+            break;
         case 'h':
             argp_state_help(state, state->out_stream, ARGP_HELP_STD_HELP);
-            exit(0);
-        case 'V':
-            fprintf(state->out_stream, "%s\n", argp_program_version);
             exit(0);
         case USAGE:
             argp_state_help(state, state->out_stream, ARGP_HELP_USAGE | ARGP_HELP_EXIT_OK);
             exit(0);
+        case 'V':
+            fprintf(state->out_stream, "%s\n", argp_program_version);
+            exit(0);
+        case ARGP_KEY_END:
+            if (state->arg_num == 1) {
+                argp_state_help(state, state->out_stream, ARGP_HELP_STD_HELP);
+                exit(0);
+            }
+            break;
         default:
             return ARGP_ERR_UNKNOWN;
     }
@@ -80,9 +99,10 @@ int main(int argc, char **argv) {
     // Default arguments
     struct arguments args;
     args.problem_num = 1;
+    args.verbose = false;
 
     argp_parse(&argp, argc, argv, ARGP_NO_HELP, 0, &args);
     printf("Trying to get the function to solve problem #%d...\n", args.problem_num);
-    get_function(args.problem_num);
+    get_function(args.problem_num, args.verbose);
     return 0;
 }
