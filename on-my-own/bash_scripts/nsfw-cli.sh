@@ -1,12 +1,22 @@
 #!/usr/bin/env bash
 
 
-Agent="Mozilla/5.0 (X11; Linux x86_64; rv:100.0) Gecko/20100101 Firefox/100.0"
+Agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/114.0"
 printf "Input an nhentai doujin number: "
 read doujin_number
 doujin_dir="$HOME/.cache/$doujin_number"
+
+
+
 mkdir -p $doujin_dir
-pages=$(curl -sL "nhentai.net/g/$doujin_number/1/" | sed -nE 's/.*pages">(.*)<\/span><.*/\1/p')
+pages=$(curl -sL --fail-with-body "nhentai.net/g/$doujin_number/1/")
+if [[ $? -eq 22 ]]; then
+    echo "Got blocked by cloudflare :("
+    exit 1
+fi
+
+pages=$(echo "$pages" | sed -nE 's/.*pages">(.*)<\/span><.*/\1/p')
+echo $pages
 
 function QUIT {
     rm -rf $doujin_dir
