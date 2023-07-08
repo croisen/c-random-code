@@ -8,10 +8,10 @@
 
 
 // Argp stuff for program name, version, email, and documentation
-const char *argp_program_version = "croi_proj_euler_solutions 0.9";
+const char *argp_program_version = "croi_proj_euler_solutions 6.9";
 const char *argp_program_bug_address = "<absolutenico32@gmail.com>";
 static char doc[] =
-    "Echoes solutions for projecteuler.net (only from 1 to 10 right now though)";
+    "Echoes solutions for projecteuler.net (only from 1 to 15 right now though)";
 static char args_doc[] = "";
 
 // Error code when parsing fails
