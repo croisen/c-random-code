@@ -11,11 +11,11 @@ LIBS = -lm -lgmp
 all: clean $(EXE)
 
 $(EXE): $(MAIN) $(HEADERS) $(SOURCES)
-	@echo "Now compiling the main program"
-	@echo "Depending on the following headers: $(HEADERS)"
-	@echo "Depending on the following sources: $(SOURCES)"
+	@echo "This program depends on the following libraries:"
+	@echo "-lm: C Math Library, -lgmp: GNU Big Arithmetic Library\n"
+	@echo "Now compiling the main program\n\n"
 	$(CC) $(CFLAGS) -o build/$(EXE) $(MAIN) $(SOURCES) $(LIBS)
-	@echo "Done! Program is now in build/$(EXE)"
+	@echo "\n\nDone! Program is now in build/$(EXE)"
 
 clean:
 	@echo "Cleaning the build directory"

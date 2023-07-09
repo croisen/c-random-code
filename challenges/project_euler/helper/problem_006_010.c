@@ -68,7 +68,7 @@ void problem_8(bool verbose) {
 
     printf("Currently trying to find 13 adjacent digits whose product is the highest,\n");
     printf("from this number %s\n", scary_long_num);
-    for (int i = 0; i <= (strlen(scary_long_num) - digit_length); i++) {
+    for (int i = 0; i <= ((int)strlen(scary_long_num) - digit_length); i++) {
         result = 1;
 
         for (int j = 0; j < digit_length; j++) {
@@ -105,12 +105,12 @@ void problem_9(bool verbose) {
                     c_squared = c * c;
                 }
 
-                if (verbose) {
-                    printf("Current numbers: a=%d, b=%d, c=%d\n", a, b, c);
-                }
 
                 if (a + b + c == 1000 && a_sqared + b_squared == c_squared) {
                     printf("The Pythagorean triplet where a + b + c is equal to 1000, the product of a, b, and c is: %d\n", a*b*c);
+                    if (verbose) {
+                        printf("Said pythagorean triplet is a=%d, b=%d, c=%d\n", a, b, c);
+                    }
                     return;
                 }
             }

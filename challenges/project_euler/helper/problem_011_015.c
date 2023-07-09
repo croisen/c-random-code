@@ -280,5 +280,10 @@ void problem_15(bool verbose) {
     int grid_size = 20;
     int n = grid_size * 2;
     long nCr = combinatorial(n, grid_size);
+
+    if (verbose) {
+        printf("Now running the combinatorial formula n! / r!(n - r)! to the lattice paths problem\n");
+    }
+
     printf("The number of lattice paths available from the top left to the bottom right in a 20 by 20 square grid and can only move right and down is %ld\n", nCr);
 }
