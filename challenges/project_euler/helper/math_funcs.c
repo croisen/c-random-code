@@ -6,8 +6,8 @@
 #include "math_funcs.h"
 
 
-void not_implemented(int problem_num) {
-    printf("There is no function to solve for problem #%d yet sadly\n", problem_num);
+void not_implemented(int problem_num, bool verbose) {
+    printf("There is no function to solve for problem #%d yet sadly, also verbose is set to: %d\n", problem_num, verbose);
 }
 
 bool art_thou_prime(long num) {

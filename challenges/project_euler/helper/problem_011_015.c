@@ -277,6 +277,7 @@ void problem_14(bool verbose) {
 
 void problem_15(bool verbose) {
     // I have read up some stuff and what I got is a combinatorial solution nCr
+    // https://www.robertdickau.com/manhattan.html
     int grid_size = 20;
     int n = grid_size * 2;
     long nCr = combinatorial(n, grid_size);

@@ -3,7 +3,7 @@
 #ifndef CROI_MATH_FUNCS
 #define CROI_MATH_FUNCS
 
-void not_implemented(int problem_num);
+void not_implemented(int problem_num, bool verbose);
 
 bool art_thou_prime(long num);
 bool is_divisible_by_one_through_n(long number, int divisors);
