@@ -1,4 +1,5 @@
 #include <argp.h>
+#include <ctype.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -24,13 +25,15 @@ static struct argp_option option[] = {
         'p',
         "<problem number>",
         0,
-        "Specifies which problem to solve"
+        "Specifies which problem to solve",
+        0
     },
     {
         "verbose",
         'v',
         0, 0,
-        "Will output more text related to the function solving the projecteuler problem"
+        "Will output more text related to the function solving the projecteuler problem",
+        0
     },
     {
         "help",
@@ -67,7 +70,12 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state) {
 
     switch(key) {
         case 'p':
-            args->problem_num = atoi(arg);
+            if (isdigit((unsigned char)*arg)) {
+                args->problem_num = atoi(arg);
+            } else {
+                fprintf(state->err_stream, "The argument passed to the -p option %s is not valid\n", arg);
+                exit(1);
+            }
             break;
         case 'v':
             args->verbose = true;
@@ -93,7 +101,7 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state) {
     return 0;
 }
 
-static struct argp argp = { option, parse_opt, args_doc, doc };
+static struct argp argp = { option, parse_opt, args_doc, doc, 0, 0, 0 };
 
 int main(int argc, char **argv) {
     // Default arguments
@@ -102,7 +110,7 @@ int main(int argc, char **argv) {
     args.verbose = false;
 
     argp_parse(&argp, argc, argv, ARGP_NO_HELP, 0, &args);
-    printf("Trying to get the function to solve problem #%d...\n", args.problem_num);
+    printf("Trying to get the function to solve projecteuler's problem #%d...\n", args.problem_num);
     get_function(args.problem_num, args.verbose);
     return 0;
 }
