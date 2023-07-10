@@ -9,7 +9,7 @@ echo "Last numbered file in this folder: $last_numbered_file"
 printf '\n%s\n> ' "On what number should I start?"
 read count
 
-if ! [ $count -eq $count 2>/dev/null ]; then
+if ! [[ $count -eq $count ]]; then
     echo "This ain't a number man, I'm quitting..."
     exit 1
 fi

@@ -11,7 +11,7 @@
 
 
 // Argp stuff for program name, version, email, and documentation
-const char *argp_program_version = "croi_proj_euler_solutions 6.9";
+const char *argp_program_version = "croi_proj_euler_solutions v0.1.8";
 const char *argp_program_bug_address = "<absolutenico32@gmail.com>";
 static char doc[] =
     "Echoes solutions for projecteuler.net (only from 1 to 15 right now though)";
@@ -81,7 +81,7 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state) {
             }
 
             if (mpz_cmp_si(args->problem_num, INT_MAX) > 0) {
-                gmp_fprintf(state->err_stream, "The argument passed to -p is beyond normal bud: %Zd\n", args->problem_num);
+                gmp_fprintf(state->err_stream, "The argument passed to -p %Zd is beyond normal bud\n", args->problem_num);
                 exit(argp_err_exit_status);
             }
             break;

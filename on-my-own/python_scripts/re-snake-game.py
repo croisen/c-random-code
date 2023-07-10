@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
 
-import pygame, random, sys, time
+import pygame
+import random
+import sys
+import time
 
 screen_range: tuple[int, int] = (800, 400)
 game_screen: tuple[int, int] = (600, 300)
