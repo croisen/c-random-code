@@ -53,7 +53,7 @@ void problem_3(bool verbose) {
     for (long x = 2; x <= square_root; x++) {
         if (art_thou_prime(x) && big_number % x == 0) {
             if (verbose) {
-                printf("Current highest prime: %ld", x);
+                printf("Current highest prime: %ld\n", x);
             }
 
             highest_prime = x;
@@ -97,15 +97,19 @@ void problem_5(bool verbose) {
     long x = divisors;
     printf("Currently testing for a number that is evenly divisible by 1 through 20\n");
 
+    if (verbose) {
+        printf("You've set verbose to true, this is gonna take some time so I'mma give the answer first then start brute forcing for it: 232792560\n");
+    }
+
     while (continue_loop) {
         if (verbose) {
-            printf("Current number: %ld\n", x);
+            printf("\rCurrent number: %ld", x);
         }
 
         if (is_divisible_by_one_through_n(x, divisors)) {
-            printf("Lowest number that is evenly divisible by 1 to %d is %ld\n", divisors, x);
+            printf("\nLowest number that is evenly divisible by 1 to %d is %ld\n", divisors, x);
             continue_loop = false;
         }
-        x = x + 1;
+        x += divisors;
     }
 }

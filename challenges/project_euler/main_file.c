@@ -32,7 +32,8 @@ static struct argp_option option[] = {
         "verbose",
         'v',
         0, 0,
-        "Will output more text related to the function solving the projecteuler problem",
+        "Will output more text related to the function solving the projecteuler problem.\
+\n\033[1;31mWARNING: it makes the program slower as it outputs it's stuff to stdout\033[0;0m",
         0
     },
     {
