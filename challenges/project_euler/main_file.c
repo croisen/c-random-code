@@ -1,5 +1,7 @@
 #include <argp.h>
 #include <ctype.h>
+#include <gmp.h>
+#include <limits.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -61,7 +63,7 @@ static struct argp_option option[] = {
 };
 
 struct arguments {
-    int problem_num;
+    mpz_t problem_num;
     bool verbose;
 };
 
@@ -72,10 +74,15 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state) {
     switch(key) {
         case 'p':
             if (isdigit((unsigned char)*arg)) {
-                args->problem_num = atoi(arg);
+                mpz_set_str(args->problem_num, arg, 10);
             } else {
                 fprintf(state->err_stream, "The argument passed to the -p option %s is not valid\n", arg);
-                exit(1);
+                exit(argp_err_exit_status);
+            }
+
+            if (mpz_cmp_si(args->problem_num, INT_MAX) > 0) {
+                gmp_fprintf(state->err_stream, "The argument passed to -p is beyond normal bud: %Zd\n", args->problem_num);
+                exit(argp_err_exit_status);
             }
             break;
         case 'v':
@@ -107,11 +114,11 @@ static struct argp argp = { option, parse_opt, args_doc, doc, 0, 0, 0 };
 int main(int argc, char **argv) {
     // Default arguments
     struct arguments args;
-    args.problem_num = 1;
+    mpz_init_set_ui(args.problem_num, 1);
     args.verbose = false;
 
     argp_parse(&argp, argc, argv, ARGP_NO_HELP, 0, &args);
-    printf("Trying to get the function to solve projecteuler's problem #%d...\n", args.problem_num);
-    get_function(args.problem_num, args.verbose);
+    gmp_printf("Trying to get the function to solve projecteuler's problem #%Zd...\n", args.problem_num);
+    get_function(mpz_get_si(args.problem_num), args.verbose);
     return 0;
 }
