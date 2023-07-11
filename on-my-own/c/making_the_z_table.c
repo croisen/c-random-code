@@ -8,13 +8,14 @@ void mpfr_init_pi(mpfr_t pi_number) {
 }
 
 void cdf(mpfr_t dem) {
-    printf("I currently have no idea what to do\n");
+    mpfr_printf("I currently have no idea what to do %RNF\n", dem);
 }
 
 int main() {
     mpfr_t probability, x, pi_number, a, b, c;
     mpfr_inits2((mpfr_prec_t)1024, probability, x, pi_number, a, b, c, (mpfr_t*)NULL);
     mpfr_init_pi(pi_number);
+    cdf(x);
 
     mpfr_clears(probability, x, pi_number, a, b, c, (mpfr_t*)NULL);
     return 0;
