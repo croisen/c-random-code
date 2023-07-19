@@ -17,7 +17,7 @@
 
 long (*function_array[array_size]) (bool verbose, bool testing);
 
-unsigned char *sha256(unsigned char *message) {
+char *sha256(unsigned char *message) {
     unsigned char *raw_hash = NULL;
 
     EVP_MD_CTX *x;
@@ -32,7 +32,7 @@ unsigned char *sha256(unsigned char *message) {
     EVP_MD_CTX_free(x);
 
     const char hexlookup[17] = "0123456789abcdef";
-    unsigned char *hash = (unsigned char*)malloc((2 * EVP_MAX_MD_SIZE) + 1);
+    char *hash = (char*)malloc((2 * EVP_MAX_MD_SIZE) + 1);
     size_t i, j, z = EVP_MD_size(EVP_sha256());
 
     for (i = 0, j = 0; i < z; i++, j += 2) {
@@ -59,18 +59,33 @@ void get_function(int problem_num, bool verbose, bool testing_mode) {
     if (!testing_mode) {
         (void)function_array[problem_num - 1](verbose, testing_mode);
     } else {
-        for (int i = 0; i < array_size; i++) {
+        FILE *fp = fopen("./hashes/solutions.txt", "r");
+        if (fp == NULL) {
+            printf("sha256_sols.txt cannot be found\n");
+            return;
+        }
+
+        int i = 0;
+        char correct_hash[66];
+        while ( fgets(correct_hash, sizeof(correct_hash), fp) ) {
+            if (i >= array_size) {
+                break;
+            }
+
             long x = function_array[i](verbose, testing_mode);
             unsigned char *y = num_to_char(x);
-            unsigned char *hash = sha256(y);
+            char *hash = sha256(y);
+            correct_hash[strcspn(correct_hash, "\n")] = '\0';
 
-            printf("Problem #%3d: %20ld, %s\n", i + 1, x, hash);
-            /*if (!test) {*/
-                /*printf("Problem #%d: \033[1;31mFAILED\033[0;0m\n", i + 1);*/
-            /*} else {*/
-                /*printf("Problem #%d: \033[1;32mPASSED\033[0;0m\n", i + 1);*/
-            /*}*/
+            if (strcmp((const char*)hash, correct_hash) == 0) {
+                printf("Problem #%3d: \033[1;32mPASSED\033[0;0m\n", i + 1);
+            } else {
+                printf("Problem #%3d: \033[1;31mFAILED\033[0;0m, Expected hash: %s\n",
+                       i + 1, correct_hash);
+            }
+
+            i++;
         }
+        fclose(fp);
     }
-
 }
