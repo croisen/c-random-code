@@ -6,10 +6,13 @@
 #include "problem_001_005.h"
 
 
-void problem_1(bool verbose) {
+long problem_1(bool verbose, bool testing) {
     int result = 0;
 
-    printf("Summing up all numbers below 1000 that is evenly divisble by 3 or 5\n");
+    if (!testing){
+        printf("Summing up all numbers below 1000 that is evenly divisble by 3 or 5\n");
+    }
+
     for (int i = 3; i <= 999; i++) {
         if (i % 3 == 0 || i % 5 == 0) {
             result =  result + i;
@@ -20,19 +23,26 @@ void problem_1(bool verbose) {
         }
     }
 
-    printf("The sum of all numbers that are evenly divisible by 3 or 5 that is under 1000 is: %d\n", result);
+    if (!testing) {
+        printf("The sum of all numbers that are evenly divisible by 3 or 5 that is under 1000 is: %d\n", result);
+    }
+
+    return (long)result;
 }
 
-void problem_2(bool verbose) {
+long problem_2(bool verbose, bool testing) {
     int a = 1, b = 2, c = 0, result = 0;
 
-    printf("Currently summing up all the even fibonacci numbers below 4 million...");
+    if (!testing) {
+        printf("Currently summing up all the even fibonacci numbers below 4 million...\n");
+    }
+
     while (a < 4000000) {
         if (a % 2 == 0 && a < 4000000) {
             result = result + a;
 
             if (verbose) {
-                printf("result=%d, even_fib=%d\n", result, a);
+                printf("result=%7d, even_fib=%7d\n", result, a);
             }
         }
 
@@ -41,15 +51,22 @@ void problem_2(bool verbose) {
         b = c;
     }
 
-    printf("The sum of all even fibonacci numbers under 4 million is: %d\n", result);
+    if (!testing) {
+        printf("The sum of all even fibonacci numbers under 4 million is: %d\n", result);
+    }
+
+    return (long)result;
 }
 
-void problem_3(bool verbose) {
+long problem_3(bool verbose, bool testing) {
     long big_number = 600851475143;
     long highest_prime = 0;
     long square_root = sqrt(big_number);
 
-    printf("Currently looking for the largest prime factor of %ld...\n", big_number);
+    if (!testing) {
+        printf("Currently looking for the largest prime factor of %ld...\n", big_number);
+    }
+
     for (long x = 2; x <= square_root; x++) {
         if (art_thou_prime(x) && big_number % x == 0) {
             if (verbose) {
@@ -59,17 +76,22 @@ void problem_3(bool verbose) {
             highest_prime = x;
         }
     }
+    if (!testing) {
+        printf("The largest prime factor of %ld is %ld\n", big_number, highest_prime);
+    }
 
-    printf("The largest prime factor of %ld is %ld\n", big_number, highest_prime);
+    return highest_prime;
 }
 
-void problem_4(bool verbose) {
+long problem_4(bool verbose, bool testing) {
     int x_times_y = 0;
     int reversed_product;
     int highest_palindrome = 0;
 
-    printf("Currently finding the highest palindrome product made by multiplying two 3 digit numbers\n");
-    printf("Palindrome definition: it is a word, number, phrase, or other sequence of symbols that reads the same backwards as forwards, such as madam or racecar, and the date and time 12/21/33 12:21.\n");
+    if (!testing) {
+        printf("Currently finding the highest palindrome product made by multiplying two 3 digit numbers\n");
+        printf("Palindrome definition: it is a word, number, phrase, or other sequence of symbols that\nreads the same backwards as forwards, such as madam or racecar, and the date and time\n12/21/33 12:21.\n");
+    }
 
     for (int x = 100; x <= 999; x++) {
         for (int y = 100; y <= 999; y++) {
@@ -88,14 +110,21 @@ void problem_4(bool verbose) {
         }
     }
 
-    printf("Highest palindrome product by two 3 digit numbers: %d\n", highest_palindrome);
+    if (!testing) {
+        printf("Highest palindrome product by two 3 digit numbers: %d\n", highest_palindrome);
+    }
+
+    return (long)highest_palindrome;
 }
 
-void problem_5(bool verbose) {
+long problem_5(bool verbose, bool testing) {
     bool continue_loop = true;
     int divisors = 20;
     long x = divisors;
-    printf("Currently testing for a number that is evenly divisible by 1 through 20\n");
+
+    if (!testing) {
+        printf("Currently testing for a number that is evenly divisible by 1 through 20\n");
+    }
 
     if (verbose) {
         printf("You've set verbose to true, this is gonna take some time so I'mma give the answer first then start brute forcing for it: 232792560\n");
@@ -106,10 +135,15 @@ void problem_5(bool verbose) {
             printf("\rCurrent number: %ld", x);
         }
 
-        if (is_divisible_by_one_through_n(x, divisors)) {
+        if (is_divisible_by_one_through_n(x, divisors) && !testing) {
             printf("\nLowest number that is evenly divisible by 1 to %d is %ld\n", divisors, x);
             continue_loop = false;
+        } else if (is_divisible_by_one_through_n(x, divisors)) {
+            continue_loop = false;
+        } else {
+            x += divisors;
         }
-        x += divisors;
     }
+
+    return (long)x;
 }

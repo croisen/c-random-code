@@ -7,8 +7,10 @@
 #include "problem_016_020.h"
 
 
-void problem_16(bool verbose) {
-    printf("Currently summing up the digits in 2^1000...\n");
+long problem_16(bool verbose, bool testing) {
+    if (!testing) {
+        printf("Currently summing up the digits in 2^1000...\n");
+    }
 
     mpz_t two, result, a;
     mpz_inits(two, result, a, NULL);
@@ -28,10 +30,15 @@ void problem_16(bool verbose) {
         }
     }
 
-    gmp_printf("The sum of all the digits of 2^1000 is: %Zd\n", result);
+    if (!testing) {
+        gmp_printf("The sum of all the digits of 2^1000 is: %Zd\n", result);
+    }
+
+    long x = (long)mpz_get_ui(result);
+    return x;
 }
 
-void problem_17(bool verbose) {
+long problem_17(bool verbose, bool testing) {
     char *ones[] = {
         "", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
         "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
@@ -46,8 +53,10 @@ void problem_17(bool verbose) {
         "and", "hundred", "thousand"
     };
 
-    printf("Currently getting the number of letters used by the numbers 1 to 1 thousand.\n");
-    printf("Sample: if the numbers 1 to 5 are written out in words: one, two, three, four, five, then there are 3 + 3 + 5 + 4 + 4 = 19 letters used in total.\n");
+    if (!testing) {
+        printf("Currently getting the number of letters used by the numbers 1 to 1 thousand.\n");
+        printf("Sample: if the numbers 1 to 5 are written out in words: one, two, three, four, five, then there are 3 + 3 + 5 + 4 + 4 = 19 letters used in total.\n");
+    }
 
     int total_number_of_letters = 0, number_of_letters = 0;
 
@@ -122,18 +131,24 @@ void problem_17(bool verbose) {
         }
     }
 
-    printf("The total number of letters used by the numbers one to one thousand is: %d\n",
-           total_number_of_letters);
+    if (!testing) {
+        printf("The total number of letters used by the numbers one to one thousand is: %d\n",
+            total_number_of_letters);
+    }
+    return (long)total_number_of_letters;
 }
 
-void problem_18(bool verbose) {
-    not_implemented(18, verbose);
+long problem_18(bool verbose, bool testing) {
+    not_implemented(18, verbose, testing);
+    return 0;
 }
 
-void problem_19(bool verbose) {
-    not_implemented(19, verbose);
+long problem_19(bool verbose, bool testing) {
+    not_implemented(19, verbose, testing);
+    return 0;
 }
 
-void problem_20(bool verbose) {
-    not_implemented(20, verbose);
+long problem_20(bool verbose, bool testing) {
+    not_implemented(20, verbose, testing);
+    return 0;
 }

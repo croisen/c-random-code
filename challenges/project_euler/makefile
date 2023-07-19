@@ -5,8 +5,8 @@ HEADERS = $(wildcard helper/*.h)
 SOURCES = $(wildcard helper/*.c)
 
 CC = gcc
-CFLAGS = -Wall -Wpedantic -Wextra -Werror -march=native -Ofast --static
-LIBS = -lm -lgmp
+CFLAGS = -Wall -Wpedantic -Wextra -Werror -march=native -O3
+LIBS = -lm -lssl -lcrypto -lgmp
 
 all: clean $(EXE)
 

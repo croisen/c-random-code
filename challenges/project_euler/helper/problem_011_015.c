@@ -28,7 +28,7 @@ void print_pr11_grid(int number_grid[PRB_11_ROWS][PRB_11_COLS]) {
     }
 }
 
-void problem_11(bool verbose) {
+long problem_11(bool verbose, bool testing) {
     // With my limited knowledge of vim, writing this grid took a long time :(
     int number_grid[PRB_11_ROWS][PRB_11_COLS] = {
         { 8,  2, 22, 97, 38, 15,  0, 40,  0, 75,  4,  5,  7, 78, 52, 12, 50, 77, 91,  8},
@@ -55,8 +55,10 @@ void problem_11(bool verbose) {
 
     long result = 0;
 
-    printf("Trying to find four adjacent numbers in the grid above, whether horizontal, vertical or diagonal, which would yield the highets product.\n\n");
-    print_pr11_grid(number_grid);
+    if (!testing) {
+        printf("Trying to find four adjacent numbers in the grid above, whether horizontal, vertical or diagonal, which would yield the highets product.\n\n");
+        print_pr11_grid(number_grid);
+    }
 
     for (int row = 0; row < PRB_11_SEARCH_LOOP; row++) {
         for (int col = 0; col < PRB_11_SEARCH_LOOP; col++) {
@@ -90,19 +92,24 @@ void problem_11(bool verbose) {
         }
     }
 
-    printf("The highest product formed by 4 adjacent numbers in ths grid whether vertical horizontal or diagonal is %ld\n", result);
+    if (!testing) {
+        printf("The highest product formed by 4 adjacent numbers in ths grid whether vertical horizontal or diagonal is %ld\n", result);
+    }
+
+    return result;
 }
 
-void problem_12(bool verbose) {
-    int divisors = 0;
-    int i = 1;
+long problem_12(bool verbose, bool testing) {
+    int divisors = 0, triangular_number = 0, i = 1;
 
-    printf("Currently finding the lowest triangular number that can be evenly divided by more than 500 numbers.\n");
-    printf("Triangular numbers: it is simply the number of dots in each triangular pattern calculated by n(n + 1) / 2\n");
+    if (!testing) {
+        printf("Currently finding the lowest triangular number that can be evenly divided by more than 500 numbers.\n");
+        printf("Triangular numbers: it is simply the number of dots in each triangular pattern calculated by n(n + 1) / 2\n");
+    }
 
     while (divisors < 500) {
-        int triangular_number = (i * (i + 1))/2;
-        int divisors = 0;
+        triangular_number = (i * (i + 1))/2;
+        divisors = 0;
         int t_num_root = sqrt(triangular_number);
         
         for (int divisor = 1; divisor <= t_num_root; divisor++) {
@@ -115,8 +122,10 @@ void problem_12(bool verbose) {
         }
 
         if (divisors >= 500) {
-            printf("The lowest triangular number to have an amount of divisors over 500 is %d\n", triangular_number);
-            return;
+            if (!testing) {
+                printf("The lowest triangular number to have an amount of divisors over 500 is %d\n", triangular_number);
+            }
+            break;
         }
 
         if (verbose) {
@@ -125,9 +134,11 @@ void problem_12(bool verbose) {
 
         i++;
     }
+
+    return (long)triangular_number;
 }
 
-void problem_13(bool verbose) {
+long problem_13(bool verbose, bool testing) {
     char large_nums[PRB_13_NUMBERS][PRB_13_DIGITS + 1] = {      //I forogt to add an extra byte for null :(
         { "37107287533902102798797998220837590246510135740250" },
         { "46376937677490009712648124896970078050417018260538" },
@@ -247,17 +258,23 @@ void problem_13(bool verbose) {
     mpz_get_str(truncated_str, 10, result);
     truncated_str[10] = '\0'; // Now it's truncated at 10 chars
 
-    printf("The first ten digits of the sum of the big hundred numbers is: %s\n", truncated_str);
+    if (!testing) {
+        printf("The first ten digits of the sum of the big hundred numbers is: %s\n", truncated_str);
+    }
     mpz_clears(result, current_long_num, NULL);
+    long x = atol(truncated_str);
     free(truncated_str);
+    return x;
 }
 
-void problem_14(bool verbose) {
+long problem_14(bool verbose, bool testing) {
     int highest_chain_count = 3;
     int num_with_highest_chain_count = 2;
 
-    printf("Currently looking for a number below one million who has the highest collatz chain count\n");
-    printf("Collatz chain: it is a problem where certain operations are performed on a positive integer. Said operation if the number is even, divide it by two. If it is odd, triple it and add one. Now we form a sequence by doing this repeatedly starting with any positive integer. A connected conjecture made by Lothar Collatz says that this process will eventually reach the number 1, regardless of which positive integer is chosen initially.\n");
+    if (!testing) {
+        printf("Currently looking for a number below one million who has the highest collatz chain count\n");
+        printf("Collatz chain: it is a problem where certain operations are performed on a positive integer. Said operation if the number is even, divide it by two. If it is odd, triple it and add one. Now we form a sequence by doing this repeatedly starting with any positive integer. A connected conjecture made by Lothar Collatz says that this process will eventually reach the number 1, regardless of which positive integer is chosen initially.\n");
+    }
 
     for (int i = 2; i < 1000000; i++) {
         int current_chain_count = collatz_chain(i);
@@ -272,10 +289,14 @@ void problem_14(bool verbose) {
         }
     }
 
-    printf("The number with the highest Collatz(?) chain number is %d\n", num_with_highest_chain_count);
+    if (!testing) {
+        printf("The number with the highest Collatz(?) chain number is %d\n", num_with_highest_chain_count);
+    }
+
+    return (long)num_with_highest_chain_count;
 }
 
-void problem_15(bool verbose) {
+long problem_15(bool verbose, bool testing) {
     // I have read up some stuff and what I got is a combinatorial solution nCr
     // https://www.robertdickau.com/manhattan.html
     int grid_size = 20;
@@ -286,5 +307,9 @@ void problem_15(bool verbose) {
         printf("Now running the combinatorial formula n! / r!(n - r)! to the lattice paths problem\n");
     }
 
-    printf("The number of lattice paths available from the top left to the bottom right in a 20 by 20 square grid and can only move right and down is %ld\n", nCr);
+    if (!testing) {
+        printf("The number of lattice paths available from the top left to the bottom right in a\n 20 by 20 square grid and can only move right and down is %ld\n", nCr);
+    }
+
+    return nCr;
 }

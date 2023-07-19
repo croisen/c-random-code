@@ -1,13 +1,17 @@
 #include <gmp.h>
+#include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
-#include <math.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "math_funcs.h"
 
 
-void not_implemented(int problem_num, bool verbose) {
-    printf("There is no function to solve for problem #%d yet sadly, also verbose is set to: %d\n", problem_num, verbose);
+void not_implemented(int problem_num, bool verbose, bool testing) {
+    if (!testing) {
+        printf("There is no function to solve for problem #%d yet sadly, also verbose is set to: %d\n", problem_num, verbose);
+    }
 }
 
 bool art_thou_prime(long num) {
@@ -73,4 +77,23 @@ long combinatorial(long n, long r) {
     mpz_clears(n1, C, r1, NULL);
 
     return result;
+}
+
+unsigned char *num_to_char(long num) {
+    long m = num, digits = 0;
+
+    while (m) {
+        digits++;
+        m /= 10;
+    }
+
+    unsigned char *arr = (unsigned char *)malloc(digits + 1);
+    int index = digits - 1;
+
+    while (num) {
+        arr[index--] = (num % 10) + '0';
+        num /= 10;
+    }
+
+    return arr;
 }

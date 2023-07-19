@@ -39,6 +39,13 @@ static struct argp_option option[] = {
         0
     },
     {
+        "testing-mode",
+        't',
+        0, 0,
+        "Will set testing mode to true if this option is used.",
+        1
+    },
+    {
         "help",
         'h',
         0, 0,
@@ -65,6 +72,7 @@ static struct argp_option option[] = {
 struct arguments {
     mpz_t problem_num;
     bool verbose;
+    bool testing;
 };
 
 
@@ -84,6 +92,9 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state) {
                 gmp_fprintf(state->err_stream, "The argument passed to -p %Zd is beyond normal bud\n", args->problem_num);
                 exit(argp_err_exit_status);
             }
+            break;
+        case 't':
+            args->testing = true;
             break;
         case 'v':
             args->verbose = true;
@@ -116,9 +127,17 @@ int main(int argc, char **argv) {
     struct arguments args;
     mpz_init_set_ui(args.problem_num, 1);
     args.verbose = false;
+    args.testing = false;
 
     argp_parse(&argp, argc, argv, ARGP_NO_HELP, 0, &args);
-    gmp_printf("Trying to get the function to solve projecteuler's problem #%Zd...\n", args.problem_num);
-    get_function(mpz_get_si(args.problem_num), args.verbose);
+
+    if (args.testing) {
+        printf("Currently testing the sha256 sum of my answers to the sha256 sum of the correct answers...\n");
+        args.verbose = false;
+    } else {
+        gmp_printf("Trying to get the function to solve projecteuler's problem #%Zd...\n", args.problem_num);
+    }
+
+    get_function(mpz_get_si(args.problem_num), args.verbose, args.testing);
     return 0;
 }
