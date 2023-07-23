@@ -6,6 +6,7 @@ SOURCES = $(wildcard helper/*.c)
 
 CC = gcc
 CFLAGS = -Wall -Wpedantic -Wextra -Werror -march=native -Ofast
+# No static for now, I have no static libraries :(
 LIBS = -lm -lssl -lcrypto -lgmp
 
 all: clean $(EXE)
