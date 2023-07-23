@@ -80,8 +80,8 @@ void get_function(int problem_num, bool verbose, bool testing_mode) {
             if (strcmp((const char*)hash, correct_hash) == 0) {
                 printf("Problem #%3d: \033[1;32mPASSED\033[0;0m\n", i + 1);
             } else {
-                printf("Problem #%3d: \033[1;31mFAILED\033[0;0m, Expected hash: %s\n",
-                       i + 1, correct_hash);
+                printf("Problem #%3d: \033[1;31mFAILED\033[0;0m, My Ans: %ld\nCurrent  Hash: %s\nExpected hash: %s\n",
+                       i + 1, x, hash, correct_hash);
             }
 
             i++;

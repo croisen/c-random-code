@@ -51,6 +51,16 @@ int collatz_chain(long num) {
     return chain_count;
 }
 
+int compare_num(int left, int right) {
+    if (left > right) {
+        return 0;
+    } else if (left < right) {
+        return 1;
+    } else {
+        return 2; // I sure do hope this does not happen for problem 18 and 67
+    }
+}
+
 int reverse_an_integer(int num) {
     int remainder = 0, reverse = 0;
 
