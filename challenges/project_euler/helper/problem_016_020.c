@@ -1,5 +1,6 @@
 #include <gmp.h>
 #include <stdbool.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -8,6 +9,8 @@
 
 
 long problem_16(bool verbose, bool testing) {
+    // Using gmp to get 2^1000, then taking it's digits and summing it all up
+
     if (!testing) {
         printf("Currently summing up the digits in 2^1000...\n");
     }
@@ -39,6 +42,9 @@ long problem_16(bool verbose, bool testing) {
 }
 
 long problem_17(bool verbose, bool testing) {
+    // I used strlen after confirming if it's a single digit num, a teen num, 20 above, 100 above
+    // and 1000
+
     char *ones[] = {
         "", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
         "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
@@ -138,9 +144,104 @@ long problem_17(bool verbose, bool testing) {
     return (long)total_number_of_letters;
 }
 
+void print_pr18_pyr(int pyramid[15][15], int offsets[15]) {
+    // Well I did have a massive printf statement that has spaces and all indexes to it
+    // Then I counted the amount of spaces and I realized it can be predicted so it forms
+    // a pyramid aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+    for (int layer = 0; layer < 15; layer++) {
+        for (int space = 14 - layer; space > 0; space--) {
+            printf("  ");
+        }
+
+        for (int index = 0; index < 15; index++) {
+            if (pyramid[layer][index] != 0) { // Well I can only do this to check if it ain't empty
+                if ((offsets == NULL) || (index != offsets[layer])) {
+                    printf("%02d  ", pyramid[layer][index]);
+                } else {
+                    printf("\033[1;31m%02d\033[0;0m  ", pyramid[layer][index]);
+                }
+            }
+        }
+
+        printf("\n");
+    }
+    printf("\n\n");
+}
+
 long problem_18(bool verbose, bool testing) {
-    not_implemented(18, verbose, testing);
-    return 0;
+    // Look ma, I built a pyramid
+    // Anyways there will be a function that returns 0 or 1 depending on which number
+    // is bigger, 0 if left, 1 if right
+    // Using the output of that it could be used as an offset if used collectively
+    // when going through layer by layer to get the number below the bigger number
+    // in the pyramid.
+    // Lemme explain (I can already feel that this is gonna be long
+    // as I cannot explain things)
+
+    // Sample is:
+    //     75
+    //    9  20
+    //  0   4   6
+    //  The one with 75 has an index of 0 so let's add 0 to the offset that is currently 0
+    //  then to get the index of the two numbers below 75 you add the offset to 0 and 1 to get
+    //  the left number below and right number below 75 respectively.
+    //  Let's say the function that compares numbers looks like this:
+    //  compare(int left, int right);
+
+    //  Now the compare function will return 1 as the second argument 20 is bigger than 9
+    //  This is where the offset will make sense as now we add 1 to it
+    //  Using the index 0 and 1 to get the left and right number, when we add the offset to it
+    //  we will get the left and right numbers below 20 respectively that being 4 and 6
+
+    //  Does this serve as an explanation? Even I am confused now that I'm trying to do this
+    //  Well it doesn't really serve well though since if it ignores a path that starts with
+    //  a small number but ends with a large sum
+
+    int number_pyramid[15][15] = {
+                                        {75},
+                                      {95, 64},
+                                    {17, 47, 82},
+                                  {18, 35, 87, 10},
+                                {20,  4, 82, 47, 65},
+                              {19,  1, 23, 75,  3, 34},
+                            {88,  2, 77, 73,  7, 63, 67},
+                          {99, 65,  4, 28,  6, 16, 70, 92},
+                        {41, 41, 26, 56, 83, 40, 80, 70, 33},
+                      {41, 48, 72, 33, 47, 32, 37, 16, 94, 29},
+                    {53, 71, 44, 65, 25, 43, 91, 52, 97, 51, 14},
+                  {70, 11, 33, 28, 77, 73, 17, 78, 39, 68, 17, 57},
+                {91, 71, 52, 38, 17, 14, 91, 43, 58, 50, 27, 29, 48},
+              {63, 66,  4, 68, 89, 53, 67, 30, 73, 16, 69, 87, 40, 31},
+            { 4, 62, 98, 27, 23,  9, 70, 98, 73, 93, 38, 53, 60,  4, 23},
+    };
+    int offsets[15];
+    int offset = 0;
+    long total = 0;
+
+    if (!testing) {
+        printf("Trying to find the maximum total from top to bottom from this triangle\n");
+        printf("By starting at the top of the triangle below and moving to adjacent\n");
+        printf("numbers on the row below\n");
+    }
+
+    for (int layer = 0; layer < 15; layer++) {
+        offset += compare_num(number_pyramid[layer][0 + offset], number_pyramid[layer][1 + offset]);
+        offsets[layer] = offset;
+        total += number_pyramid[layer][offset];
+
+        if (verbose) {
+            printf("Layer: %2d Offset: %2d Value: %2d\n", layer, offset, number_pyramid[layer][offset]);
+        }
+    }
+
+
+    if (!testing) {
+        print_pr18_pyr(number_pyramid, offsets);
+        printf("In the triangle by starting at the top of the triangle\nbelow and moving to adjacent numbers on the row below,\nthe maximum total from top to bottom is: %ld\n", total);
+    }
+
+    return total;
 }
 
 long problem_19(bool verbose, bool testing) {
@@ -149,6 +250,32 @@ long problem_19(bool verbose, bool testing) {
 }
 
 long problem_20(bool verbose, bool testing) {
-    not_implemented(20, verbose, testing);
-    return 0;
+    mpz_t factorial, result, mod10;
+    mpz_inits(factorial, result, mod10, NULL);
+    mpz_set_ui(result, 0);
+    mpz_fac_ui(factorial, 100);
+
+    long sum_of_digits = 0;
+
+    if (!testing) {
+        printf("Currently summing up the digits of 100! (100 factorial)...\n");
+    }
+
+    while (mpz_cmp_si(factorial, 0)) {
+        if (verbose) {
+            gmp_printf("Factorial digits: %Zd, Current sum = %Zd\n", factorial, result);
+        }
+
+        mpz_mod_ui(mod10, factorial, 10);
+        mpz_div_ui(factorial, factorial, 10);
+        mpz_add(result, result, mod10);
+    }
+
+    sum_of_digits = (long)mpz_get_ui(result);
+
+    if (!testing) {
+        gmp_printf("The sum of all the digits of 100! (100 factorial) is %Zd\n", result);
+    }
+
+    return sum_of_digits;
 }
