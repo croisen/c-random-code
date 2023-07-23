@@ -30,6 +30,10 @@ void print_pr11_grid(int number_grid[PRB_11_ROWS][PRB_11_COLS]) {
 
 long problem_11(bool verbose, bool testing) {
     // With my limited knowledge of vim, writing this grid took a long time :(
+    // The various iterators used in the number_grid in the for loop below
+    // is how it gets the vertical, horizontal and diagonal arrangement of
+    // the numbers in the grid.
+
     int number_grid[PRB_11_ROWS][PRB_11_COLS] = {
         { 8,  2, 22, 97, 38, 15,  0, 40,  0, 75,  4,  5,  7, 78, 52, 12, 50, 77, 91,  8},
         {49, 49, 99, 40, 17, 81, 18, 57, 60, 87, 17, 40, 98, 43, 69, 48,  4, 56, 62,  0},
@@ -100,6 +104,14 @@ long problem_11(bool verbose, bool testing) {
 }
 
 long problem_12(bool verbose, bool testing) {
+    // Using a for loop then using the iterator as a starter for the equation
+    // n(n + 1) / 2 to get a triangular number. Now a for loop is started from 1 to
+    // the square root of the number, if there's no remainder from dividing the triangular number
+    // from the new iterator then I increase the number of numbers that can evenly divide
+    // this triangular number by 2 as the quotient from that is also a number that can evenly
+    // divide the triangular number and is probably not below the square root of the triangular
+    // number (well that was long, but that was my thought process)
+
     int divisors = 0, triangular_number = 0, i = 1;
 
     if (!testing) {
@@ -139,6 +151,13 @@ long problem_12(bool verbose, bool testing) {
 }
 
 long problem_13(bool verbose, bool testing) {
+    // While wondering why if I try to print this large nums char array it goes straight to the end
+    // it's because I forgot that +1 there before.
+    // Using an iterator to go through this characters, I use the GNU Big Arithmetic lib
+    // to turn these chars to bignums or mpz_t and add them together
+    // After that I turn the sum back into a char, and after counting 10 characters, I turn the
+    // 11th character into a null (\0) byte so printf stops there
+
     char large_nums[PRB_13_NUMBERS][PRB_13_DIGITS + 1] = {      //I forogt to add an extra byte for null :(
         { "37107287533902102798797998220837590246510135740250" },
         { "46376937677490009712648124896970078050417018260538" },
@@ -254,7 +273,9 @@ long problem_13(bool verbose, bool testing) {
             printf("Current index: %2d, num: %s\n", i, large_nums[i]);
         }
     }
-    char *truncated_str = malloc(mpz_sizeinbase(result, 10) + 1);//Again do not forget the space for the null byte
+    char *truncated_str = malloc(mpz_sizeinbase(result, 10) + 1);
+    //Again do not forget the space for the null byte
+
     mpz_get_str(truncated_str, 10, result);
     truncated_str[10] = '\0'; // Now it's truncated at 10 chars
 
@@ -268,6 +289,9 @@ long problem_13(bool verbose, bool testing) {
 }
 
 long problem_14(bool verbose, bool testing) {
+    // Welp the explanation is already in the printf functions... (It's unreadable here though
+    // sorry)
+
     int highest_chain_count = 3;
     int num_with_highest_chain_count = 2;
 
@@ -299,6 +323,12 @@ long problem_14(bool verbose, bool testing) {
 long problem_15(bool verbose, bool testing) {
     // I have read up some stuff and what I got is a combinatorial solution nCr
     // https://www.robertdickau.com/manhattan.html
+
+    // But I do not really know about these lattice paths since my math teachers only focus
+    // on what the Department of Education wants them to teach, even then there's not enough room
+    // for both grade 11 and grade 12 students so less time to teach thus resulting in incomplete
+    // teachings. (Sorry this turned to a rant)
+
     int grid_size = 20;
     int n = grid_size * 2;
     long nCr = combinatorial(n, grid_size);

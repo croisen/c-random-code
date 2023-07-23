@@ -9,6 +9,8 @@
 
 
 long problem_6(bool verbose, bool testing) {
+    // From 1 to 100 this is what happened ( summation(x)^2 ) - summation(x^2)
+
     int number_of_natural_numbers = 100;
     int squared_sum = 0;
     int sum_of_squared = 0;
@@ -42,6 +44,10 @@ long problem_6(bool verbose, bool testing) {
 
 
 long problem_7(bool verbose, bool testing) {
+    // Using the function made to check if a number is a prime number
+    // the while loop increases the number tested, and if said function returns true
+    // the prime count increases until it reaches 10001
+
     int target_prime_count = 10001;
     int prime_count = 0;
     int x = 2;
@@ -73,6 +79,10 @@ long problem_7(bool verbose, bool testing) {
 }
 
 long problem_8(bool verbose, bool testing) {
+    // The for loop is taking numbers from the scary long number that are adjacent to each other
+    // then multiplying them together, after that the product is compared from the product of
+    // the previous numbers
+
     char scary_long_num[] = "7316717653133062491922511967442657474235534919493496983520312774506326239578318016984801869478851843858615607891129494954595017379583319528532088055111254069874715852386305071569329096329522744304355766896648950445244523161731856403098711121722383113622298934233803081353362766142828064444866452387493035890729629049156044077239071381051585930796086670172427121883998797908792274921901699720888093776657273330010533678812202354218097512545405947522435258490771167055601360483958644670632441572215539753697817977846174064955149290862569321978468622482839722413756570560574902614079729686524145351004748216637048440319989000889524345065854122758866688116427171479924442928230863465674813919123162824586178664583591245665294765456828489128831426076900422421902267105562632111110937054421750694165896040807198403850962455444362981230987879927244284909188845801561660979191338754992005240636899125607176060588611646710940507754100225698315520005593572972571636269561882670428252483600823257530420752963450";
     char one_char[2]; one_char[1] = '\0';
     int atoi_out = 0;
@@ -117,6 +127,9 @@ long problem_8(bool verbose, bool testing) {
 }
 
 long problem_9(bool verbose, bool testing) {
+    // Brute forcing pythagorean triplets via for loops, while the if statements just check
+    // if it's actually a pythagorean triplet and is equal to 1000
+
     int a_sqared = 0, b_squared = 0, c_squared = 0, ans = 0;
 
     if (!testing) {
@@ -132,9 +145,16 @@ long problem_9(bool verbose, bool testing) {
                     c_squared = c * c;
                 }
 
+                if (((a_sqared + b_squared) == c_squared) && (verbose)) {
+                        printf("Current pythagorean triplets, a:%3d b:%3d c:%3d\n",
+                               a, b, c);
+                }
+                
+
 
                 if (a + b + c == 1000 && a_sqared + b_squared == c_squared) {
                     ans = a*b*c;
+
                     if (!testing) {
                         printf("The Pythagorean triplet where a + b + c is equal to 1000, the product of a, b, and c is: %d\n", ans);
                     }
@@ -143,15 +163,18 @@ long problem_9(bool verbose, bool testing) {
                         printf("Said pythagorean triplet is a=%d, b=%d, c=%d\n", a, b, c);
                     }
 
+                    return (long)ans;
                 }
             }
         }
     }
 
-    return (long)ans;
+    return 0; // -Wall -Wpedantic and -Werror is complaining :(
 }
 
 long problem_10(bool verbose, bool testing) {
+    // Using the prime number check function again to find prime numbers and add them together
+
     long result = 0;
 
     if (!testing) {

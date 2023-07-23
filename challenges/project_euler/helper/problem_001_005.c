@@ -7,6 +7,9 @@
 
 
 long problem_1(bool verbose, bool testing) {
+    // Just an if else statement to check if a number is divisible by  3 or 5
+    // Then summing it all up
+
     int result = 0;
 
     if (!testing){
@@ -31,6 +34,9 @@ long problem_1(bool verbose, bool testing) {
 }
 
 long problem_2(bool verbose, bool testing) {
+    // The fibonacci sequence, then checking if the number from said sequence is even
+    // Then summing it all up
+
     int a = 1, b = 2, c = 0, result = 0;
 
     if (!testing) {
@@ -59,6 +65,11 @@ long problem_2(bool verbose, bool testing) {
 }
 
 long problem_3(bool verbose, bool testing) {
+    // Have a function that checks if a number is prime, after that we try to divide it to the
+    // Big number, if there's no remainder then it's a prime factor.
+    // We just have an iterator that goes from two (cause everything's divisible by 1) up to
+    // the square root of the big number
+
     long big_number = 600851475143;
     long highest_prime = 0;
     long square_root = sqrt(big_number);
@@ -84,6 +95,9 @@ long problem_3(bool verbose, bool testing) {
 }
 
 long problem_4(bool verbose, bool testing) {
+    // Testing for palindrome products by iterating two numbers from 100 to 999
+    // then checking if it's higher than the previous palindrome product
+
     int x_times_y = 0;
     int reversed_product;
     int highest_palindrome = 0;
@@ -118,6 +132,9 @@ long problem_4(bool verbose, bool testing) {
 }
 
 long problem_5(bool verbose, bool testing) {
+    // Has a while loop that stops if the function that checks if a number is divisible
+    // by 1 through 20 returns true
+
     bool continue_loop = true;
     int divisors = 20;
     long x = divisors;
