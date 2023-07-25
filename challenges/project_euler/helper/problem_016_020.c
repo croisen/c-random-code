@@ -144,17 +144,17 @@ long problem_17(bool verbose, bool testing) {
     return (long)total_number_of_letters;
 }
 
-void print_pr18_pyr(int pyramid[15][15], int offsets[15]) {
+void print_pr18_pyr(int pyramid[][15], int *offsets, int layers) {
     // Well I did have a massive printf statement that has spaces and all indexes to it
     // Then I counted the amount of spaces and I realized it can be predicted so it forms
     // a pyramid aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 
-    for (int layer = 0; layer < 15; layer++) {
+    for (int layer = 0; layer < layers; layer++) {
         for (int space = 14 - layer; space > 0; space--) {
             printf("  ");
         }
 
-        for (int index = 0; index < 15; index++) {
+        for (int index = 0; index < layers; index++) {
             if (pyramid[layer][index] != 0) { // Well I can only do this to check if it ain't empty
                 if ((offsets == NULL) || (index != offsets[layer])) {
                     printf("%02d  ", pyramid[layer][index]);
@@ -196,7 +196,7 @@ long problem_18(bool verbose, bool testing) {
 
     //  Does this serve as an explanation? Even I am confused now that I'm trying to do this
     //  Well it doesn't really serve well though since if it ignores a path that starts with
-    //  a small number but ends with a large sum
+    //  a small number but ends with a large sum. Basically this is just searching at depth 1
 
     int number_pyramid[15][15] = {
                                         {75},
@@ -215,9 +215,6 @@ long problem_18(bool verbose, bool testing) {
               {63, 66,  4, 68, 89, 53, 67, 30, 73, 16, 69, 87, 40, 31},
             { 4, 62, 98, 27, 23,  9, 70, 98, 73, 93, 38, 53, 60,  4, 23},
     };
-    int offsets[15];
-    int offset = 0;
-    long total = 0;
 
     if (!testing) {
         printf("Trying to find the maximum total from top to bottom from this triangle\n");
@@ -225,19 +222,45 @@ long problem_18(bool verbose, bool testing) {
         printf("numbers on the row below\n");
     }
 
-    for (int layer = 0; layer < 15; layer++) {
-        offset += compare_num(number_pyramid[layer][0 + offset], number_pyramid[layer][1 + offset]);
-        offsets[layer] = offset;
-        total += number_pyramid[layer][offset];
+    long total = 0;
+    
+    for (int depth = 1; depth <=10; depth++) {
+        int offsets[15];
+        int offset = 0;
+        total = 0;
 
-        if (verbose) {
-            printf("Layer: %2d Offset: %2d Value: %2d\n", layer, offset, number_pyramid[layer][offset]);
+        for (int layer = 0; layer < 15; layer++) {
+            int choice1 = 0, choice2 = 0;
+
+            // Now trying to add a search depth function to this
+
+            for (int current_depth = 0; current_depth < depth; current_depth++) {
+                choice1 += number_pyramid[layer + current_depth][offset];
+                choice2 += number_pyramid[layer + current_depth][offset + 1];
+
+            }
+
+            if (choice1 < choice2) {
+                offset += 1; 
+            }
+
+            offsets[layer] = offset;
+            total += number_pyramid[layer][offsets[layer]];
+
+            if (verbose) {
+                printf("Layer: %2d Offset: %2d Value: %2d\n", layer, offsets[layer],
+                       number_pyramid[layer][offsets[layer]]);
+            }
+        }
+
+        if (!testing) {
+            printf("Depth: %d, Sum of the red numbers: %ld\n", depth, total);
+            print_pr18_pyr(number_pyramid, offsets, 15);
         }
     }
 
 
     if (!testing) {
-        print_pr18_pyr(number_pyramid, offsets);
         printf("In the triangle by starting at the top of the triangle\nbelow and moving to adjacent numbers on the row below,\nthe maximum total from top to bottom is: %ld\n", total);
     }
 
