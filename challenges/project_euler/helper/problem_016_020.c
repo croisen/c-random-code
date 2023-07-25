@@ -224,19 +224,23 @@ long problem_18(bool verbose, bool testing) {
 
     long total = 0;
     
-    for (int depth = 1; depth <=10; depth++) {
+    for (int depth = 1; depth <= 3; depth++) {
         int offsets[15];
         int offset = 0;
         total = 0;
 
         for (int layer = 0; layer < 15; layer++) {
-            int choice1 = 0, choice2 = 0;
+            int choice1 = 0, choice2 = 0, depth_offset = 0;
 
             // Now trying to add a search depth function to this
-
             for (int current_depth = 0; current_depth < depth; current_depth++) {
-                choice1 += number_pyramid[layer + current_depth][offset];
-                choice2 += number_pyramid[layer + current_depth][offset + 1];
+                if (number_pyramid[layer + current_depth][offset + depth_offset] <
+                    number_pyramid[layer + current_depth][offset + depth_offset + 1]) {
+                    depth_offset += 1;
+                }
+
+                choice1 += number_pyramid[layer + current_depth][offset + depth_offset];
+                choice2 += number_pyramid[layer + current_depth][offset + 1 + depth_offset];
 
             }
 
