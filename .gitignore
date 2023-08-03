@@ -1,2 +1,2 @@
 *.out
-on-my-own/python_scripts/web_scraping/drivers/*
+rust/target
