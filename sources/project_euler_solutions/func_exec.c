@@ -59,7 +59,7 @@ void get_function(int problem_num, bool verbose, bool testing_mode) {
     if (!testing_mode) {
         (void)function_array[problem_num - 1](verbose, testing_mode);
     } else {
-        FILE *fp = fopen("./sources/hashes/solutions.txt", "r");
+        FILE *fp = fopen("./sources/project_euler_solutions/hashes.txt", "r");
         if (fp == NULL) {
             printf("solutions.txt cannot be found\n");
             printf("It should be in ./sources/hashes/solutions.txt\n");

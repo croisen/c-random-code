@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "solutions/func_exec.h"
+#include "project_euler_solutions/func_exec.h"
 #define USAGE 0x123
 
 

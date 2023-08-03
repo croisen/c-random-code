@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -Wpedantic -Wextra -Werror -march=native -O3
 
-PROJECT_EULER_SRC  = $(wildcard sources/solutions/*.c)
+PROJECT_EULER_SRC  = $(wildcard sources/project_euler_solutions/*.c)
 PROJECT_EULER_MAIN = sources/project_euler.c
 PROJECT_EULER_LIBS = -lm -lgmp -lcrypto -lssl
 
