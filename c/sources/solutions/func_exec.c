@@ -59,9 +59,10 @@ void get_function(int problem_num, bool verbose, bool testing_mode) {
     if (!testing_mode) {
         (void)function_array[problem_num - 1](verbose, testing_mode);
     } else {
-        FILE *fp = fopen("./hashes/solutions.txt", "r");
+        FILE *fp = fopen("./sources/hashes/solutions.txt", "r");
         if (fp == NULL) {
-            printf("sha256_sols.txt cannot be found\n");
+            printf("solutions.txt cannot be found\n");
+            printf("It should be in ./sources/hashes/solutions.txt\n");
             return;
         }
 
