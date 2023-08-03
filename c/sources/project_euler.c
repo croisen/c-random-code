@@ -1,0 +1,151 @@
+#include <argp.h>
+#include <ctype.h>
+#include <gmp.h>
+#include <limits.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "solutions/func_exec.h"
+#define USAGE 0x123
+
+
+// Argp stuff for program name, version, email, and documentation
+const char *argp_program_version = "croi_proj_euler_solutions v0.1.8";
+const char *argp_program_bug_address = "<absolutenico32@gmail.com>";
+static char doc[] =
+    "Echoes solutions for projecteuler.net (only from 1 to 17 and 20 right now though)";
+static char args_doc[] = "";
+
+// Error code when parsing fails
+error_t argp_err_exit_status = 69;
+
+// Options for argp.h
+static struct argp_option option[] = {
+    {
+        "problem-number",
+        'p',
+        "<problem number>",
+        0,
+        "Specifies which problem to solve",
+        0
+    },
+    {
+        "verbose",
+        'v',
+        0, 0,
+        "Will output more text related to the function solving the projecteuler problem.\
+\n\033[1;31mWARNING: it makes the program slower as it outputs it's stuff to stdout\033[0;0m",
+        0
+    },
+    {
+        "testing-mode",
+        't',
+        0, 0,
+        "Will set testing mode to true if this option is used. This option expect a file called\
+solutions.txt in a directory called hashes.",
+        1
+    },
+    {
+        "help",
+        'h',
+        0, 0,
+        "Prints this help list",
+        -1
+    },
+    {
+        "usage",
+        USAGE,
+        0, 0, 
+        "Shows the usage of this program",
+        -1
+    },
+    {
+        "version",
+        'V',
+        0, 0,
+        "Prints the program name and version number",
+        -1
+    },
+    { 0 }
+};
+
+struct arguments {
+    mpz_t problem_num;
+    bool verbose;
+    bool testing;
+};
+
+
+static error_t parse_opt (int key, char *arg, struct argp_state *state) {
+    struct arguments *args = state->input;
+
+    switch(key) {
+        case 'p':
+            if (isdigit((unsigned char)*arg)) {
+                mpz_set_str(args->problem_num, arg, 10);
+            } else {
+                fprintf(state->err_stream, "The argument passed to the -p option %s is not valid\n", arg);
+                exit(argp_err_exit_status);
+            }
+
+            if (mpz_cmp_si(args->problem_num, INT_MAX) > 0) {
+                gmp_fprintf(state->err_stream, "The argument %Zd passed to -p is beyond normal bud\n", args->problem_num);
+                exit(argp_err_exit_status);
+            }
+            break;
+
+        case 't':
+            args->testing = true;
+            break;
+
+        case 'v':
+            args->verbose = true;
+            break;
+
+        case 'h':
+            argp_state_help(state, state->out_stream, ARGP_HELP_STD_HELP);
+            exit(0);
+
+        case USAGE:
+            argp_state_help(state, state->out_stream, ARGP_HELP_USAGE | ARGP_HELP_EXIT_OK);
+            exit(0);
+
+        case 'V':
+            fprintf(state->out_stream, "%s\n", argp_program_version);
+            exit(0);
+
+        case ARGP_KEY_END:
+            if (state->arg_num == 1) {
+                argp_state_help(state, state->out_stream, ARGP_HELP_STD_HELP);
+                exit(0);
+            }
+            break;
+
+        default:
+            return ARGP_ERR_UNKNOWN;
+    }
+    return 0;
+}
+
+static struct argp argp = { option, parse_opt, args_doc, doc, 0, 0, 0 };
+
+int main(int argc, char **argv) {
+    // Default arguments
+    struct arguments args;
+    mpz_init_set_ui(args.problem_num, 1);
+    args.verbose = false;
+    args.testing = false;
+
+    argp_parse(&argp, argc, argv, ARGP_NO_HELP, 0, &args);
+
+    if (args.testing) {
+        printf("Currently testing the sha256 sum of my answers to the sha256 sum of the correct answers...\n");
+        args.verbose = false;
+    } else {
+        gmp_printf("Trying to get the function to solve projecteuler's problem #%Zd...\n", args.problem_num);
+    }
+
+    get_function(mpz_get_si(args.problem_num), args.verbose, args.testing);
+    return 0;
+}
