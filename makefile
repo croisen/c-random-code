@@ -20,4 +20,6 @@ project_euler:
 	$(CC) $(CFLAGS) -o build/project_euler.out $(PROJECT_EULER_SRC) $(PROJECT_EULER_MAIN) $(PROJECT_EULER_LIBS)
 
 clean:
-	-rm -f -v build/*
+	mkdir -p build/
+	-rm -f build/*
+	echo "dummy" >> build/dummy.dummy

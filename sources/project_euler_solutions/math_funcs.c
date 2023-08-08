@@ -17,7 +17,9 @@ void not_implemented(int problem_num, bool verbose, bool testing) {
 bool art_thou_prime(long num) {
     long square_root = (long)sqrt(num);
 
-    for (long i = 2; i <= square_root; i++) {
+    if (num % 2 == 0) { return false; }
+
+    for (long i = 3; i <= square_root; i += 2) {
         if (num % i == 0) {
             return false;
         }
