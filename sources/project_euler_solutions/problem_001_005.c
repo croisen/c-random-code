@@ -135,32 +135,26 @@ long problem_5(bool verbose, bool testing) {
     // Has a while loop that stops if the function that checks if a number is divisible
     // by 1 through 20 returns true
 
-    bool continue_loop = true;
-    int divisors = 20;
-    long x = divisors;
+    long divisors = 20;
+    long i = divisors;
 
     if (!testing) {
         printf("Currently testing for a number that is evenly divisible by 1 through 20\n");
     }
-
     if (verbose) {
         printf("You've set verbose to true, this is gonna take some time so I'mma give the answer first then start brute forcing for it: 232792560\n");
     }
-
-    while (continue_loop) {
+    while (true) {
         if (verbose) {
-            printf("\rCurrent number: %ld", x);
+            printf("\rCurrent number: %ld", i);
         }
-
-        if (is_divisible_by_one_through_n(x, divisors) && !testing) {
-            printf("\nLowest number that is evenly divisible by 1 to %d is %ld\n", divisors, x);
-            continue_loop = false;
-        } else if (is_divisible_by_one_through_n(x, divisors)) {
-            continue_loop = false;
-        } else {
-            x += divisors;
+        if (is_divisible_by_one_through_n(i, divisors)) {
+            if (!testing) {
+                printf("\nLowest number that is evenly divisible by 1 to %ld is %ld\n", divisors, i);
+            }
+            break;
         }
+        i += divisors;
     }
-
-    return (long)x;
+    return (long)i;
 }

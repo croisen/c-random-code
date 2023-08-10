@@ -17,7 +17,8 @@ void not_implemented(int problem_num, bool verbose, bool testing) {
 bool art_thou_prime(long num) {
     long square_root = (long)sqrt(num);
 
-    if (num % 2 == 0) { return false; }
+    if (num == 1)                     { return false; }
+    if ((num % 2 == 0) && (num != 2)) { return false; }
 
     for (long i = 3; i <= square_root; i += 2) {
         if (num % i == 0) {
@@ -28,8 +29,8 @@ bool art_thou_prime(long num) {
 }
 
 
-bool is_divisible_by_one_through_n(long number, int divisors) {
-    for (int i = 1; i <= divisors; i++) {
+bool is_divisible_by_one_through_n(long number, long divisors) {
+    for (long i = 2; i <= divisors; i++) {
         if (number % i != 0) {
             return false;
         }

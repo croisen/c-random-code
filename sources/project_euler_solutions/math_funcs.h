@@ -4,7 +4,7 @@
 void not_implemented(int problem_num, bool verbose, bool testing);
 
 bool art_thou_prime(long num);
-bool is_divisible_by_one_through_n(long number, int divisors);
+bool is_divisible_by_one_through_n(long number, long divisors);
 
 int collatz_chain(long num);
 int compare_num(int left, int right);

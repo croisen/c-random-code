@@ -59,10 +59,15 @@ void get_function(int problem_num, bool verbose, bool testing_mode) {
     if (!testing_mode) {
         (void)function_array[problem_num - 1](verbose, testing_mode);
     } else {
-        FILE *fp = fopen("./sources/project_euler_solutions/hashes.txt", "r");
+        FILE *fp = fopen("./sources/project_euler_solutions/project_euler_hashes.txt", "r");
         if (fp == NULL) {
-            printf("solutions.txt cannot be found\n");
-            printf("It should be in ./sources/hashes/solutions.txt\n");
+            fp = fopen("./project_euler_hashes.txt", "r");
+        }
+
+        if (fp == NULL) {
+            printf("project_euler_hashes.txt cannot be found\n");
+            printf("It should be in the same directory as this executable\n");
+            printf("Or it should be in your current working directory as you run this executable\n");
             return;
         }
 
