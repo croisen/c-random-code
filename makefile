@@ -30,9 +30,7 @@ making_the_z_table:
 	$(CC) $(CFLAGS) -o $(Z_TABLE_EXE) $(Z_TABLE_SRC) $(Z_TABLE_LIBS)
 
 project_euler:
-	$(CC) $(CFLAGS) -o $(PROJECT_EULER_EXE) $(PROJECT_EULER_MAIN)\
-		$(PROJECT_EULER_SRC)\
-		$(PROJECT_EULER_LIBS)
+	$(CC) $(CFLAGS) -o $(PROJECT_EULER_EXE) $(PROJECT_EULER_MAIN) $(PROJECT_EULER_SRC) $(PROJECT_EULER_LIBS)
 
 clean:
 	-rm -f build/*.out
