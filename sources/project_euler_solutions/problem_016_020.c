@@ -170,33 +170,6 @@ void print_pr18_pyr(int pyramid[][15], int *offsets, int layers) {
 }
 
 long problem_18(bool verbose, bool testing) {
-    // Look ma, I built a pyramid
-    // Anyways there will be a function that returns 0 or 1 depending on which number
-    // is bigger, 0 if left, 1 if right
-    // Using the output of that it could be used as an offset if used collectively
-    // when going through layer by layer to get the number below the bigger number
-    // in the pyramid.
-    // Lemme explain (I can already feel that this is gonna be long
-    // as I cannot explain things)
-
-    // Sample is:
-    //     75
-    //    9  20
-    //  0   4   6
-    //  The one with 75 has an index of 0 so let's add 0 to the offset that is currently 0
-    //  then to get the index of the two numbers below 75 you add the offset to 0 and 1 to get
-    //  the left number below and right number below 75 respectively.
-    //  Let's say the function that compares numbers looks like this:
-    //  compare(int left, int right);
-
-    //  Now the compare function will return 1 as the second argument 20 is bigger than 9
-    //  This is where the offset will make sense as now we add 1 to it
-    //  Using the index 0 and 1 to get the left and right number, when we add the offset to it
-    //  we will get the left and right numbers below 20 respectively that being 4 and 6
-
-    //  Does this serve as an explanation? Even I am confused now that I'm trying to do this
-    //  Well it doesn't really serve well though since if it ignores a path that starts with
-    //  a small number but ends with a large sum. Basically this is just searching at depth 1
 
     int number_pyramid[15][15] = {
                                         {75},
@@ -224,7 +197,7 @@ long problem_18(bool verbose, bool testing) {
 
     long total = 0;
     
-    for (int depth = 1; depth <= 3; depth++) {
+    for (int depth = 1; depth <= 2; depth++) {
         int offsets[15];
         int offset = 0;
         total = 0;
@@ -234,30 +207,36 @@ long problem_18(bool verbose, bool testing) {
             int choice1 = number_pyramid[layer][offset];
             int choice2 = number_pyramid[layer][offset + 1];
 
-            // Now it would consider all the choices below the number
-            // and would search according to the depth given
-            // Well I still do not know what is happening though
 
             for (int current_depth = 1; current_depth < depth; current_depth++) {
+                if (layer + current_depth <= 14) {
+                    /*choice1 += number_pyramid[layer][offset - depth_offset] +*/
+                                /*number_pyramid[layer][offset - depth_offset + 1];*/
+                    /*choice2 += number_pyramid[layer][offset + 1 - depth_offset] +*/
+                                /*number_pyramid[layer][offset - depth_offset + 2];*/
+
+                    if ( number_pyramid[layer + current_depth][offset + depth_offset] < 
+                         number_pyramid[layer + current_depth][offset + depth_offset + 1] )
+                    {
+                        choice1 += number_pyramid[layer + current_depth][offset + depth_offset + 1];
+                    }
+                    else
+                    {
+                        choice1 += number_pyramid[layer + current_depth][offset + depth_offset];
+                    }
+                    if ( number_pyramid[layer + current_depth][offset + depth_offset + 1] < 
+                         number_pyramid[layer + current_depth][offset + depth_offset + 2] )
+                    {
+                        choice2 += number_pyramid[layer + current_depth][offset + depth_offset + 2];
+                    }
+                    else
+                    {
+                        choice2 += number_pyramid[layer + current_depth][offset + depth_offset + 1];
+                    }
+                }
+
                 if (choice1 < choice2) {
                     depth_offset += 1; 
-                }
-
-                if (layer + current_depth > 14) {
-                    choice1 += number_pyramid[layer][offset - depth_offset] +
-                                number_pyramid[layer][offset - depth_offset + 1];
-                    choice2 += number_pyramid[layer][offset + 1 - depth_offset] +
-                                number_pyramid[layer][offset - depth_offset + 2];
-                } else {
-                    choice1 += number_pyramid[layer + current_depth][offset - depth_offset] +
-                                number_pyramid[layer + current_depth][offset - depth_offset + 1];
-                    choice2 += number_pyramid[layer + current_depth][offset + 1 - depth_offset] +
-                                number_pyramid[layer + current_depth][offset - depth_offset + 2];
-                }
-
-                if (verbose) {
-                    printf("Layer: %2d Current depth: %2d Choice1: %3d Choice2: %3d Offset: %d\n",
-                           layer, current_depth, choice1, choice2, offset);
                 }
             }
 
@@ -265,16 +244,16 @@ long problem_18(bool verbose, bool testing) {
                 offset += 1; 
             }
 
-            offsets[layer] = offset;
-            total += number_pyramid[layer][offsets[layer]];
-
-            if (verbose) {
-                printf("Layer: %2d Offset: %2d Value: %2d\n", layer, offsets[layer],
-                       number_pyramid[layer][offsets[layer]]);
+            if (layer == 0) {
+                offsets[0] = 0;
+                total += number_pyramid[0][offsets[0]];
+            } else {
+                offsets[layer] = offset;
+                total += number_pyramid[layer][offsets[layer]];
             }
         }
 
-        if (!testing) {
+        if (!testing || verbose) {
             printf("Depth: %d, Sum of the red numbers: %ld\n", depth, total);
             print_pr18_pyr(number_pyramid, offsets, 15);
         }
@@ -284,7 +263,6 @@ long problem_18(bool verbose, bool testing) {
     if (!testing) {
         printf("In the triangle by starting at the top of the triangle\nbelow and moving to adjacent numbers on the row below,\nthe maximum total from top to bottom is: %ld\n", total);
     }
-
     return total;
 }
 
