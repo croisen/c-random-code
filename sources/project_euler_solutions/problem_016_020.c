@@ -196,8 +196,13 @@ long problem_18(bool verbose, bool testing) {
     }
 
     long total = 0;
-    
-    for (int depth = 1; depth <= 2; depth++) {
+
+    // The way it makes a choice whether to go left or right down the number pyramid is
+    // based on the total of the higher choices below it
+    // Though it gets it wrong at depth 1, 4 and above
+    // at depth 2 or 3 though, it gets it right. Maybe it's just luck at my current skill
+
+    for (int depth = 1; depth <= 3; depth++) {
         int offsets[15];
         int offset = 0;
         total = 0;
@@ -209,7 +214,7 @@ long problem_18(bool verbose, bool testing) {
 
 
             for (int current_depth = 1; current_depth < depth; current_depth++) {
-                if (layer + current_depth <= 14) {
+                if (layer + current_depth < 15) {
                     if ( number_pyramid[layer + current_depth][offset + depth_offset] < 
                          number_pyramid[layer + current_depth][offset + depth_offset + 1] )
                     {
@@ -246,9 +251,13 @@ long problem_18(bool verbose, bool testing) {
                 offsets[layer] = offset;
                 total += number_pyramid[layer][offsets[layer]];
             }
+
+            if (verbose) {
+                printf("Layer: %2d Choice_1: %4d Choice_2: %4d\n", layer, choice1, choice2);
+            }
         }
 
-        if (!testing || verbose) {
+        if (!testing) {
             printf("Depth: %d, Sum of the red numbers: %ld\n", depth, total);
             print_pr18_pyr(number_pyramid, offsets, 15);
         }
