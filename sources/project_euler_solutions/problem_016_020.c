@@ -197,7 +197,7 @@ long problem_18(bool verbose, bool testing) {
 
     long total = 0;
     
-    for (int depth = 1; depth <= 3; depth++) {
+    for (int depth = 1; depth <= 2; depth++) {
         int offsets[15];
         int offset = 0;
         total = 0;
