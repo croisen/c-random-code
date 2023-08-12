@@ -197,7 +197,7 @@ long problem_18(bool verbose, bool testing) {
 
     long total = 0;
     
-    for (int depth = 1; depth <= 2; depth++) {
+    for (int depth = 1; depth <= 3; depth++) {
         int offsets[15];
         int offset = 0;
         total = 0;
@@ -210,11 +210,6 @@ long problem_18(bool verbose, bool testing) {
 
             for (int current_depth = 1; current_depth < depth; current_depth++) {
                 if (layer + current_depth <= 14) {
-                    /*choice1 += number_pyramid[layer][offset - depth_offset] +*/
-                                /*number_pyramid[layer][offset - depth_offset + 1];*/
-                    /*choice2 += number_pyramid[layer][offset + 1 - depth_offset] +*/
-                                /*number_pyramid[layer][offset - depth_offset + 2];*/
-
                     if ( number_pyramid[layer + current_depth][offset + depth_offset] < 
                          number_pyramid[layer + current_depth][offset + depth_offset + 1] )
                     {
