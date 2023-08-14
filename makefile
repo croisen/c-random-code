@@ -17,7 +17,11 @@ PROJECT_EULER_EXE  = build/project_euler.out
 PROJECT_EULER_MAIN = sources/project_euler.c
 PROJECT_EULER_LIBS = -lm -lgmp -lcrypto -lssl
 
-all: clean tic_tac_toe munchausen making_the_z_table project_euler
+SNAKE_GAME_EXE     = build/snake_game.out
+SNAKE_GAME_SRC     = sources/snake_game.c
+SNAKE_GAME_LIBS    = -lraylib
+
+all: clean tic_tac_toe munchausen making_the_z_table project_euler snake_game
 	@echo "The executables are now in the build folder"
 
 tic_tac_toe:
@@ -31,6 +35,9 @@ making_the_z_table:
 
 project_euler:
 	$(CC) $(CFLAGS) -o $(PROJECT_EULER_EXE) $(PROJECT_EULER_MAIN) $(PROJECT_EULER_SRC) $(PROJECT_EULER_LIBS)
+
+snake_game:
+	$(CC) $(CFLAGS) -o $(SNAKE_GAME_EXE) $(SNAKE_GAME_SRC) $(SNAKE_GAME_LIBS)
 
 clean:
 	-rm -f build/*.out

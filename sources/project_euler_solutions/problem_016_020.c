@@ -207,11 +207,10 @@ long problem_18(bool verbose, bool testing) {
         int offset = 0;
         total = 0;
 
-        for (int layer = 0; layer < 15; layer++) {
+        for (int layer = 1; layer < 15; layer++) {
             int depth_offset = 0;
             int choice1 = number_pyramid[layer][offset];
             int choice2 = number_pyramid[layer][offset + 1];
-
 
             for (int current_depth = 1; current_depth < depth; current_depth++) {
                 if (layer + current_depth < 15) {
@@ -244,19 +243,16 @@ long problem_18(bool verbose, bool testing) {
                 offset += 1; 
             }
 
-            if (layer == 0) {
-                offsets[0] = 0;
-                total += number_pyramid[0][offsets[0]];
-            } else {
                 offsets[layer] = offset;
                 total += number_pyramid[layer][offsets[layer]];
-            }
 
             if (verbose) {
                 printf("Layer: %2d Choice_1: %4d Choice_2: %4d\n", layer, choice1, choice2);
             }
         }
 
+        offsets[0] = 0;
+        total += number_pyramid[0][offsets[0]];
         if (!testing) {
             printf("Depth: %d, Sum of the red numbers: %ld\n", depth, total);
             print_pr18_pyr(number_pyramid, offsets, 15);
