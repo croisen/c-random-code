@@ -10,7 +10,7 @@ struct Snake {
 
 int main(void) {
     InitWindow(800, 400, "Croisen's Snake game in C");
-    SetTargetFPS(60);
+    SetTargetFPS(120);
     SetWindowState(FLAG_WINDOW_RESIZABLE);
 
     int  windowX            = GetScreenWidth();
@@ -62,7 +62,7 @@ int main(void) {
                        (windowY / 2) - fontSize,
                        fontSize,
                        RAYWHITE);
-
+        DrawFPS(0, 0);
         EndDrawing();
     }
     CloseWindow();
