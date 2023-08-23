@@ -1,52 +1,38 @@
 #include <mpfr.h>
 #include <stdio.h>
 
-#define rndd MPFR_RNDD
+mpfr_t pie, eul;
 
+void init_constants(void);
+void clr__constants(void);
 
-mpfr_t pi_number, euler_num, a, b, c;
+int main(void) {
+    init_constants();
 
-void pdf(mpfr_ptr rop, mpfr_srcptr x);
-void cdf(mpfr_ptr rop, mpfr_srcptr x);
+    mpfr_printf("pi: %.80RNF\ne: %.80RNF\n", pie, eul);
+    (void)printf("Hello, World!\n");
 
-int main() {
-    mpfr_t probability, x;
-    mpfr_inits2((mpfr_prec_t)1024, probability, x, pi_number, euler_num, a, b, c, (mpfr_t*)NULL);
-
-    mpfr_const_pi(pi_number, rndd);
-    mpfr_mul_ui(pi_number, pi_number, 2, rndd);
-    mpfr_sqrt(pi_number, pi_number, rndd);  // sqrt(2pi);
-
-    mpfr_set_str(euler_num,
-                 "2.7182818284590452353602874713526624977572470936999595749669676277240766303535475945713821785251664274", // e
-                 10, rndd);
-    mpfr_set_ui(probability, 0, rndd);
-
-    mpfr_set_str(x, "0.000", 10, rndd);
-    cdf(probability, x);
-    mpfr_printf("%6.RNF %RNF %RNF\n", probability, pi_number, euler_num);
-
-    mpfr_clears(probability, x, pi_number, euler_num, a, b, c, (mpfr_t*)NULL);
+    clr__constants();
     return 0;
 }
 
-void pdf(mpfr_ptr rop, mpfr_srcptr x) {
-    mpfr_sqr(b, x, rndd); // (-x)^2
-    mpfr_neg(b, b, rndd); // -(x^2)
-    mpfr_div_ui(b, b, 2, rndd);
+void init_constants(void) {
+    mpfr_t a;
+    (void)mpfr_inits2(1024, pie, eul, a, (mpfr_ptr)NULL);
+    (void)mpfr_const_pi(pie, MPFR_RNDN);
+    (void)mpfr_set_ui(eul, 0, MPFR_RNDN);
 
-
-    mpfr_pow(b, euler_num, b, rndd); //e^(x^2 / 2)
-    mpfr_div(rop, b, pi_number, rndd); // previous / sqrt(2pi)
-
+    // Since e is not a constant in mpfr.h well I'mma use this instead of a string
+    // e ≈ 1 + 1/1! + 1/2! + 1/3! + ... + 1/1000!
+    for (unsigned long i = 0; i < 1000; i++) {
+        (void)mpfr_fac_ui(a, i, MPFR_RNDN);
+        (void)mpfr_ui_div(a, 1, a, MPFR_RNDN);
+        (void)mpfr_add(eul, eul, a, MPFR_RNDN);
+    }
+    mpfr_clear(a);
 }
 
-void cdf(mpfr_ptr rop, mpfr_srcptr x) {
-    mpfr_set_str(a, "-10.000", 10, rndd);
-
-    for (; mpfr_cmp(x, a) < 1;) {
-        pdf(c, x);
-        mpfr_add(rop, rop, c, rndd);
-        mpfr_add_d(a, a, 0.001F, rndd);
-    }
+void clr__constants(void) {
+    // Better pay respects and clear the memory
+    mpfr_clears(pie, eul, (mpfr_ptr)NULL);
 }

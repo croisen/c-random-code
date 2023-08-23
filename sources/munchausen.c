@@ -40,7 +40,7 @@ bool is_munchausen(long num)
     return (sum == num);
 }
 
-int main() {
+int main(void) {
     printf("Base: %ld LBound: %ld UBound: %ld\n", _base, lbound, ubound);
     clock_t begin = clock();
     for (long i = lbound ; i < ubound; i++) {

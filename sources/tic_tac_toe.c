@@ -54,7 +54,7 @@ int win_check(char (*board)[cols]) {
     return 0;
 }
 
-int main() {
+int main(void) {
     int player_turn = 0, input_int = 0, row = 0, col = 0;
     char input_char[16];
     char board[rows][cols] = {
