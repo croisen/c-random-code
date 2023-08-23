@@ -30,12 +30,11 @@ bool art_thou_prime(long num) {
 
 
 bool is_divisible_by_one_through_n(long number, long divisors) {
-    for (long i = 2; i <= divisors; i++) {
+    for (long i = divisors; 2 <= i; i--) {
         if (number % i != 0) {
             return false;
         }
     }
-
     return true;
 }
 

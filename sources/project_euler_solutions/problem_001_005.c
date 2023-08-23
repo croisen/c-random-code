@@ -141,11 +141,9 @@ long problem_5(bool verbose, bool testing) {
     if (!testing) {
         printf("Currently testing for a number that is evenly divisible by 1 through 20\n");
     }
-    if (verbose) {
-        printf("You've set verbose to true, this is gonna take some time so I'mma give the answer first then start brute forcing for it: 232792560\n");
-    }
+
     while (true) {
-        if (verbose) {
+        if (verbose && i % 1000 == 0) {
             printf("\rCurrent number: %ld", i);
         }
         if (is_divisible_by_one_through_n(i, divisors)) {
