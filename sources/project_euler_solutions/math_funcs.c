@@ -1,26 +1,19 @@
-#include <gmp.h>
-#include <math.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include "math_funcs.h"
 
-
-void not_implemented(int problem_num, bool verbose, bool testing) {
+void not_implemented(int_fast64_t problem_num, bool verbose, bool testing) {
     if (!testing) {
-        printf("There is no function to solve for problem #%d yet sadly, also verbose is set to: %d\n", problem_num, verbose);
+        printf("There is no function to solve for problem #%ld yet sadly, also verbose is set to: %d\n",
+               problem_num, verbose);
     }
 }
 
-bool art_thou_prime(long num) {
-    long square_root = (long)sqrt(num);
+bool art_thou_prime(int_fast64_t num) {
+    int_fast64_t square_root = (long)sqrt(num);
 
     if (num == 1)                     { return false; }
     if ((num % 2 == 0) && (num != 2)) { return false; }
 
-    for (long i = 3; i <= square_root; i += 2) {
+    for (int_fast64_t i = 3; i <= square_root; i += 2) {
         if (num % i == 0) {
             return false;
         }
@@ -29,8 +22,8 @@ bool art_thou_prime(long num) {
 }
 
 
-bool is_divisible_by_one_through_n(long number, long divisors) {
-    for (long i = divisors; 2 <= i; i--) {
+bool is_divisible_by_one_through_n(int_fast64_t number, int_fast64_t divisors) {
+    for (int_fast64_t i = divisors; 2 <= i; i--) {
         if (number % i != 0) {
             return false;
         }
@@ -38,8 +31,8 @@ bool is_divisible_by_one_through_n(long number, long divisors) {
     return true;
 }
 
-int collatz_chain(long num) {
-    int chain_count = 1;
+int_fast64_t collatz_chain(int_fast64_t num) {
+    int_fast64_t chain_count = 1;
 
     while (num != 1) {
         if (num % 2 == 0) {
@@ -53,7 +46,7 @@ int collatz_chain(long num) {
     return chain_count;
 }
 
-int compare_num(int left, int right) {
+int_fast64_t compare_num(int_fast64_t left, int_fast64_t right) {
     if (left > right) {
         return 0;
     } else if (left < right) {
@@ -63,8 +56,8 @@ int compare_num(int left, int right) {
     }
 }
 
-int reverse_an_integer(int num) {
-    int remainder = 0, reverse = 0;
+int_fast64_t reverse_an_integer(int_fast64_t num) {
+    int_fast64_t remainder = 0, reverse = 0;
 
     while (num != 0) {
         remainder = num % 10;
@@ -75,7 +68,7 @@ int reverse_an_integer(int num) {
     return reverse;
 }
 
-long combinatorial(long n, long r) {
+int_fast64_t combinatorial(int_fast64_t n, int_fast64_t r) {
     mpz_t n1, C, r1;
     mpz_inits(n1, C, r1, NULL);
     mpz_fac_ui(n1, n);
@@ -85,27 +78,60 @@ long combinatorial(long n, long r) {
 
     mpz_mul(C, C, r1);
     mpz_div(n1, n1, C);
-    long result = mpz_get_si(n1);
+    int_fast64_t result = mpz_get_si(n1);
     mpz_clears(n1, C, r1, NULL);
 
     return result;
 }
 
-unsigned char *num_to_char(long num) {
-    long m = num, digits = 0;
+char *num_to_char(int_fast64_t num) {
+    int_fast64_t m      = num;
+    int_fast64_t digits = 0;
 
     while (m) {
         digits++;
         m /= 10;
     }
 
-    unsigned char *arr = (unsigned char *)malloc(digits + 1);
-    int index = digits - 1;
+    char *arr = calloc((size_t)(digits + 1), sizeof(char));
+    if (arr == NULL) {
+        fprintf(stderr, "Failed to get memory to convert %ld to a string\n", num);
+        exit(1);
+    }
 
+    int_fast64_t index = digits - 1;
     while (num) {
         arr[index--] = (num % 10) + '0';
         num /= 10;
     }
 
     return arr;
+}
+
+char *sha256_digest(char *number_string) {
+    char *raw_hash = malloc((sizeof(char) * EVP_MAX_MD_SIZE));
+
+    EVP_MD_CTX *x = EVP_MD_CTX_new();
+    EVP_DigestInit_ex(x, EVP_sha256(), NULL);
+    EVP_DigestUpdate(x, number_string, strlen(number_string));
+    EVP_DigestFinal_ex(x, (unsigned char *)raw_hash, NULL);
+    EVP_MD_CTX_free(x);
+
+    const char hexlookup[17] = "0123456789abcdef";
+    char *hash = malloc((sizeof(char) * (2 * EVP_MAX_MD_SIZE)) + 1);
+    if (hash == NULL) {
+        fprintf(stderr, "Failed to allocate memory for the output string of sha256 digest\n");
+        exit(1);
+    }
+
+    size_t i = 0, j = 0, z = EVP_MD_size(EVP_sha256());
+
+    for (i = 0, j = 0; i < z; i++, j += 2) {
+        hash[j] = hexlookup[(raw_hash[i] >> 4) & 0x0F];
+        hash[j + 1] = hexlookup[raw_hash[i] & 0x0F];
+    }
+
+    free(raw_hash); // I did forget about it for a long long time
+    hash[j] = '\0';
+    return hash;
 }

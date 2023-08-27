@@ -1,51 +1,16 @@
-#include <openssl/evp.h>
-#include <stdbool.h>
-#include <stddef.h>
-#include <stdio.h>
-#include <string.h>
-
+#include "func_exec.h"
 #include "math_funcs.h"
 #include "problem_001_005.h"
 #include "problem_006_010.h"
 #include "problem_011_015.h"
 #include "problem_016_020.h"
-#include "func_exec.h"
 
 #define f(x) function_array[ x - 1 ] = problem_##x
 #define array_size 20
 
+char *(*function_array[array_size]) (bool verbose, bool testing);
 
-long (*function_array[array_size]) (bool verbose, bool testing);
-
-char *sha256(unsigned char *message) {
-    unsigned char *raw_hash = NULL;
-
-    EVP_MD_CTX *x;
-    x = EVP_MD_CTX_new();
-    EVP_DigestInit_ex(x, EVP_sha256(), NULL);
-    EVP_DigestUpdate(x, message, strlen((const char *)message));
-
-    raw_hash = (unsigned char*)OPENSSL_malloc(EVP_MD_size(EVP_sha256()));
-
-    EVP_DigestFinal_ex(x, raw_hash, NULL);
-
-    EVP_MD_CTX_free(x);
-
-    const char hexlookup[17] = "0123456789abcdef";
-    char *hash = (char*)malloc((2 * EVP_MAX_MD_SIZE) + 1);
-    size_t i, j, z = EVP_MD_size(EVP_sha256());
-
-    for (i = 0, j = 0; i < z; i++, j += 2) {
-        hash[j] = hexlookup[(raw_hash[i] >> 4) & 0x0F];
-        hash[j + 1] = hexlookup[raw_hash[i] & 0x0F];
-    }
-
-    hash[j] = '\0';
-
-    return hash;
-}
-
-void get_function(int problem_num, bool verbose, bool testing_mode) {
+void get_function(int_fast64_t problem_num, bool verbose, bool testing_mode) {
     f(  1); f(  2); f(  3); f(  4); f(  5);
     f(  6); f(  7); f(  8); f(  9); f( 10);
     f( 11); f( 12); f( 13); f( 14); f( 15);
@@ -61,37 +26,42 @@ void get_function(int problem_num, bool verbose, bool testing_mode) {
     } else {
         FILE *fp = fopen("./sources/project_euler_solutions/project_euler_hashes.txt", "r");
         if (fp == NULL) {
-            fp = fopen("./project_euler_hashes.txt", "r");
-        }
-
-        if (fp == NULL) {
             printf("project_euler_hashes.txt cannot be found\n");
-            printf("It should be in the same directory as this executable\n");
-            printf("Or it should be in your current working directory as you run this executable\n");
+            printf("You have the following options regarding said file\n");
+            printf("1. From your current directory the project_euler_hashes.txt\n");
+            printf("must reside in sources/project_euler_solutions folder\n");
+            printf("2. Edit the source code to change where it finds the file\n");
+            printf("It is in sources/project_euler_solutions/func_exec.c line 27\n");
             return;
         }
 
-        int i = 0;
-        char correct_hash[66];
-        while ( fgets(correct_hash, sizeof(correct_hash), fp) ) {
+        int_fast64_t i = 0;
+        char *correct_hash = calloc(EVP_MAX_MD_SIZE + 2, sizeof(char)); // hash size, \n, \0
+        char *my_ans       = NULL;
+        char *hash         = NULL;
+
+        while ( fgets(correct_hash, EVP_MAX_MD_SIZE + 2, fp) ) {
             if (i >= array_size) {
                 break;
             }
-
-            long x = function_array[i](verbose, testing_mode);
-            unsigned char *y = num_to_char(x);
-            char *hash = sha256(y);
             correct_hash[strcspn(correct_hash, "\n")] = '\0';
 
-            if (strcmp((const char*)hash, correct_hash) == 0) {
-                printf("Problem #%3d: \033[1;32mPASSED\033[0;0m\n", i + 1);
+            my_ans = function_array[i](verbose, testing_mode);
+            hash = sha256_digest(my_ans);
+
+            if (strncmp(hash, correct_hash, EVP_MAX_MD_SIZE) == 0) {
+                printf("Problem #%3ld: \033[1;32mPASSED\033[0;0m\n", i + 1);
             } else {
-                printf("Problem #%3d: \033[1;31mFAILED\033[0;0m, My Ans: %ld\nCurrent  Hash: %s\nExpected hash: %s\n",
-                       i + 1, x, hash, correct_hash);
+                printf("Problem #%3ld: \033[1;31mFAILED\033[0;0m, My Ans: %s\n", i + 1, my_ans);
+                printf("Current  Hash: %s\nExpected hash: %s\n", hash, correct_hash);
             }
 
             i++;
+            free(my_ans);
+            free(hash);
         }
+
+        free(correct_hash);
         fclose(fp);
     }
 }

@@ -1,14 +1,7 @@
-#include <gmp.h>
-#include <stdbool.h>
-#include <stddef.h>
-#include <stdio.h>
-#include <string.h>
-
 #include "math_funcs.h"
 #include "problem_016_020.h"
 
-
-long problem_16(bool verbose, bool testing) {
+char *problem_16(bool verbose, bool testing) {
     // Using gmp to get 2^1000, then taking it's digits and summing it all up
 
     if (!testing) {
@@ -16,7 +9,7 @@ long problem_16(bool verbose, bool testing) {
     }
 
     mpz_t two, result, a;
-    mpz_inits(two, result, a, NULL);
+    mpz_inits(two, result, a, (mpz_ptr)NULL);
     mpz_ui_pow_ui(two, 2, 1000);
 
     if (verbose) {
@@ -37,13 +30,15 @@ long problem_16(bool verbose, bool testing) {
         gmp_printf("The sum of all the digits of 2^1000 is: %Zd\n", result);
     }
 
-    long x = (long)mpz_get_ui(result);
-    return x;
+    int_fast64_t x = (int_fast64_t)mpz_get_ui(result);
+    mpz_clears(two, result, a, (mpz_ptr)NULL);
+
+    return num_to_char(x);
 }
 
-long problem_17(bool verbose, bool testing) {
-    // I used strlen after confirming if it's a single digit num, a teen num, 20 above, 100 above
-    // and 1000
+char *problem_17(bool verbose, bool testing) {
+    // I used strlen after confirming if it's a single digit num,
+    // a teen num, 20 above, 100 above, and 1000
 
     char *ones[] = {
         "", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
@@ -64,13 +59,13 @@ long problem_17(bool verbose, bool testing) {
         printf("Sample: if the numbers 1 to 5 are written out in words: one, two, three, four, five, then there are 3 + 3 + 5 + 4 + 4 = 19 letters used in total.\n");
     }
 
-    int total_number_of_letters = 0, number_of_letters = 0;
+    int_fast64_t total_number_of_letters = 0, number_of_letters = 0;
 
-    for (int i = 1; i <= 1000; i++) {
+    for (int_fast64_t i = 1; i <= 1000; i++) {
         if (i < 20) {
             number_of_letters = strlen(ones[i]);
             if (verbose) {
-                printf("Current number = %4d, number of letters = %3d -> %s\n",
+                printf("Current number = %4ld, number of letters = %3ld -> %s\n",
                        i, number_of_letters, ones[i]);
             }
 
@@ -81,7 +76,7 @@ long problem_17(bool verbose, bool testing) {
         if ((20 <= i) && (i < 100)) {
             number_of_letters = strlen(tens[i / 10]) + strlen(ones[i % 10]);
             if (verbose) {
-                printf("Current number = %4d, number of letters = %3d -> %s %s\n",
+                printf("Current number = %4ld, number of letters = %3ld -> %s %s\n",
                        i, number_of_letters, tens[i / 10], ones[i % 10]);
             }
 
@@ -97,7 +92,7 @@ long problem_17(bool verbose, bool testing) {
                         strlen(tens[(i % 100) / 10]) + strlen(ones[(i % 100) % 10]); // tens and ones place
 
                     if (verbose) {
-                        printf("Current number = %4d, number of letters = %3d -> %s %s %s %s %s\n",
+                        printf("Current number = %4ld, number of letters = %3ld -> %s %s %s %s %s\n",
                                i, number_of_letters, ones[i / 100], unit[1], unit[0],
                                tens[(i % 100) / 10], ones[(i % 100) % 10]);
                     }
@@ -107,7 +102,7 @@ long problem_17(bool verbose, bool testing) {
                         strlen(ones[(i % 100)]);
 
                     if (verbose) {
-                        printf("Current number = %4d, number of letters = %3d -> %s %s %s %s\n",
+                        printf("Current number = %4ld, number of letters = %3ld -> %s %s %s %s\n",
                                i, number_of_letters, ones[i / 100], unit[1], unit[0],
                                ones[(i % 100)]);
                     }
@@ -117,7 +112,7 @@ long problem_17(bool verbose, bool testing) {
             } else {
                 number_of_letters = strlen(ones[i / 100]) + strlen(unit[1]);
                 if (verbose) {
-                    printf("Current number = %4d, number of letters = %3d -> %s %s\n",
+                    printf("Current number = %4ld, number of letters = %3ld -> %s %s\n",
                            i, number_of_letters, ones[i / 100], unit[1]);
                 }
 
@@ -130,7 +125,7 @@ long problem_17(bool verbose, bool testing) {
             number_of_letters = strlen(ones[i / 1000]) + strlen(unit[2]);
 
             if (verbose) {
-                printf("Current number = %4d, number of letters = %3d -> %s %s\n",
+                printf("Current number = %4ld, number of letters = %3ld -> %s %s\n",
                        i, number_of_letters, ones[i / 1000], unit[2]);
             }
             total_number_of_letters += number_of_letters;
@@ -138,28 +133,28 @@ long problem_17(bool verbose, bool testing) {
     }
 
     if (!testing) {
-        printf("The total number of letters used by the numbers one to one thousand is: %d\n",
+        printf("The total number of letters used by the numbers one to one thousand is: %ld\n",
             total_number_of_letters);
     }
-    return (long)total_number_of_letters;
+    return num_to_char(total_number_of_letters);
 }
 
-void print_pr18_pyr(int pyramid[][15], int *offsets, int layers) {
+void print_pr18_pyr(int_fast64_t pyramid[][15], int_fast64_t *offsets, int_fast64_t layers) {
     // Well I did have a massive printf statement that has spaces and all indexes to it
     // Then I counted the amount of spaces and I realized it can be predicted so it forms
     // a pyramid aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 
-    for (int layer = 0; layer < layers; layer++) {
-        for (int space = 14 - layer; space > 0; space--) {
+    for (int_fast64_t layer = 0; layer < layers; layer++) {
+        for (int_fast64_t space = 14 - layer; space > 0; space--) {
             printf("  ");
         }
 
-        for (int index = 0; index < layers; index++) {
+        for (int_fast64_t index = 0; index < layers; index++) {
             if (pyramid[layer][index] != 0) { // Well I can only do this to check if it ain't empty
                 if ((offsets == NULL) || (index != offsets[layer])) {
-                    printf("%02d  ", pyramid[layer][index]);
+                    printf("%02ld  ", pyramid[layer][index]);
                 } else {
-                    printf("\033[1;31m%02d\033[0;0m  ", pyramid[layer][index]);
+                    printf("\033[1;31m%02ld\033[0;0m  ", pyramid[layer][index]);
                 }
             }
         }
@@ -169,9 +164,9 @@ void print_pr18_pyr(int pyramid[][15], int *offsets, int layers) {
     printf("\n\n");
 }
 
-long problem_18(bool verbose, bool testing) {
+char *problem_18(bool verbose, bool testing) {
 
-    int number_pyramid[15][15] = {
+    int_fast64_t number_pyramid[15][15] = {
                                         {75},
                                       {95, 64},
                                     {17, 47, 82},
@@ -195,24 +190,24 @@ long problem_18(bool verbose, bool testing) {
         printf("numbers on the row below\n");
     }
 
-    long total = 0;
+    int_fast64_t total = 0;
 
     // The way it makes a choice whether to go left or right down the number pyramid is
     // based on the total of the higher choices below it
     // Though it gets it wrong at depth 1, 4 and above
     // at depth 2 or 3 though, it gets it right. Maybe it's just luck at my current skill
 
-    for (int depth = 1; depth <= 3; depth++) {
-        int offsets[15];
-        int offset = 0;
+    for (int_fast64_t depth = 1; depth <= 3; depth++) {
+        int_fast64_t offsets[15];
+        int_fast64_t offset = 0;
         total = 0;
 
-        for (int layer = 1; layer < 15; layer++) {
-            int depth_offset = 0;
-            int choice1 = number_pyramid[layer][offset];
-            int choice2 = number_pyramid[layer][offset + 1];
+        for (int_fast64_t layer = 1; layer < 15; layer++) {
+            int_fast64_t depth_offset = 0;
+            int_fast64_t choice1 = number_pyramid[layer][offset];
+            int_fast64_t choice2 = number_pyramid[layer][offset + 1];
 
-            for (int current_depth = 1; current_depth < depth; current_depth++) {
+            for (int_fast64_t current_depth = 1; current_depth < depth; current_depth++) {
                 if (layer + current_depth < 15) {
                     if ( number_pyramid[layer + current_depth][offset + depth_offset] < 
                          number_pyramid[layer + current_depth][offset + depth_offset + 1] )
@@ -247,14 +242,15 @@ long problem_18(bool verbose, bool testing) {
                 total += number_pyramid[layer][offsets[layer]];
 
             if (verbose) {
-                printf("Layer: %2d Choice_1: %4d Choice_2: %4d\n", layer, choice1, choice2);
+                printf("Layer: %2ld Choice_1: %4ld Choice_2: %4ld\n",
+                       layer, choice1, choice2);
             }
         }
 
         offsets[0] = 0;
         total += number_pyramid[0][offsets[0]];
         if (!testing) {
-            printf("Depth: %d, Sum of the red numbers: %ld\n", depth, total);
+            printf("Depth: %ld, Sum of the red numbers: %ld\n", depth, total);
             print_pr18_pyr(number_pyramid, offsets, 15);
         }
     }
@@ -263,21 +259,27 @@ long problem_18(bool verbose, bool testing) {
     if (!testing) {
         printf("In the triangle by starting at the top of the triangle\nbelow and moving to adjacent numbers on the row below,\nthe maximum total from top to bottom is: %ld\n", total);
     }
-    return total;
+    return num_to_char(total);
 }
 
-long problem_19(bool verbose, bool testing) {
+char *problem_19(bool verbose, bool testing) {
+    char *no_ans = calloc(strlen("I have no answer :(") + 1, sizeof(char));
+    if (no_ans == NULL) {
+        fprintf(stderr, "Cannot allocate memory to string 'I have no answer :('");
+        exit(1);
+    }
+
+    strncpy(no_ans, "I have no answer", strlen("I have no answer") + 1);
     not_implemented(19, verbose, testing);
-    return 0;
+    return no_ans;
 }
 
-long problem_20(bool verbose, bool testing) {
+char *problem_20(bool verbose, bool testing) {
     mpz_t factorial, result, mod10;
-    mpz_inits(factorial, result, mod10, NULL);
+    mpz_inits(factorial, result, mod10, (mpz_ptr)NULL);
     mpz_set_ui(result, 0);
     mpz_fac_ui(factorial, 100);
 
-    long sum_of_digits = 0;
 
     if (!testing) {
         printf("Currently summing up the digits of 100! (100 factorial)...\n");
@@ -293,11 +295,12 @@ long problem_20(bool verbose, bool testing) {
         mpz_add(result, result, mod10);
     }
 
-    sum_of_digits = (long)mpz_get_ui(result);
-
     if (!testing) {
         gmp_printf("The sum of all the digits of 100! (100 factorial) is %Zd\n", result);
     }
 
-    return sum_of_digits;
+    int_fast64_t sum_of_digits = (int_fast64_t)mpz_get_ui(result);
+    mpz_clears(factorial, result, mod10, (mpz_ptr)NULL);
+
+    return num_to_char(sum_of_digits);
 }

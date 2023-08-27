@@ -1,11 +1,3 @@
-#include <gmp.h>
-#include <math.h>
-#include <stdbool.h>
-#include <stddef.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-
 #include "math_funcs.h"
 #include "problem_011_015.h"
 
@@ -17,24 +9,22 @@
 #define PRB_13_DIGITS 50
 #define PRB_13_NUMBERS 100
 
-
-void print_pr11_grid(int number_grid[PRB_11_ROWS][PRB_11_COLS]) {
-    for (int i = 0; i < PRB_11_ROWS; i++) {
-        for (int j = 0; j < PRB_11_COLS; j++) {
-            printf("%02d ", number_grid[i][j]);
+void print_pr11_grid(int_fast64_t number_grid[PRB_11_ROWS][PRB_11_COLS]) {
+    for (int_fast64_t i = 0; i < PRB_11_ROWS; i++) {
+        for (int_fast64_t j = 0; j < PRB_11_COLS; j++) {
+            printf("%02ld ", number_grid[i][j]);
         }
 
         printf("\n");
     }
 }
 
-long problem_11(bool verbose, bool testing) {
-    // With my limited knowledge of vim, writing this grid took a long time :(
+char *problem_11(bool verbose, bool testing) {
     // The various iterators used in the number_grid in the for loop below
     // is how it gets the vertical, horizontal and diagonal arrangement of
     // the numbers in the grid.
 
-    int number_grid[PRB_11_ROWS][PRB_11_COLS] = {
+    int_fast64_t number_grid[PRB_11_ROWS][PRB_11_COLS] = {
         { 8,  2, 22, 97, 38, 15,  0, 40,  0, 75,  4,  5,  7, 78, 52, 12, 50, 77, 91,  8},
         {49, 49, 99, 40, 17, 81, 18, 57, 60, 87, 17, 40, 98, 43, 69, 48,  4, 56, 62,  0},
         {81, 49, 31, 73, 55, 79, 14, 29, 93, 71, 40, 67, 53, 88, 30,  3, 49, 13, 36, 65},
@@ -57,42 +47,42 @@ long problem_11(bool verbose, bool testing) {
         { 1, 70, 54, 71, 83, 51, 54, 69, 16, 92, 33, 48, 61, 43, 52,  1, 89, 19, 67, 48},
     };
 
-    long result = 0;
+    int_fast64_t result = 0;
 
     if (!testing) {
         printf("Trying to find four adjacent numbers in the grid above, whether horizontal, vertical or diagonal, which would yield the highets product.\n\n");
         print_pr11_grid(number_grid);
     }
 
-    for (int row = 0; row < PRB_11_SEARCH_LOOP; row++) {
-        for (int col = 0; col < PRB_11_SEARCH_LOOP; col++) {
-            long horiz = 1, verti = 1, diagonal_1 = 1, diagonal_2 = 1;
+    for (int_fast64_t row = 0; row < PRB_11_SEARCH_LOOP; row++) {
+    for (int_fast64_t col = 0; col < PRB_11_SEARCH_LOOP; col++) {
+        int_fast64_t horiz = 1, verti = 1, diagonal_1 = 1, diagonal_2 = 1;
 
-            for (int k = 0; k < PRB_11_DIGIT_NUM; k++) {
-                horiz *= number_grid[row][col + k];                             /* Horizontal   - */
-                verti *= number_grid[row + k][col];                             /* Vertical     | */
-                diagonal_1 *= number_grid[row + k][col + k];                    /* Diagonal     \ */
-                diagonal_2 *= number_grid[row + PRB_11_DIGIT_NUM - k][col + k]; /* Diagonal     / */
+        for (int_fast64_t k = 0; k < PRB_11_DIGIT_NUM; k++) {
+            horiz *= number_grid[row][col + k];                             /* Horizontal   - */
+            verti *= number_grid[row + k][col];                             /* Vertical     | */
+            diagonal_1 *= number_grid[row + k][col + k];                    /* Diagonal     \ */
+            diagonal_2 *= number_grid[row + PRB_11_DIGIT_NUM - k][col + k]; /* Diagonal     / */
 
-                if (horiz > result) {
-                    result = horiz;
-                }
-                if (verti > result) {
-                    result = verti;
-                }
-
-                if (diagonal_1 > result) {
-                    result = diagonal_1;
-                }
-
-                if (diagonal_2 > result) {
-                    result =  diagonal_2;
-                }
-
-                if (verbose) {
-                    printf("Current highest product: %ld\n", result);
-                }
+            if (horiz > result) {
+                result = horiz;
             }
+            if (verti > result) {
+                result = verti;
+            }
+
+            if (diagonal_1 > result) {
+                result = diagonal_1;
+            }
+
+            if (diagonal_2 > result) {
+                result =  diagonal_2;
+            }
+
+            if (verbose) {
+                printf("Current highest product: %ld\n", result);
+            }
+        }
         }
     }
 
@@ -100,10 +90,10 @@ long problem_11(bool verbose, bool testing) {
         printf("The highest product formed by 4 adjacent numbers in ths grid whether vertical horizontal or diagonal is %ld\n", result);
     }
 
-    return result;
+    return num_to_char(result);
 }
 
-long problem_12(bool verbose, bool testing) {
+char *problem_12(bool verbose, bool testing) {
     // Using a for loop then using the iterator as a starter for the equation
     // n(n + 1) / 2 to get a triangular number. Now a for loop is started from 1 to
     // the square root of the number, if there's no remainder from dividing the triangular number
@@ -112,7 +102,7 @@ long problem_12(bool verbose, bool testing) {
     // divide the triangular number and is probably not below the square root of the triangular
     // number (well that was long, but that was my thought process)
 
-    int divisors = 0, triangular_number = 0, i = 1;
+    int_fast64_t divisors = 0, triangular_number = 0, i = 1;
 
     if (!testing) {
         printf("Currently finding the lowest triangular number that can be evenly divided by more than 500 numbers.\n");
@@ -122,9 +112,9 @@ long problem_12(bool verbose, bool testing) {
     while (divisors < 500) {
         triangular_number = (i * (i + 1))/2;
         divisors = 0;
-        int t_num_root = sqrt(triangular_number);
+        int_fast64_t t_num_root = sqrt(triangular_number);
         
-        for (int divisor = 1; divisor <= t_num_root; divisor++) {
+        for (int_fast64_t divisor = 1; divisor <= t_num_root; divisor++) {
             if (triangular_number % divisor == 0) {
                 divisors = divisors + 2;
                 // Adding two to the total as with a lower number divisor
@@ -135,30 +125,29 @@ long problem_12(bool verbose, bool testing) {
 
         if (divisors >= 500) {
             if (!testing) {
-                printf("The lowest triangular number to have an amount of divisors over 500 is %d\n", triangular_number);
+                printf("The lowest triangular number to have an amount of divisors over 500 is %ld\n",
+                       triangular_number);
             }
             break;
         }
 
         if (verbose) {
-            printf("Triangular number: %7d, No. of divisors: %d\n", triangular_number, divisors);
+            printf("Triangular number: %7ld, No. of divisors: %ld\n", triangular_number, divisors);
         }
 
         i++;
     }
 
-    return (long)triangular_number;
+    return num_to_char(triangular_number);
 }
 
-long problem_13(bool verbose, bool testing) {
-    // While wondering why if I try to print this large nums char array it goes straight to the end
-    // it's because I forgot that +1 there before.
+char *problem_13(bool verbose, bool testing) {
     // Using an iterator to go through this characters, I use the GNU Big Arithmetic lib
     // to turn these chars to bignums or mpz_t and add them together
     // After that I turn the sum back into a char, and after counting 10 characters, I turn the
     // 11th character into a null (\0) byte so printf stops there
 
-    char large_nums[PRB_13_NUMBERS][PRB_13_DIGITS + 1] = {      //I forogt to add an extra byte for null :(
+    char large_nums[PRB_13_NUMBERS][PRB_13_DIGITS + 1] = {  // I forogt to add an extra byte for null :(
         { "37107287533902102798797998220837590246510135740250" },
         { "46376937677490009712648124896970078050417018260538" },
         { "74324986199524741059474233309513058123726617309629" },
@@ -265,12 +254,12 @@ long problem_13(bool verbose, bool testing) {
     mpz_inits(result, current_long_num, NULL);
     mpz_set_str(result, "0", 10);
 
-    for (int i = 0; i < PRB_13_NUMBERS; i++) {
+    for (int_fast64_t i = 0; i < PRB_13_NUMBERS; i++) {
         mpz_set_str(current_long_num, large_nums[i], 10);
         mpz_add(result, result, current_long_num);
 
         if (verbose) {
-            printf("Current index: %2d, num: %s\n", i, large_nums[i]);
+            printf("Current index: %2ld, num: %s\n", i, large_nums[i]);
         }
     }
     char *truncated_str = malloc(mpz_sizeinbase(result, 10) + 1);
@@ -282,45 +271,47 @@ long problem_13(bool verbose, bool testing) {
     if (!testing) {
         printf("The first ten digits of the sum of the big hundred numbers is: %s\n", truncated_str);
     }
+
     mpz_clears(result, current_long_num, NULL);
-    long x = atol(truncated_str);
+    int_fast64_t x = atol(truncated_str);
     free(truncated_str);
-    return x;
+
+    return num_to_char(x);
 }
 
-long problem_14(bool verbose, bool testing) {
+char *problem_14(bool verbose, bool testing) {
     // Welp the explanation is already in the printf functions... (It's unreadable here though
     // sorry)
 
-    int highest_chain_count = 3;
-    int num_with_highest_chain_count = 2;
+    int_fast64_t highest_chain_count = 3;
+    int_fast64_t num_with_highest_chain_count = 2;
 
     if (!testing) {
         printf("Currently looking for a number below one million who has the highest collatz chain count\n");
         printf("Collatz chain: it is a problem where certain operations are performed on a positive integer. Said operation if the number is even, divide it by two. If it is odd, triple it and add one. Now we form a sequence by doing this repeatedly starting with any positive integer. A connected conjecture made by Lothar Collatz says that this process will eventually reach the number 1, regardless of which positive integer is chosen initially.\n");
     }
 
-    for (int i = 2; i < 1000000; i++) {
-        int current_chain_count = collatz_chain(i);
+    for (int_fast64_t i = 2; i < 1000000; i++) {
+        int_fast64_t current_chain_count = collatz_chain(i);
 
         if (current_chain_count > highest_chain_count) {
             highest_chain_count = current_chain_count;
             num_with_highest_chain_count = i;
 
             if (verbose) {
-                printf("Number = %7d, Chain count = %6d\n", i, highest_chain_count);
+                printf("Number = %7ld, Chain count = %6ld\n", i, highest_chain_count);
             }
         }
     }
 
     if (!testing) {
-        printf("The number with the highest Collatz(?) chain number is %d\n", num_with_highest_chain_count);
+        printf("The number with the highest Collatz(?) chain number is %ld\n", num_with_highest_chain_count);
     }
 
-    return (long)num_with_highest_chain_count;
+    return num_to_char(num_with_highest_chain_count);
 }
 
-long problem_15(bool verbose, bool testing) {
+char *problem_15(bool verbose, bool testing) {
     // I have read up some stuff and what I got is a combinatorial solution nCr
     // https://www.robertdickau.com/manhattan.html
 
@@ -329,9 +320,9 @@ long problem_15(bool verbose, bool testing) {
     // for both grade 11 and grade 12 students so less time to teach thus resulting in incomplete
     // teachings. (Sorry this turned to a rant)
 
-    int grid_size = 20;
-    int n = grid_size * 2;
-    long nCr = combinatorial(n, grid_size);
+    int_fast64_t grid_size = 20;
+    int_fast64_t n = grid_size * 2;
+    int_fast64_t nCr = combinatorial(n, grid_size);
 
     if (verbose) {
         printf("Now running the combinatorial formula n! / r!(n - r)! to the lattice paths problem\n");
@@ -341,5 +332,5 @@ long problem_15(bool verbose, bool testing) {
         printf("The number of lattice paths available from the top left to the bottom right in a\n 20 by 20 square grid and can only move right and down is %ld\n", nCr);
     }
 
-    return nCr;
+    return num_to_char(nCr);
 }

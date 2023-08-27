@@ -147,5 +147,7 @@ int main(int argc, char **argv) {
     }
 
     get_function(mpz_get_si(args.problem_num), args.verbose, args.testing);
+
+    mpz_clear(args.problem_num);
     return 0;
 }
