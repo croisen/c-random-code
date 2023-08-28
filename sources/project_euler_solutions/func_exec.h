@@ -1,6 +1,7 @@
 #ifndef CROI_FUNC_ARRAY_EXEC
 #define CROI_FUNC_ARRAY_EXEC
 
+#include <inttypes.h>
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>

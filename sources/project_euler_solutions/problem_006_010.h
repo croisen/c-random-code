@@ -1,6 +1,7 @@
 #ifndef CROI_EULER_PRB_006_010_H
 #define CROI_EULER_PRB_006_010_H
 
+#include <inttypes.h>
 #include <math.h>
 #include <stdbool.h>
 #include <stdio.h>

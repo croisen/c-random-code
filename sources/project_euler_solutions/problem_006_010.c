@@ -25,7 +25,7 @@ char *problem_6(bool verbose, bool testing) {
         printf("Sum of natural numbers: %g, Squared: %g^2 = %ld\n",
                sqrt(squared_sum), sqrt(squared_sum), squared_sum);
         printf("Sum of the squared natural numbers: %ld\n", sum_of_squared);
-        printf("%ld - %ld =\n", squared_sum, sum_of_squared);
+        printf("%"PRId64" - %"PRId64" =\n", squared_sum, sum_of_squared);
     }
     if (!testing) {
         printf("Answer: %ld\n", result);
@@ -148,7 +148,7 @@ char *problem_9(bool verbose, bool testing) {
             int_fast64_t ans = a*b*c;
 
             if (!testing) {
-                printf("The Pythagorean triplet where a + b + c is equal to 1000 is: %ld %ld %ld",
+                printf("The Pythagorean triplet where a + b + c is equal to 1000 is: %"PRId64" %"PRId64" %ld",
                        a, b, c);
                 printf("Theor product being %ld\n", ans);
             }

@@ -16,7 +16,7 @@ char *problem_1(bool verbose, bool testing) {
             result =  result + i;
 
             if (verbose) {
-                printf("%ld = %ld + %ld\n", result, (result - i), i);
+                printf("%"PRId64" = %"PRId64" + %ld\n", result, (result - i), i);
             }
         }
     }
@@ -84,7 +84,7 @@ char *problem_3(bool verbose, bool testing) {
         }
     }
     if (!testing) {
-        printf("The largest prime factor of %ld is %ld\n", big_number, highest_prime);
+        printf("The largest prime factor of %"PRId64" is %ld\n", big_number, highest_prime);
     }
 
     return num_to_char(highest_prime);
@@ -142,7 +142,7 @@ char *problem_5(bool verbose, bool testing) {
         }
         if (is_divisible_by_one_through_n(i, divisors)) {
             if (!testing) {
-                printf("\nLowest number that is evenly divisible by 1 to %ld is %ld\n",
+                printf("\nLowest number that is evenly divisible by 1 to %"PRId64" is %ld\n",
                        divisors, i);
             }
             break;

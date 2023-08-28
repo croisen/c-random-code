@@ -2,7 +2,7 @@
 
 void not_implemented(int_fast64_t problem_num, bool verbose, bool testing) {
     if (!testing) {
-        printf("There is no function to solve for problem #%ld yet sadly, also verbose is set to: %d\n",
+        printf("There is no function to solve for problem #%"PRId64" yet sadly, also verbose is set to: %d\n",
                problem_num, verbose);
     }
 }
@@ -95,7 +95,7 @@ char *num_to_char(int_fast64_t num) {
 
     char *arr = calloc((size_t)(digits + 1), sizeof(char));
     if (arr == NULL) {
-        fprintf(stderr, "Failed to get memory to convert %ld to a string\n", num);
+        fprintf(stderr, "Failed to get memory to convert %"PRId64" to a string\n", num);
         exit(1);
     }
 

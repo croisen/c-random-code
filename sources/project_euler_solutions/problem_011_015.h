@@ -2,6 +2,7 @@
 #define CROI_EULER_PRB_011_015_H
 
 #include <gmp.h>
+#include <inttypes.h>
 #include <math.h>
 #include <stdbool.h>
 #include <stddef.h>

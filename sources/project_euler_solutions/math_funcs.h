@@ -2,6 +2,7 @@
 #define CROI_MATH_FUNCS
 
 #include <gmp.h>
+#include <inttypes.h>
 #include <math.h>
 #include <openssl/evp.h>
 #include <stdbool.h>
