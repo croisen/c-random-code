@@ -16,13 +16,13 @@ char *problem_1(bool verbose, bool testing) {
             result =  result + i;
 
             if (verbose) {
-                printf("%"PRId64" = %"PRId64" + %ld\n", result, (result - i), i);
+                printf("%"PRIdFAST64" = %"PRIdFAST64" + %"PRIdFAST64"\n", result, (result - i), i);
             }
         }
     }
 
     if (!testing) {
-        printf("The sum of all numbers that are evenly divisible by 3 or 5 that is under 1000 is: %ld\n",
+        printf("The sum of all numbers that are evenly divisible by 3 or 5 that is under 1000 is: %"PRIdFAST64"\n",
                result);
     }
 
@@ -54,7 +54,7 @@ char *problem_2(bool verbose, bool testing) {
     }
 
     if (!testing) {
-        printf("The sum of all even fibonacci numbers under 4 million is: %ld\n", result);
+        printf("The sum of all even fibonacci numbers under 4 million is: %"PRIdFAST64"\n", result);
     }
 
     return num_to_char(result);
@@ -71,20 +71,20 @@ char *problem_3(bool verbose, bool testing) {
     int_fast64_t square_root = sqrt(big_number);
 
     if (!testing) {
-        printf("Currently looking for the largest prime factor of %ld...\n", big_number);
+        printf("Currently looking for the largest prime factor of %"PRIdFAST64"...\n", big_number);
     }
 
     for (int_fast64_t x = 2; x <= square_root; x++) {
         if (art_thou_prime(x) && big_number % x == 0) {
             if (verbose) {
-                printf("Current highest prime: %ld\n", x);
+                printf("Current highest prime: %"PRIdFAST64"\n", x);
             }
 
             highest_prime = x;
         }
     }
     if (!testing) {
-        printf("The largest prime factor of %"PRId64" is %ld\n", big_number, highest_prime);
+        printf("The largest prime factor of %"PRIdFAST64" is %"PRIdFAST64"\n", big_number, highest_prime);
     }
 
     return num_to_char(highest_prime);
@@ -111,7 +111,7 @@ char *problem_4(bool verbose, bool testing) {
                 highest_palindrome = x_times_y;
 
                 if (verbose) {
-                    printf("Current highest palindrome: %ld\n", highest_palindrome);
+                    printf("Current highest palindrome: %"PRIdFAST64"\n", highest_palindrome);
                 }
             }
         }
@@ -119,7 +119,7 @@ char *problem_4(bool verbose, bool testing) {
     }
 
     if (!testing) {
-        printf("Highest palindrome product by two 3 digit numbers: %ld\n", highest_palindrome);
+        printf("Highest palindrome product by two 3 digit numbers: %"PRIdFAST64"\n", highest_palindrome);
     }
 
     return num_to_char(highest_palindrome);
@@ -138,11 +138,11 @@ char *problem_5(bool verbose, bool testing) {
 
     while (true) {
         if (verbose && i % 1000 == 0) {
-            printf("\rCurrent number: %ld", i);
+            printf("\rCurrent number: %"PRIdFAST64"", i);
         }
         if (is_divisible_by_one_through_n(i, divisors)) {
             if (!testing) {
-                printf("\nLowest number that is evenly divisible by 1 to %"PRId64" is %ld\n",
+                printf("\nLowest number that is evenly divisible by 1 to %"PRIdFAST64" is %"PRIdFAST64"\n",
                        divisors, i);
             }
             break;

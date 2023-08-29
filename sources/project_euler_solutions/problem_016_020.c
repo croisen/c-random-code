@@ -63,9 +63,9 @@ char *problem_17(bool verbose, bool testing) {
 
     for (int_fast64_t i = 1; i <= 1000; i++) {
         if (i < 20) {
-            number_of_letters = strlen(ones[i]);
+            number_of_letters = strnlen(ones[i], sizeof(char) * 20);
             if (verbose) {
-                printf("Current number = %4"PRId64" , number of letters = %3"PRId64"  -> %s\n",
+                printf("Current number = %4"PRIdFAST64" , number of letters = %3"PRIdFAST64"  -> %s\n",
                        i, number_of_letters, ones[i]);
             }
 
@@ -74,9 +74,10 @@ char *problem_17(bool verbose, bool testing) {
         }
 
         if ((20 <= i) && (i < 100)) {
-            number_of_letters = strlen(tens[i / 10]) + strlen(ones[i % 10]);
+            number_of_letters = strnlen(tens[i / 10], sizeof(char) * 20)
+                + strnlen(ones[i % 10], sizeof(char) * 20);
             if (verbose) {
-                printf("Current number = %4"PRId64" , number of letters = %3"PRId64"  -> %s %s\n",
+                printf("Current number = %4"PRIdFAST64" , number of letters = %3"PRIdFAST64"  -> %s %s\n",
                        i, number_of_letters, tens[i / 10], ones[i % 10]);
             }
 
@@ -88,21 +89,26 @@ char *problem_17(bool verbose, bool testing) {
             if (i % 100 != 0) {
                 if (((i % 100) > 19)) {
                     number_of_letters = 
-                        strlen(ones[i / 100]) + strlen(unit[1]) + strlen(unit[0]) +  // x hundred and...
-                        strlen(tens[(i % 100) / 10]) + strlen(ones[(i % 100) % 10]); // tens and ones place
+                        strnlen(ones[i / 100], sizeof(char) * 20) +
+                        strnlen(unit[1], sizeof(char) * 20) +
+                        strnlen(unit[0], sizeof(char) * 20) +
+                        strnlen(tens[(i % 100) / 10], sizeof(char) * 20) +
+                        strnlen(ones[(i % 100) % 10], sizeof(char) * 20);
 
                     if (verbose) {
-                        printf("Current number = %4"PRId64" , number of letters = %3"PRId64"  -> %s %s %s %s %s\n",
+                        printf("Current number = %4"PRIdFAST64" , number of letters = %3"PRIdFAST64"  -> %s %s %s %s %s\n",
                                i, number_of_letters, ones[i / 100], unit[1], unit[0],
                                tens[(i % 100) / 10], ones[(i % 100) % 10]);
                     }
                 } else {
                     number_of_letters =
-                        strlen(ones[i / 100]) + strlen(unit[1]) + strlen(unit[0]) +
-                        strlen(ones[(i % 100)]);
+                        strnlen(ones[i / 100], sizeof(char) * 20) +
+                        strnlen(unit[1], sizeof(char) * 20) +
+                        strnlen(unit[0], sizeof(char) * 20) +
+                        strnlen(ones[(i % 100)], sizeof(char) * 20);
 
                     if (verbose) {
-                        printf("Current number = %4"PRId64" , number of letters = %3"PRId64"  -> %s %s %s %s\n",
+                        printf("Current number = %4"PRIdFAST64" , number of letters = %3"PRIdFAST64"  -> %s %s %s %s\n",
                                i, number_of_letters, ones[i / 100], unit[1], unit[0],
                                ones[(i % 100)]);
                     }
@@ -110,9 +116,11 @@ char *problem_17(bool verbose, bool testing) {
                 total_number_of_letters += number_of_letters;
                 continue;
             } else {
-                number_of_letters = strlen(ones[i / 100]) + strlen(unit[1]);
+                number_of_letters =
+                    strnlen(ones[i / 100], sizeof(char) * 20) +
+                    strnlen(unit[1], sizeof(char) * 20);
                 if (verbose) {
-                    printf("Current number = %4"PRId64" , number of letters = %3"PRId64"  -> %s %s\n",
+                    printf("Current number = %4"PRIdFAST64" , number of letters = %3"PRIdFAST64"  -> %s %s\n",
                            i, number_of_letters, ones[i / 100], unit[1]);
                 }
 
@@ -122,10 +130,12 @@ char *problem_17(bool verbose, bool testing) {
         }
 
         if (i == 1000) {
-            number_of_letters = strlen(ones[i / 1000]) + strlen(unit[2]);
+            number_of_letters =
+                strnlen(ones[i / 1000], sizeof(char) * 20) +
+                strnlen(unit[2], sizeof(char) * 20);
 
             if (verbose) {
-                printf("Current number = %4"PRId64" , number of letters = %3"PRId64"  -> %s %s\n",
+                printf("Current number = %4"PRIdFAST64" , number of letters = %3"PRIdFAST64"  -> %s %s\n",
                        i, number_of_letters, ones[i / 1000], unit[2]);
             }
             total_number_of_letters += number_of_letters;
@@ -133,7 +143,7 @@ char *problem_17(bool verbose, bool testing) {
     }
 
     if (!testing) {
-        printf("The total number of letters used by the numbers one to one thousand is: %"PRId64" \n",
+        printf("The total number of letters used by the numbers one to one thousand is: %"PRIdFAST64" \n",
             total_number_of_letters);
     }
     return num_to_char(total_number_of_letters);
@@ -152,9 +162,9 @@ void print_pr18_pyr(int_fast64_t pyramid[][15], int_fast64_t *offsets, int_fast6
         for (int_fast64_t index = 0; index < layers; index++) {
             if (pyramid[layer][index] != 0) { // Well I can only do this to check if it ain't empty
                 if ((offsets == NULL) || (index != offsets[layer])) {
-                    printf("%02"PRId64"   ", pyramid[layer][index]);
+                    printf("%02"PRIdFAST64"   ", pyramid[layer][index]);
                 } else {
-                    printf("\033[1;31m%02"PRId64" \033[0;0m  ", pyramid[layer][index]);
+                    printf("\033[1;31m%02"PRIdFAST64" \033[0;0m  ", pyramid[layer][index]);
                 }
             }
         }
@@ -242,7 +252,7 @@ char *problem_18(bool verbose, bool testing) {
                 total += number_pyramid[layer][offsets[layer]];
 
             if (verbose) {
-                printf("Layer: %2"PRId64"  Choice_1: %4"PRId64"  Choice_2: %4"PRId64" \n",
+                printf("Layer: %2"PRIdFAST64"  Choice_1: %4"PRIdFAST64"  Choice_2: %4"PRIdFAST64" \n",
                        layer, choice1, choice2);
             }
         }
@@ -250,26 +260,28 @@ char *problem_18(bool verbose, bool testing) {
         offsets[0] = 0;
         total += number_pyramid[0][offsets[0]];
         if (!testing) {
-            printf("Depth: %"PRId64" , Sum of the red numbers: %"PRId64" \n", depth, total);
+            printf("Depth: %"PRIdFAST64" , Sum of the red numbers: %"PRIdFAST64" \n", depth, total);
             print_pr18_pyr(number_pyramid, offsets, 15);
         }
     }
 
 
     if (!testing) {
-        printf("In the triangle by starting at the top of the triangle\nbelow and moving to adjacent numbers on the row below,\nthe maximum total from top to bottom is: %"PRId64" \n", total);
+        printf("In the triangle by starting at the top of the triangle\nbelow and moving to adjacent numbers on the row below,\nthe maximum total from top to bottom is: %"PRIdFAST64" \n", total);
     }
     return num_to_char(total);
 }
 
 char *problem_19(bool verbose, bool testing) {
-    char *no_ans = calloc(strlen("I have no answer :(") + 1, sizeof(char));
+    char *no_ans = calloc(strnlen("I have no answer :(", sizeof(char) * 20) + 1,
+                          sizeof(char));
     if (no_ans == NULL) {
         fprintf(stderr, "Cannot allocate memory to string 'I have no answer :('");
         exit(1);
     }
 
-    strncpy(no_ans, "I have no answer", strlen("I have no answer") + 1);
+    strncpy(no_ans, "I have no answer :(",
+            strnlen("I have no answer :(", sizeof(char) * 20) + 1);
     not_implemented(19, verbose, testing);
     return no_ans;
 }

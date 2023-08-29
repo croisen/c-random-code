@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
         printf("Currently testing the sha256 sum of my answers to the sha256 sum of the correct answers...\n");
         args.verbose = false;
     } else {
-        printf("Trying to get the function to solve projecteuler's problem #%"PRId64 "...\n" ,
+        printf("Trying to get the function to solve projecteuler's problem #%"PRIdFAST64 "...\n" ,
                args.problem);
     }
 

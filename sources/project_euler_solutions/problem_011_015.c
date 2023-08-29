@@ -80,14 +80,14 @@ char *problem_11(bool verbose, bool testing) {
             }
 
             if (verbose) {
-                printf("Current highest product: %ld\n", result);
+                printf("Current highest product: %"PRIdFAST64"\n", result);
             }
         }
         }
     }
 
     if (!testing) {
-        printf("The highest product formed by 4 adjacent numbers in ths grid whether vertical horizontal or diagonal is %ld\n", result);
+        printf("The highest product formed by 4 adjacent numbers in ths grid whether vertical horizontal or diagonal is %"PRIdFAST64"\n", result);
     }
 
     return num_to_char(result);
@@ -125,14 +125,14 @@ char *problem_12(bool verbose, bool testing) {
 
         if (divisors >= 500) {
             if (!testing) {
-                printf("The lowest triangular number to have an amount of divisors over 500 is %ld\n",
+                printf("The lowest triangular number to have an amount of divisors over 500 is %"PRIdFAST64"\n",
                        triangular_number);
             }
             break;
         }
 
         if (verbose) {
-            printf("Triangular number: %7ld, No. of divisors: %ld\n", triangular_number, divisors);
+            printf("Triangular number: %7ld, No. of divisors: %"PRIdFAST64"\n", triangular_number, divisors);
         }
 
         i++;
@@ -305,7 +305,7 @@ char *problem_14(bool verbose, bool testing) {
     }
 
     if (!testing) {
-        printf("The number with the highest Collatz(?) chain number is %ld\n", num_with_highest_chain_count);
+        printf("The number with the highest Collatz(?) chain number is %"PRIdFAST64"\n", num_with_highest_chain_count);
     }
 
     return num_to_char(num_with_highest_chain_count);
@@ -329,7 +329,7 @@ char *problem_15(bool verbose, bool testing) {
     }
 
     if (!testing) {
-        printf("The number of lattice paths available from the top left to the bottom right in a\n 20 by 20 square grid and can only move right and down is %ld\n", nCr);
+        printf("The number of lattice paths available from the top left to the bottom right in a\n 20 by 20 square grid and can only move right and down is %"PRIdFAST64"\n", nCr);
     }
 
     return num_to_char(nCr);

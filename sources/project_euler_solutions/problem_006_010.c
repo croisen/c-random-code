@@ -22,13 +22,13 @@ char *problem_6(bool verbose, bool testing) {
     result = squared_sum - sum_of_squared;
 
     if (verbose) {
-        printf("Sum of natural numbers: %g, Squared: %g^2 = %ld\n",
+        printf("Sum of natural numbers: %g, Squared: %g^2 = %"PRIdFAST64"\n",
                sqrt(squared_sum), sqrt(squared_sum), squared_sum);
-        printf("Sum of the squared natural numbers: %ld\n", sum_of_squared);
-        printf("%"PRId64" - %"PRId64" =\n", squared_sum, sum_of_squared);
+        printf("Sum of the squared natural numbers: %"PRIdFAST64"\n", sum_of_squared);
+        printf("%"PRIdFAST64" - %"PRIdFAST64" =\n", squared_sum, sum_of_squared);
     }
     if (!testing) {
-        printf("Answer: %ld\n", result);
+        printf("Answer: %"PRIdFAST64"\n", result);
     }
 
     return num_to_char(result);
@@ -51,7 +51,7 @@ char *problem_7(bool verbose, bool testing) {
     while (prime_count <= target_prime_count) {
         if (art_thou_prime(x)) {
             if (verbose) {
-                printf("Current prime number: %ld, prime count: %ld\n", x, prime_count);
+                printf("Current prime number: %"PRIdFAST64", prime count: %"PRIdFAST64"\n", x, prime_count);
             }
 
             prime_count++;
@@ -59,7 +59,7 @@ char *problem_7(bool verbose, bool testing) {
 
         if (prime_count == target_prime_count) {
             if (!testing) {
-                printf("The 10001st prime number is: %ld\n", x);
+                printf("The 10001st prime number is: %"PRIdFAST64"\n", x);
             }
 
             break;
@@ -86,7 +86,10 @@ char *problem_8(bool verbose, bool testing) {
         printf("from this number %s\n", scary_long_num);
     }
 
-    for (int_fast64_t i = 0; i <= ((int_fast64_t)strlen(scary_long_num) - digit_length); i++) {
+    for (int_fast64_t i = 0;
+         i <= ((int_fast64_t)strnlen(scary_long_num, sizeof(char) * 1001 ) - digit_length);
+         i++)
+    {
         result = 1;
 
         for (int_fast64_t j = 0; j < digit_length; j++) {
@@ -112,7 +115,7 @@ char *problem_8(bool verbose, bool testing) {
     }
 
     if (!testing) {
-        printf("Biggest product in 13 adjacent numbers in the bignum is: %ld\n", highest_result);
+        printf("Biggest product in 13 adjacent numbers in the bignum is: %"PRIdFAST64"\n", highest_result);
     }
 
     return num_to_char(highest_result);
@@ -148,9 +151,9 @@ char *problem_9(bool verbose, bool testing) {
             int_fast64_t ans = a*b*c;
 
             if (!testing) {
-                printf("The Pythagorean triplet where a + b + c is equal to 1000 is: %"PRId64" %"PRId64" %ld",
+                printf("The Pythagorean triplet where a + b + c is equal to 1000 is: %"PRIdFAST64" %"PRIdFAST64" %"PRIdFAST64"",
                        a, b, c);
-                printf("Theor product being %ld\n", ans);
+                printf("Theor product being %"PRIdFAST64"\n", ans);
             }
 
             return num_to_char(ans);
@@ -174,7 +177,7 @@ char *problem_10(bool verbose, bool testing) {
     for (int_fast64_t i = 2; i < 2000000; i++) {
         if (art_thou_prime(i) && i < 2000000) {
             if (verbose) {
-                printf("Current prime number: %ld\n", i);
+                printf("Current prime number: %"PRIdFAST64"\n", i);
             }
 
             result += i;
@@ -182,7 +185,7 @@ char *problem_10(bool verbose, bool testing) {
     }
 
     if (!testing) {
-        printf("The sum of all prime numbers below 2 million is %ld\n", result);
+        printf("The sum of all prime numbers below 2 million is %"PRIdFAST64"\n", result);
     }
 
     return num_to_char(result);
