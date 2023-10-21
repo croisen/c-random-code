@@ -21,7 +21,6 @@ bool art_thou_prime(int_fast64_t num) {
     return true;
 }
 
-
 bool is_divisible_by_one_through_n(int_fast64_t number, int_fast64_t divisors) {
     for (int_fast64_t i = divisors; 2 <= i; i--) {
         if (number % i != 0) {
