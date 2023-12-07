@@ -2,7 +2,6 @@
 
 #include <raylib.h>
 #include <stdio.h>
-#include <stdlib.h>
 
 typedef struct {
     Vector2 position;
@@ -19,9 +18,9 @@ int main(int argc, char **argv) {
     SetWindowState(FLAG_WINDOW_RESIZABLE);
 
     if (argc < 2) {
-        fprintf(stderr, "Expecting an argument for a music file, found NULL\n");
         CloseAudioDevice();
         CloseWindow();
+        fprintf(stderr, "Expecting an argument for a music file, found NULL\n");
         return 1;
     }
 
@@ -73,8 +72,10 @@ int main(int argc, char **argv) {
                     circles[i].alpha      = 0.0F;
                     circles[i].color      = colors[GetRandomValue(0, 12)];
                     circles[i].radius     = (windowX > windowY)
-                                                ? GetRandomValue((int)(windowY/40), (int)(windowY/10))
-                                                : GetRandomValue((int)(windowX/40), (int)(windowX/10));
+                                            ? GetRandomValue((int)(windowY/40),
+                                                             (int)(windowY/10))
+                                            : GetRandomValue((int)(windowX/40),
+                                                             (int)(windowX/10));
                     circles[i].speed      = (float)GetRandomValue(1, 100) / 2000.0F;
                     circles[i].position.x = (float)GetRandomValue((int)circles[i].radius,
                                                                   (int)(windowX - circles[i].radius));

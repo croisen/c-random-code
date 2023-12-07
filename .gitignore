@@ -1,1 +1,2 @@
-*.out
+build/*.elf
+sources/0000_custom_libs/*.o

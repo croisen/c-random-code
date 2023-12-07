@@ -1,8 +1,8 @@
 #include <inttypes.h>
 #include <stdio.h>
 
-#include "project_euler_solutions/args.h"
-#include "project_euler_solutions/func_exec.h"
+#include "extras/args.h"
+#include "extras/func_exec.h"
 
 // Argp stuff for program name, version, email, and documentation
 const char *argp_program_version = "croi_proj_euler_solutions v0.1.9";
