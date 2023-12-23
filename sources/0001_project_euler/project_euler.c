@@ -15,8 +15,8 @@ arguments args = {
 int main(int argc, char **argv) {
     argp_parse(&argp, argc, argv, ARGP_NO_HELP, 0, &args);
 
-    printf("Trying to call the function for the problem from\n");
-    printf("https://projecteuler.net/problem=%"PRId64"\n\n", args.problem_num);
+    (void)printf("Trying to call the function for the problem from\n");
+    (void)printf("https://projecteuler.net/problem=%"PRId64"\n\n", args.problem_num);
     call_func(args.problem_num, args.verbose);
     return EXIT_SUCCESS;
 }

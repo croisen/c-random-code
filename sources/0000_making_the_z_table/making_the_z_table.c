@@ -4,7 +4,6 @@
 #include <mpfr.h>
 #include <stdio.h>
 
-
 int main(void) {
     create_constants();
 
@@ -14,4 +13,3 @@ int main(void) {
     delete_constants();
     return 0;
 }
-

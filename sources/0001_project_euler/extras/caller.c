@@ -15,8 +15,9 @@ void call_func(int64_t problem_num, bool verbose) {
         call(1) call(2) call(3) call(4) call(5)
 
             default : {
-            printf("Currently I have no solution for problem #%" PRId64 "\n",
-                   problem_num);
+            (void)printf("Currently I have no solution for problem #%" PRId64
+                         "\n",
+                         problem_num);
         }
     }
 }

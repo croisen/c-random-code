@@ -1,10 +1,9 @@
 #include "dyn_arr.h"
 
 #include <inttypes.h>
-#include <stdio.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <stdlib.h>
-
 
 enum __resize {
     DOUBLE,
@@ -14,37 +13,37 @@ enum __resize {
 void __resize_arr(dyn_ptr arr, enum __resize resize) {
     int64_t *x = NULL;
     switch (resize) {
-        case DOUBLE: {
-            arr->size *= 2;
-            x = realloc(arr->data, arr->size * sizeof(int64_t));
-            break;
-        }
-        case HALVED: {
-            arr->size /= 2;
-            x = realloc(arr->data, arr->size * sizeof(int64_t));
-            break;
-        }
-        default: {
-            arr->size *= 2;
-            x = realloc(arr->data, arr->size * sizeof(int64_t));
-            break;
-        }
+    case DOUBLE: {
+        arr->size *= 2;
+        x = realloc(arr->data, arr->size * sizeof(int64_t));
+        break;
+    }
+    case HALVED: {
+        arr->size /= 2;
+        x = realloc(arr->data, arr->size * sizeof(int64_t));
+        break;
+    }
+    default: {
+        arr->size *= 2;
+        x = realloc(arr->data, arr->size * sizeof(int64_t));
+        break;
+    }
     }
     if (x == NULL) {
         fprintf(stderr, "Resizing the dynamic array failed\n");
         switch (resize) {
-            case DOUBLE: {
-                arr->size /= 2;
-                break;
-            }
-            case HALVED: {
-                arr->size *= 2;
-                break;
-            }
-            default: {
-                arr->size *= 2;
-                break;
-            }
+        case DOUBLE: {
+            arr->size /= 2;
+            break;
+        }
+        case HALVED: {
+            arr->size *= 2;
+            break;
+        }
+        default: {
+            arr->size *= 2;
+            break;
+        }
         }
         return;
     }
@@ -53,7 +52,8 @@ void __resize_arr(dyn_ptr arr, enum __resize resize) {
 
 void printf_array(dyn_ptr arr) {
     for (uint64_t i = 0; i < arr->used; i++) {
-        printf("Index: %5"PRIu64" Item: %5"PRId64"\n", i, *(arr->data + i));
+        (void)printf("Index: %5" PRIu64 " Item: %5" PRId64 "\n", i,
+                     *(arr->data + i));
     }
 }
 
@@ -89,8 +89,10 @@ void push_2_array(dyn_ptr arr, int64_t num) {
         fprintf(stderr, "NULL pointer was passed into push_2_array\n");
         return;
     }
-    if (arr->size <= (arr->used + 1)) __resize_arr(arr, DOUBLE);
-    if (arr->size <= (arr->used + 1)) return; 
+    if (arr->size <= (arr->used + 1))
+        __resize_arr(arr, DOUBLE);
+    if (arr->size <= (arr->used + 1))
+        return;
 
     *(arr->data + arr->used) = num;
     arr->used += 1;
@@ -102,7 +104,8 @@ int64_t pop_from_arr(dyn_ptr arr) {
         return 0;
     }
     int64_t x = *(arr->data + (arr->used - 1));
-    if ((arr->size / 2) >= (arr->used - 1)) __resize_arr(arr, DOUBLE);
+    if ((arr->size / 2) >= (arr->used - 1))
+        __resize_arr(arr, DOUBLE);
 
     arr->used -= 1;
     return x;
@@ -113,6 +116,7 @@ int64_t get_from_arr(dyn_ptr arr, uint64_t index) {
         fprintf(stderr, "NULL pointer was passed into get_from_arr\n");
         return 0;
     }
-    if (index >= arr->used) return 0;
+    if (index >= arr->used)
+        return 0;
     return *(arr->data + index);
 }
