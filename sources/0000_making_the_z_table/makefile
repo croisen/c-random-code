@@ -3,7 +3,7 @@ CFLAGS 				= -Wall -Wextra -Wpedantic -Werror -O3
 CFLAGS_DEBUG 		= -Wall -Wextra -Wpedantic -Og -g -D'SOME_DEBUG_FLAG'
 
 MAIN 				= making_the_z_table.c
-LIBS 				= -lmpfr -lgmp
+LIBS 				= other_stuff/*.c -lmpfr -lgmp
 EXEC 				= ../../build/$(patsubst %.c,%.elf,$(MAIN))
 
 

@@ -1,2 +1,3 @@
 build/*.elf
-sources/0000_custom_libs/*.o
+custom_libs/*.o
+test_custom_libs/*.elf

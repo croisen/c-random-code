@@ -1,0 +1,3 @@
+void something(void) {
+    return;
+}
