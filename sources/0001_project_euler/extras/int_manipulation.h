@@ -4,6 +4,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+int64_t i64_pow(int64_t base, int64_t exp);
+
 int64_t i64_reverse(int64_t num);
 
 bool is_divisible_by_1_through_n(int64_t num, int64_t n);

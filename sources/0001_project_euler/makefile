@@ -3,7 +3,7 @@ CFLAGS 				= -Wall -Wextra -Wpedantic -Werror -O3
 CFLAGS_DEBUG 		= -Wall -Wextra -Wpedantic -Og -g -D'SOME_DEBUG_FLAG'
 
 MAIN 				= project_euler.c
-LIBS 				= extras/*.c extras/solutions/*.c  -lm -lgmp
+LIBS 				= extras/*.c extras/solutions/*.c -lm -lgmp
 EXEC 				= ../../build/$(patsubst %.c,%.elf,$(MAIN))
 
 

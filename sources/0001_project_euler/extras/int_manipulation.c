@@ -3,6 +3,15 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+int64_t i64_pow(int64_t base, int64_t exp) {
+    int64_t res = 1;
+    for (int64_t i = 0; i < exp; i++) {
+        res *= base;
+    }
+
+    return res;
+}
+
 int64_t i64_reverse(int64_t num) {
     int64_t res = 0;
 
