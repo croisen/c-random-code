@@ -60,7 +60,10 @@ int main(void) {
     int player_turn = 0, input_int = 0, row = 0, col = 0;
     char input_char[16];
     char board[rows][cols] = {
-        {'1', '2', '3'}, {'4', '5', '6'}, {'7', '8', '9'}};
+        {'1', '2', '3'},
+        {'4', '5', '6'},
+        {'7', '8', '9'}
+    };
 
     while (player_turn < 9) {
         (void)print_board(board);

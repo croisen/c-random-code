@@ -80,7 +80,7 @@ void problem_3(bool verbose) {
 
     int64_t big_num = 600851475143;
     /*int64_t res = highest_prime_factor(big_num);*/
-    int64_t res = 0;
+    int64_t res     = 0;
 
     if (verbose) {
         for (int64_t i = 3; i <= sqrt(big_num); i += 2) {
@@ -162,7 +162,7 @@ void problem_5(bool verbose) {
         "number that is evenly divisible (divisible with no remainder)\n");
     (void)printf("by all of the numbers from 1 to 20?\n\n");
 
-    int64_t res = 0;
+    int64_t res             = 0;
     int64_t highest_divisor = 20;
 
     if (verbose) {

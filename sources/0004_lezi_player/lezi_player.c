@@ -47,7 +47,7 @@ int main(int argc, char **argv) {
             (windowX > windowY)
                 ? GetRandomValue((int)(windowY / 40), (int)(windowY / 10))
                 : GetRandomValue((int)(windowX / 40), (int)(windowX / 10));
-        circles[i].speed = (float)GetRandomValue(1, 100) / 2000.0F;
+        circles[i].speed      = (float)GetRandomValue(1, 100) / 2000.0F;
         circles[i].position.x = (float)GetRandomValue(
             (int)circles[i].radius, (int)(windowX - circles[i].radius));
         circles[i].position.y = (float)GetRandomValue(
@@ -62,7 +62,7 @@ int main(int argc, char **argv) {
 
         if (paused == false) {
             for (int i = 0; i < 64; i++) {
-                circles[i].alpha += circles[i].speed;
+                circles[i].alpha  += circles[i].speed;
                 circles[i].radius += circles[i].speed * 10.0F;
                 (circles[i].alpha > 1.0F) ? circles[i].speed *= -1
                                           : circles[i].alpha;

@@ -1,3 +1,1 @@
-void something(void) {
-    return;
-}
+void something(void) { return; }

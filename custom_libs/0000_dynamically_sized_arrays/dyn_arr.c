@@ -15,17 +15,17 @@ void __resize_arr(dyn_ptr arr, enum __resize resize) {
     switch (resize) {
     case DOUBLE: {
         arr->size *= 2;
-        x = realloc(arr->data, arr->size * sizeof(int64_t));
+        x          = realloc(arr->data, arr->size * sizeof(int64_t));
         break;
     }
     case HALVED: {
         arr->size /= 2;
-        x = realloc(arr->data, arr->size * sizeof(int64_t));
+        x          = realloc(arr->data, arr->size * sizeof(int64_t));
         break;
     }
     default: {
         arr->size *= 2;
-        x = realloc(arr->data, arr->size * sizeof(int64_t));
+        x          = realloc(arr->data, arr->size * sizeof(int64_t));
         break;
     }
     }
@@ -94,8 +94,8 @@ void push_2_array(dyn_ptr arr, int64_t num) {
     if (arr->size <= (arr->used + 1))
         return;
 
-    *(arr->data + arr->used) = num;
-    arr->used += 1;
+    *(arr->data + arr->used)  = num;
+    arr->used                += 1;
 }
 
 int64_t pop_from_arr(dyn_ptr arr) {

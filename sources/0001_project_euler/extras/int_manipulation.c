@@ -16,7 +16,7 @@ int64_t i64_reverse(int64_t num) {
     int64_t res = 0;
 
     while (num) {
-        res = (res * 10) + (num % 10);
+        res  = (res * 10) + (num % 10);
         num /= 10;
     }
 

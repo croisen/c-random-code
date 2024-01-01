@@ -23,11 +23,11 @@ void problem_6(bool verbose) {
         printf("(n * (n + 1) * (2n + 1)) / 2\n\n");
     }
 
-    int64_t res = 0;
+    int64_t res               = 0;
     int64_t square_of_the_sum = i64_pow((100 * 101) / 2, 2);
-    int64_t sum_of_squares = (100 * 101 * 201) / 6;
+    int64_t sum_of_squares    = (100 * 101 * 201) / 6;
 
-    res = square_of_the_sum - sum_of_squares;
+    res                       = square_of_the_sum - sum_of_squares;
 
     printf("The difference betweem the sum of the squares of the first one\n");
     printf("hundred natural numbers and the square of the sum is %" PRId64 "\n",

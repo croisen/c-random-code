@@ -7,7 +7,6 @@
 
 #define USAGE 0x123
 
-
 typedef struct __arguments {
     bool verbose;
     int64_t problem_num;

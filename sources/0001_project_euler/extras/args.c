@@ -6,42 +6,30 @@
 
 const char *argp_program_version = "Croisen's Project Euler Solutions v1.2.0";
 const char *argp_program_bug_address = "<absolutenico32@gmail.com>";
-static char doc[] = "Hello, World";
-static char args_doc[] = "";
+static char doc[]                    = "Hello, World";
+static char args_doc[]               = "";
 
-struct argp_option option[] = {
+struct argp_option option[]          = {
     {
-        "problem-number",
-        'p',
-        "<problem number>",
-        0,
-        "Specifies which project euler problem to show the answer of",
-        0,
-    },
+     "problem-number", 'p',
+     "<problem number>", 0,
+     "Specifies which project euler problem to show the answer of", 0,
+     },
     {
-        "verbose",
-        'v',
-        0,
-        0,
-        "Makes this program print more stuff",
-        0,
-    },
+     "verbose", 'v',
+     0, 0,
+     "Makes this program print more stuff", 0,
+     },
     {
-        "help",
-        'h',
-        0,
-        0,
-        "Shows this help list",
-        -1,
-    },
+     "help", 'h',
+     0, 0,
+     "Shows this help list", -1,
+     },
     {
-        "version",
-        'V',
-        0,
-        0,
-        "Prints this program's name and version",
-        -1,
-    },
+     "version", 'V',
+     0, 0,
+     "Prints this program's name and version", -1,
+     },
     {0},
 };
 
