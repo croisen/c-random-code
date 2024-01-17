@@ -3,9 +3,12 @@ IndentWidth: 4
 
 AlignAfterOpenBracket: Align
 AlignArrayOfStructures: Left
+AlignEscapedNewlines: true
 AlignOperands: true
+AllowShortFunctionsOnASingleLine: false
 AlignTrailingComments: true
-
+AlignTrailingComments: true
+BreakBeforeBraces: Allman
 IndentCaseLabels: false
 
 AlignConsecutiveAssignments:
