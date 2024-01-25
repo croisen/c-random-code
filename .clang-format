@@ -7,7 +7,6 @@ AlignEscapedNewlines: true
 AlignOperands: true
 AllowShortFunctionsOnASingleLine: false
 AlignTrailingComments: true
-AlignTrailingComments: true
 BreakBeforeBraces: Allman
 IndentCaseLabels: false
 
