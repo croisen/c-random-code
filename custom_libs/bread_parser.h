@@ -8,14 +8,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct __arg
+#include <string.h>
+
+struct __arg
 {
     size_t arg_count;
+    size_t group_num;
+
     char short_opt;
     char *long_opt;
     char *descr;
+
     void **args;
-} Arg;
+};
 
 struct __darr_for_ptr
 {
@@ -31,6 +36,9 @@ typedef enum __option
     COOL,
     ARGS,
 } Bread_Option_T;
+
+typedef struct __arg Arg[1];
+typedef struct __arg *ArgPtr;
 
 typedef struct __darr_for_ptr DA[1];
 
@@ -53,6 +61,7 @@ void bread_parse(int argc, char **argv);
 void bread_parser_add_option(char short_opt, char *long_opt, int64_t arg_count,
                              int64_t group);
 void bread_parser_add_descr(char short_opt, char *description);
+void bread_print_arg(void);
 
 Bread_Option_T __is_used(char short_opt);
 char **__get_args(char short_opt);
@@ -61,6 +70,7 @@ char **__get_args(char short_opt);
 
 #ifdef CROI_LIB_BREAD_PARSER_IMPL_H
 
+DA some_args    = {0};
 DA alloced_ptrs = {0};
 
 void __memtracker_init()
@@ -209,5 +219,108 @@ void *bread_realloc(void *ptr, size_t size)
 bread_realloc_ret:
     return res;
 }
+
+void bread_print_arg()
+{
+    for (size_t i = 0; i < some_args->used; i++)
+    {
+        ArgPtr x = ((ArgPtr)some_args->ptrs[i]);
+        printf("-%c \t --%s \t %s\n", x->short_opt, x->long_opt, x->descr);
+    }
+}
+
+void bread_parse(int argc, char **argv)
+{
+    bread_panic("Not implemented yet, bread_parse\n");
+}
+
+void bread_parser_add_option(char short_opt, char *long_opt, int64_t arg_count,
+                             int64_t group)
+{
+    if (!some_args->init)
+    {
+        some_args->init = true;
+        some_args->size = 4;
+        some_args->used = 0;
+
+        some_args->ptrs = bread_calloc(some_args->size, sizeof(ArgPtr));
+        if (some_args->ptrs == NULL)
+        {
+            bread_panic(
+                "Cannot initialize memory for storing the arguments, calloc "
+                "returned NULL\n");
+        }
+    }
+
+    if (some_args->size <= (some_args->used + 1))
+    {
+        void **new_arr = bread_realloc(some_args->ptrs,
+                                       sizeof(ArgPtr) * (some_args->size * 2));
+        if (new_arr == NULL)
+        {
+            bread_panic("Cannot track new memory given by bread_malloc, "
+                        "realloc return NULL\n");
+        }
+
+        for (size_t i  = (some_args->size - 1); i < (some_args->size * 2);
+             i        += 1)
+        {
+            new_arr[i] = NULL;
+        }
+
+        some_args->ptrs  = new_arr;
+        some_args->size *= 2;
+    }
+
+    some_args->ptrs[some_args->used] = bread_malloc(sizeof(struct __arg));
+    if (((ArgPtr)some_args->ptrs[some_args->used]) == NULL)
+    {
+        bread_panic(
+            "Cannot initialize memory for storing the arguments, malloc "
+            "returned NULL\n");
+    }
+
+    ((ArgPtr)some_args->ptrs[some_args->used])->short_opt = short_opt;
+    ((ArgPtr)some_args->ptrs[some_args->used])->arg_count = arg_count;
+    ((ArgPtr)some_args->ptrs[some_args->used])->group_num = group;
+
+    ((ArgPtr)some_args->ptrs[some_args->used])->long_opt =
+        bread_malloc(sizeof(char) * (strlen(long_opt) + 1));
+
+    if (((ArgPtr)some_args->ptrs[some_args->used])->long_opt == NULL)
+    {
+        bread_panic(
+            "Cannot initialize memory for storing the arguments, malloc "
+            "returned NULL\n");
+    }
+
+    strcpy(((ArgPtr)some_args->ptrs[some_args->used])->long_opt, long_opt);
+    some_args->used += 1;
+}
+
+void bread_parser_add_descr(char short_opt, char *description)
+{
+    for (size_t i = 0; i < some_args->used; i += 1)
+    {
+        if (short_opt == ((ArgPtr)some_args->ptrs[i])->short_opt)
+        {
+            ((ArgPtr)some_args->ptrs[i])->descr =
+                bread_malloc(sizeof(char) * (strlen(description) + 1));
+
+            if (((ArgPtr)some_args->ptrs[i])->descr == NULL)
+            {
+                bread_panic("Cannot initialize memory for storing description "
+                            "for argument '%c', malloc "
+                            "returned NULL\n",
+                            short_opt);
+            }
+
+            strcpy(((ArgPtr)some_args->ptrs[i])->descr, description);
+        }
+    }
+}
+
+Bread_Option_T __is_used(char short_opt);
+char **__get_args(char short_opt);
 
 #endif
