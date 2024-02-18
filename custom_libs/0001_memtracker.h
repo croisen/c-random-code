@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct __darr_for_ptr
+struct __mt_darr_for_ptr
 {
     bool init;
     size_t size;
@@ -13,29 +13,43 @@ struct __darr_for_ptr
     void **ptrs;
 };
 
-typedef struct __darr_for_ptr DA[1];
+typedef struct __mt_darr_for_ptr MT_DA[1];
 
 #define memtracker_panic(message, ...)       \
     fprintf(stderr, message, ##__VA_ARGS__); \
     exit(EXIT_FAILURE)
 
-void __memtracker_init();
-void __memtracker_free();
-
-void croi_free(void *ptr);
-void *croi_calloc(size_t nmemb, size_t size);
-void *croi_malloc(size_t size);
-void *croi_realloc(void *ptr, size_t size);
+extern void croi_free(void *ptr);
+extern void *croi_calloc(size_t nmemb, size_t size);
+extern void *croi_malloc(size_t size);
+extern void *croi_realloc(void *ptr, size_t size);
 
 #endif
 
 #ifdef CROI_LIB_0001_MEMTRACKER_IMPL_H
 
-DA alloced_ptrs = {0};
+MT_DA alloced_ptrs = {0};
 
-void __memtracker_init()
+extern int __memtracker_sort(const void *a, const void *b);
+extern void __memtracker_init(void);
+extern void __memtracker_free_void(void);
+extern void __memtracker_free_sig(int dummy);
+
+int __memtracker_sort(const void *a, const void *b)
 {
-    atexit(__memtracker_free);
+    void *c = *(void **)a;
+    void *d = *(void **)b;
+
+    // Sorted from highest to lowest
+    return (uint64_t)d - (uint64_t)c;
+}
+
+void __memtracker_init(void)
+{
+    atexit(__memtracker_free_void);
+    signal(SIGINT, __memtracker_free_sig);
+    signal(SIGSEGV, __memtracker_free_sig);
+
     alloced_ptrs->init = true;
     alloced_ptrs->size = 4;
     alloced_ptrs->used = 0;
@@ -43,23 +57,36 @@ void __memtracker_init()
     alloced_ptrs->ptrs = calloc(alloced_ptrs->size, sizeof(void *));
     if (alloced_ptrs->ptrs == NULL)
     {
-        bread_panic(
-            "Cannot initialize memory tracker for the bread parser, calloc "
-            "returned NULL\n");
+        __bread_panic("Cannot initialize memory tracker, calloc "
+                      "returned NULL\n");
     }
 }
 
-void __memtracker_free()
+void __memtracker_free_void(void)
 {
-    for (size_t i = 0; i < alloced_ptrs->used; i += 1)
+    for (uint64_t i = 0; i < alloced_ptrs->size; i += 1)
     {
+#ifdef ___MEMTRACKER_DEBUG
+        printf("Freeing alloced_ptrs: 0x%016" PRIx64 "\n",
+               (uint64_t)alloced_ptrs->ptrs[i]);
+#endif
         free(alloced_ptrs->ptrs[i]);
     }
 
+#ifdef ___MEMTRACKER_DEBUG
+    printf("Freeing alloced_ptrs: 0x%016" PRIx64 "\n",
+           (uint64_t)alloced_ptrs->ptrs);
+#endif
     free(alloced_ptrs->ptrs);
 }
 
-void *croi_calloc(size_t nmemb, size_t size)
+void __memtracker_free_sig(int dummy)
+{
+    fprintf(stderr, "Signal %s caught, now exiting...\n", strsignal(dummy));
+    exit(dummy);
+}
+
+void *croi_calloc(uint64_t nmemb, uint64_t size)
 {
     if (!alloced_ptrs->init)
     {
@@ -74,12 +101,12 @@ void *croi_calloc(size_t nmemb, size_t size)
         if (new_arr == NULL)
         {
             free(res);
-            memtracker_panic("Cannot track new memory given by croi_calloc, "
-                             "realloc return NULL\n");
+            __bread_panic("Cannot track new memory given by croi_calloc, "
+                          "realloc return NULL\n");
         }
 
-        for (size_t i  = (alloced_ptrs->size - 1); i < (alloced_ptrs->size * 2);
-             i        += 1)
+        for (uint64_t i                       = (alloced_ptrs->size - 1);
+             i < (alloced_ptrs->size * 2); i += 1)
         {
             new_arr[i] = NULL;
         }
@@ -97,7 +124,7 @@ void *croi_calloc(size_t nmemb, size_t size)
     return res;
 }
 
-void *croi_malloc(size_t size)
+void *croi_malloc(uint64_t size)
 {
     if (!alloced_ptrs->init)
     {
@@ -112,12 +139,12 @@ void *croi_malloc(size_t size)
         if (new_arr == NULL)
         {
             free(res);
-            memtracker_panic("Cannot track new memory given by croi_malloc, "
-                             "realloc return NULL\n");
+            __bread_panic("Cannot track new memory given by croi_malloc, "
+                          "realloc return NULL\n");
         }
 
-        for (size_t i  = (alloced_ptrs->size - 1); i < (alloced_ptrs->size * 2);
-             i        += 1)
+        for (uint64_t i                       = (alloced_ptrs->size - 1);
+             i < (alloced_ptrs->size * 2); i += 1)
         {
             new_arr[i] = NULL;
         }
@@ -135,7 +162,7 @@ void *croi_malloc(size_t size)
     return res;
 }
 
-void *croi_realloc(void *ptr, size_t size)
+void *croi_realloc(void *ptr, uint64_t size)
 {
     if (!alloced_ptrs->init)
     {
@@ -150,12 +177,12 @@ void *croi_realloc(void *ptr, size_t size)
         if (new_arr == NULL)
         {
             free(res);
-            memtracker_panic("Cannot track new memory given by croi_realloc, "
-                             "realloc return NULL\n");
+            __bread_panic("Cannot track new memory given by croi_realloc, "
+                          "realloc return NULL\n");
         }
 
-        for (size_t i  = (alloced_ptrs->size - 1); i < (alloced_ptrs->size * 2);
-             i        += 1)
+        for (uint64_t i                       = (alloced_ptrs->size - 1);
+             i < (alloced_ptrs->size * 2); i += 1)
         {
             new_arr[i] = NULL;
         }
@@ -164,20 +191,38 @@ void *croi_realloc(void *ptr, size_t size)
         alloced_ptrs->size *= 2;
     }
 
-    for (size_t i = 0; i < alloced_ptrs->used; i += 1)
+    for (uint64_t i = 0; i < alloced_ptrs->used; i += 1)
     {
         if (res != NULL && alloced_ptrs->ptrs[i] == ptr)
         {
             alloced_ptrs->ptrs[i] = res;
-            goto croi_realloc_ret;
+            goto bread_realloc_ret;
         }
     }
 
     alloced_ptrs->ptrs[alloced_ptrs->used]  = res;
     alloced_ptrs->used                     += 1;
 
-croi_realloc_ret:
+bread_realloc_ret:
     return res;
+}
+
+void croi_free(void *ptr)
+{
+    qsort(alloced_ptrs->ptrs, alloced_ptrs->used, sizeof(void *),
+          __memtracker_sort);
+    uint64_t key = (uint64_t)ptr;
+    void **item  = bsearch(&key, alloced_ptrs->ptrs, alloced_ptrs->used,
+                           sizeof(void *), __memtracker_sort);
+    if (item != NULL)
+    {
+        *item = NULL;
+        qsort(alloced_ptrs->ptrs, alloced_ptrs->used, sizeof(void *),
+              __memtracker_sort);
+    }
+
+    free(ptr);
+    alloced_ptrs->used -= 1;
 }
 
 #endif
