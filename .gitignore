@@ -1,3 +1,1 @@
-build/*.elf
-custom_libs/*.o
-test_custom_libs/*.elf
+*.exe
