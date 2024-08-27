@@ -1,0 +1,7 @@
+-Wall
+-Wpedantic
+-Wextra
+-O2
+-g
+-Ibuild/include
+-Lbuild/lib

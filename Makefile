@@ -3,6 +3,12 @@ PREFIX := ${ROOT_MKFILE}/build
 
 SUB_SOURCE_DIRS := ${filter %/, ${wildcard ${ROOT_MKFILE}/src/*/}}
 
+AR := ar
+CC := cc
+
+CFLAGS := -Wall -Wpedantic -Wextra -O2 -g -fPIC -I${PREFIX}/include
+LDFLAGS := -L${PREFIX}/lib -Wl,-rpath,${PREFIX}/lib
+
 install: ${SUB_SOURCE_DIRS} | ${PREFIX}/bin
 
 ${SUB_SOURCE_DIRS}:
@@ -21,3 +27,4 @@ ${PREFIX}:
 	mkdir ${PREFIX}
 
 .PHONY : install ${SUB_SOURCE_DIRS}
+.EXPORT_ALL_VARIABLES:
