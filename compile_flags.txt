@@ -5,3 +5,4 @@
 -g
 -Ibuild/include
 -Lbuild/lib
+--std=c99

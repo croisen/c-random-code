@@ -5,8 +5,8 @@ HEADERS := ${foreach HEADER,${SOURCE_HEADERS},${PREFIX}/include/${notdir ${HEADE
 SOURCES := ${wildcard ${CURRENT_MKFILE}/*.c}
 OBJECTS := ${patsubst %.c, %.o, ${SOURCES}}
 
-STATIC_LIB = lib_002_memtracker.a
-SHARED_LIB = lib_002_memtracker.so
+STATIC_LIB = lib_003_col_limited_printf.a
+SHARED_LIB = lib_003_col_limited_printf.so
 
 install: ${STATIC_LIB} ${SHARED_LIB} | ${PREFIX}/include ${PREFIX}/lib
 	cp $^ ${PREFIX}/lib

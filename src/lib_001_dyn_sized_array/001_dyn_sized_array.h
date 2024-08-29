@@ -11,8 +11,6 @@
  * called size and used with any pointer called data;
  * You can use the Dyn_S_Arr_Init and Dyn_S_Arr_Free macros to initialize
  * and free a growable array of any type
- *
- * Side note: The macros takes in pointers to the typedef-ed struct
  */
 struct Dyn_Array {
     int size;
@@ -38,18 +36,18 @@ struct Dyn_Array {
         (dyn_arr_ptr)->data = NULL;                                            \
     } while (false)
 
-/* Welp we made the min compare jumpless, tho does it have an effect? IDK */
+/*
+ * Welp we made the min compare jumpless, tho does it have an effect? IDK
+ * On the previous commit well I forgot that the size have changed...
+ */
 #define Dyn_S_Arr_Resize(dyn_arr_ptr, new_size)                                \
     do {                                                                       \
-        bool cmp    = ((dyn_arr_ptr)->size < (new_size));                      \
-        int smaller = ((dyn_arr_ptr)->size * cmp) + ((new_size) * !cmp);       \
-        void *data  = malloc((new_size) * sizeof(*(dyn_arr_ptr)->data));       \
-        assert(data != NULL && "Buy more ram?");                               \
-        memcpy(                                                                \
-            data, (dyn_arr_ptr)->data, smaller * sizeof(*(dyn_arr_ptr)->data)  \
+        void *data = realloc(                                                  \
+            (dyn_arr_ptr)->data, (new_size) * sizeof(*(dyn_arr_ptr)->data)     \
         );                                                                     \
-        free((dyn_arr_ptr)->data);                                             \
+        assert(data != NULL && "Buy more ram?");                               \
         (dyn_arr_ptr)->data = data;                                            \
+        (dyn_arr_ptr)->size = new_size;                                        \
     } while (false)
 
 #define Dyn_S_Arr_Push_Back(dyn_arr_ptr, item)                                 \
