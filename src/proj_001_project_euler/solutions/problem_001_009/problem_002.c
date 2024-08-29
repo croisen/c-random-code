@@ -1,6 +1,5 @@
 #include <inttypes.h>
 #include <stdint.h>
-#include <stdio.h>
 
 #include "003_col_limited_printf.h"
 #include "problem_001_009.h"
@@ -30,5 +29,5 @@ void problem_002(void)
         b    = c;
     }
 
-    printf("Answer: %" PRIu64 "\n\n", res);
+    col_limited_printf(80, 0, "Answer: %" PRIu64 "\n\n", res);
 }

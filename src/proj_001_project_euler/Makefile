@@ -12,7 +12,7 @@ OBJECTS := ${patsubst %.c, %.o, ${SOURCES}}
 STATIC_EXE := static_001_project_euler.exe
 SHARED_EXE := shared_001_project_euler.exe
 
-LIBRARIES := -l_003_col_limited_printf
+LIBRARIES := -l_003_col_limited_printf -lm
 
 install: ${STATIC_EXE} ${SHARED_EXE} | ${PREFIX}/include ${PREFIX}/bin
 	cp $^ ${PREFIX}/bin

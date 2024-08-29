@@ -159,7 +159,7 @@ void MT_Free(void *ptr)
     if (idx != -1) {
         memmove(
             mem_tracker.data + idx, mem_tracker.data + idx + 1,
-            (mem_tracker.used - idx + 1) * sizeof(*mem_tracker.data)
+            (mem_tracker.used - idx - 1) * sizeof(*mem_tracker.data)
         );
         mem_tracker.used -= 1;
     }
