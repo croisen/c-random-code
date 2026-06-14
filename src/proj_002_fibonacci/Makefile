@@ -4,13 +4,11 @@ CURRENT_MKFILE := ${realpath ${dir ${firstword ${MAKEFILE_LIST}}}}
 #HEADERS := ${foreach HEADER,${SOURCE_HEADERS},${PREFIX}/include/${notdir ${HEADER}}}
 SOURCES := ${wildcard\
 	${CURRENT_MKFILE}/*.c\
-	${CURRENT_MKFILE}/solutions/*.c\
-	${CURRENT_MKFILE}/utils/*.c\
 }
 OBJECTS := ${patsubst %.c, %.o, ${SOURCES}}
 
-STATIC_EXE := static_001_project_euler.exe
-SHARED_EXE := shared_001_project_euler.exe
+STATIC_EXE := static_002_fibonacci.exe
+SHARED_EXE := shared_002_fibonacci.exe
 
 LIBRARIES :=
 

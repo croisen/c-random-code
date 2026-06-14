@@ -1,4 +1,5 @@
 #include "solutions/problem_001_009/problem_001_009.h"
+#include "solutions/problem_010_019/problem_010_019.h"
 
 int main(void)
 {
@@ -11,5 +12,7 @@ int main(void)
     problem_007();
     problem_008();
     problem_009();
+    problem_010();
+    problem_011();
     return 0;
 }
